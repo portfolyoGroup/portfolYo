@@ -1,6 +1,11 @@
 # TODOs
-# feature requsests
 if someone starts to work on one of them, please write your name near the request name.
+
+# open bugs
+* fix sizing problems in sign in page.
+
+# feature requsests
+
 ## Prio 1
 * profile page
 * update profile page form.
