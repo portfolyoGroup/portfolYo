@@ -1,14 +1,3 @@
-# portfolYo
-
-# Feature requests:
-* Make CV componnet in the profile page.
-* Add support for auto - cv maker.
-* Explore (search profiles & projects, suggestions, similier, friends, follow, feed,....)
-
-# Meetings TODO's
-
-* design specification.
-
 # UI structure:
 
 ## Profile Page:
