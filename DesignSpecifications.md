@@ -1,4 +1,4 @@
-#Design Specifications
+# Design Specifications
 
 ## Commit messege:
 in the commit meseege, let's try to keep a consistant fromat.
