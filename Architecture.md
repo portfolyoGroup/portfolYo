@@ -3,7 +3,7 @@ I will elaborate on each in our next meeting.
 
 ## Option 1: (does not scale)
 Serverless Application - when the client clicks on "execute" an ajax request fired to an API gatewaty that run an instance (server),
-the server downloads the code from an s3 bucket (bucket-like server), (we need to think if the code is an artifact with a batch file or
+the server downloads the code from s3 bucket (bucket-like DB), (we need to think if the code is an artifact with a batch file or
 something more complicated) and execute the code. the output needs to be redirected somehow to the client.
 
 ## Option 2: (does scale)
