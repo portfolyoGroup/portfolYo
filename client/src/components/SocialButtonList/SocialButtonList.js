@@ -5,7 +5,6 @@ import './SocialButtonList.css';
 import '../Login/Login.css'
 import { SocialIcon } from 'react-social-icons';
 
-
 const propTypes = {
   buttonList: PropTypes.shape({
     github: PropTypes.shape({
@@ -34,7 +33,7 @@ const SocialButtonList = ({ history, buttonList, auth, currentProviders }) => {
   const authHandler = authData => {
     if (authData) {
       if (currentProviders === null) {
-        history.push('/dashboard');
+        history.push('/home');
       } else {
         currentProviders(authData.user.providerData);
       }

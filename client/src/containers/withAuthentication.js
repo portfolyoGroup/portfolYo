@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Delay from 'react-delay';
 import { auth } from '../firebase';
 
-export default WrappedComponent => { // HOC 
+export default WrappedComponent => { 
   class WithAuthentication extends Component {
     state = {
       providerData: []
@@ -10,7 +10,7 @@ export default WrappedComponent => { // HOC
 
     componentDidMount() {
       auth.getAuth().onAuthStateChanged(user => {
-        if (user !== null) {
+        if (user) {
           this.setState({ providerData: user.providerData });
         } else {
           console.info('Must be authenticated');

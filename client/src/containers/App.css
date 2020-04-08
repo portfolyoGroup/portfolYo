@@ -1,4 +1,3 @@
-
 .hidden {
   display: none;
 }
@@ -19,4 +18,12 @@
 
 .md-form label {
   color: rgb(73, 73, 73) !important;
+}
+
+body {
+  height: 80vh !important;
+}
+
+#root {
+  height:100% !important
 }

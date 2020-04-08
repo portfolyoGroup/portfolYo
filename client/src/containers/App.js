@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import Login from '../components/Login/Login';
 import Dashboard from '../components/Dashboard/Dashboard';
@@ -11,88 +11,77 @@ import './App.css';
 import PropTypes from 'prop-types';
 import { background, logo } from '../resources/images'
 
-class App extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      background: background
+const App = ({ location }) => {
+
+  const [currentBackground, setBackground] = useState(background)
+
+  useEffect(() => {
+    const path = location.pathname.split('/')[1] || '/';
+    if (path === '/' || path === 'register') {
+      setBackground(background)
     }
-  }
-
-  static propTypes = {
-    location: PropTypes.object.isRequired
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      const path = this.props.location.pathname.split('/')[1] || '/';
-      if (path === '/' || path === 'register') {
-        this.setState({ background: background })
-      }
-      else {
-        this.setState({ background: null })
-      }
+    else {
+      setBackground(null)
     }
-  }
+  }, [location])
 
-  render() {
-    return (
-      <div className='app'>
-        <img style={this.state.background && {
-          position: 'fixed',
-          top: 0,
-          width: '100%',
+  return (
+    <div style={{ width:'100%', height: '100%' }}>
+      <img style={currentBackground && {
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        alt: '',
+        backgroundSize: 'cover',
+        filter: `blur(10px)`,
+        backgroundImage: `url(${currentBackground})`
+      }} />
+      <div style={{ height: '40%' }}>
+        <img src={logo} style={{
           height: '100%',
-          zIndex: 0,
-          alt:'',
-          backgroundSize: 'cover',
-          filter: `blur(10px)`,
-          backgroundImage: `url(${this.state.background})`
+          alt: 'PortfolYo!',
+          zIndex: 1, position: 'relative', left: '30%'
         }} />
-        <div>
-          <img src={logo} style={ {width: '40%',
-          alt:'PortfolYo!',
-          height: '40%', zIndex:1, position:'relative', left: '30%'}} />
-          <main>
-            <Route
-              render={({ location }) => {
-                return (
-                  <TransitionGroup component='div' >
-                    <CSSTransition
-                      mountOnEnter={false}
-                      unmountOnExit={true}
-                      key={location.pathname.split("/")[1] || '/'}
-                      classNames="page"
-                      timeout={{
-                        enter: 1000,
-                        exit: 1000,
-                      }}
-                    >
-                      <Route
-                        location={location}
-                        render={() => (
-                          <Switch location={location}>
-                            <Route exact path="/" component={Login} />
-                            <Route exact path='/register' component={Register} />
-                          </Switch>
-                        )}
-                      />
-                    </CSSTransition>
-                  </TransitionGroup>
-                );
-              }}
-            />
-          </main>
-        </div>
-        <Switch>
-          <Route path="/about" component={About} />
-          <Route path='/home' component={withAuthentication(Dashboard)} />
-          {/* <Route component={Error404} /> */}
-        </Switch >
-      </div >
-    );
-  }
+      </div>
+      <div style={{ height: '60%' }}>
+        <Route
+          render={({ location }) => {
+            return (
+              <TransitionGroup component='div' >
+                <CSSTransition
+                  mountOnEnter={false}
+                  unmountOnExit={true}
+                  key={location.pathname.split("/")[1] || '/'}
+                  classNames="page"
+                  timeout={{
+                    enter: 1000,
+                    exit: 1000,
+                  }}
+                >
+                  <Route
+                    location={location}
+                    render={() => (
+                      <Switch location={location}>
+                        <Route exact path="/" component={Login} />
+                        <Route exact path='/register' component={Register} />
+                      </Switch>
+                    )}
+                  />
+                </CSSTransition>
+              </TransitionGroup>
+            );
+          }}
+        />
+      </div>
+    </div >
+  );
+}
+
+App.propTypes = {
+  location: PropTypes.object.isRequired
 }
 export default withRouter(App);
 

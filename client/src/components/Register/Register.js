@@ -4,7 +4,7 @@ import AnimatedPage from '../../animations/AnimatedPage';
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 
-const FormPage = () => {
+const Register = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -18,9 +18,11 @@ const FormPage = () => {
 
     return (
         <AnimatedPage>
-            <MDBContainer className='page'>
-                <MDBRow style={{ justifyContent: 'flex-end' }}>
-                    <MDBCol md="6" style={{ borderRadius: 20, boxShadow: "-2px -2px 12px #9E9E9E" }}>
+            <div style={{ width: '100%', display: 'flex' }}>
+                <div style={{ width: '50%' }} />
+                <div style={{ width: '35%', marginRight: '15%' }}>
+                    <div style={{ width: '100%' }}></div>
+                    <MDBCol style={{ borderRadius: 20, boxShadow: "-2px -2px 12px black", backgroundColor: 'rgba(255,255,255,0.6)' }}>
                         <MDBCardBody className="mx-4">
                             <div className="text-center">
                                 <h3 className="black-text mb-5">
@@ -90,10 +92,10 @@ const FormPage = () => {
                             </form>
                         </MDBCardBody>
                     </MDBCol>
-                </MDBRow>
-            </MDBContainer>
+                </div>
+            </div>
         </AnimatedPage>
     );
 };
 
-export default FormPage;
+export default Register;

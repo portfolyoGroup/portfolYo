@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import AnimatedPage from './AnimatedPage'
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './AnimatedPage.css'
 
 const childOf = (...types) => {

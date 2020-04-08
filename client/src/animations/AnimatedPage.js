@@ -4,20 +4,20 @@ import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import './AnimatedPage.css'
 
-function Page({ 
+const Page = ({ 
   children, 
   color, 
   background,
   location: {
     state,
   },
-}) {
+}) => {
   const cx = classNames({
-    page: true,
+    'page': true,
     'page--prev': state && state.prev,
   });
   return (
-    <section 
+    <div 
       className={cx}
       style={{
         color,
@@ -25,7 +25,7 @@ function Page({
       }}
     >
       {children}
-    </section>
+    </div>
   );
 }
 

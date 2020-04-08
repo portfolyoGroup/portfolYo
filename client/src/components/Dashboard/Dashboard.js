@@ -1,62 +1,41 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SocialButtonList from '../SocialButtonList/SocialButtonList';
 import SocialProfileList from '../SocialProfileList/SocialProfileList';
 import { auth } from '../../firebase';
 import './Dashboard.css';
 
-class Dashboard extends Component {
 
-  static propTypes = {
-    providerData: PropTypes.arrayOf(PropTypes.object).isRequired
-  };
-
-  static defaultProps = {
-    providerData: []
-  };
-
-  state = {
-    buttonList: {
-      github: {
-        visible: true,
-        provider: () => {
-          const provider = auth.githubOAuth();
-          provider.addScope('user');
-          return provider;
-        }
-      },
-      google: {
-        visible: true,
-        provider: () => auth.googleOAuth()
-      },
-      facebook: {
-        visible: true,
-        provider: () => auth.facebookOAuth()
-      }
-    },
-    providerData: this.props.providerData
-  };
-
-  componentDidMount() {
-    this.updateProviders(this.state.providerData);
+const Dashboard = props => {
+  const githubButton = {
+    visible: true,
+    provider: () => {
+      const provider = auth.githubOAuth();
+      provider.addScope('user');
+      return provider;
+    }
+  }
+  const facebookButton = {
+    visible: true,
+    provider: () => auth.facebookOAuth()
+  }
+  const googleButton = {
+    visible: true,
+    provider: () => auth.googleOAuth()
   }
 
-  handleCurrentProviders = providerData => {
-    this.updateProviders(providerData);
+  const [providerData, setProviderData] = useState(props.providerData)
+  const [signInButtons, setSignInButtons] = useState({ github: githubButton, google: googleButton, facebook: facebookButton })
+
+  useEffect(() => {
+    updateProviders(providerData);
+  }, [])
+
+  const handleCurrentProviders = providerData => {
+    updateProviders(providerData);
   };
 
-  updateProviders = providerData => {
-    let buttonList = { ...this.state.buttonList };
-
-    providerData.forEach(provider => {
-      const providerName = provider.providerId.split('.')[0];
-      buttonList = this.updateButtonList(buttonList, providerName, false);
-    });
-
-    this.setState({ buttonList, providerData });
-  };
-
-  handleUnliknedProvider = (providerName, providerData) => {
+  const handleUnliknedProvider = (providerName, providerData) => {
     if (providerData.length < 1) {
       auth
         .getAuth()
@@ -65,13 +44,13 @@ class Dashboard extends Component {
         .catch(() => console.error('Error deleting user'));
     }
 
-    let buttonList = { ...this.state.buttonList };
-    buttonList = this.updateButtonList(buttonList, providerName, true);
-
-    this.setState({ buttonList, providerData });
+    let buttonList = { ...signInButtons };
+    buttonList = updateButtonList(buttonList, providerName, true);
+    setSignInButtons(buttonList)
+    setProviderData(providerData)
   };
 
-  updateButtonList = (buttonList, providerName, visible) => ({
+  const updateButtonList = (buttonList, providerName, visible) => ({
     ...buttonList,
     [providerName]: {
       ...buttonList[providerName],
@@ -79,31 +58,43 @@ class Dashboard extends Component {
     }
   });
 
-  render() {
-    return (
-      <div>
-        <SocialProfileList
-          auth={auth.getAuth}
-          providerData={this.state.providerData}
-          unlinkedProvider={this.handleUnliknedProvider}
-        />
-        <p style={{ textAlign: 'center' }}>
-          <strong>Connect Other Social Accounts</strong>
-        </p>
-        <SocialButtonList
-          buttonList={this.state.buttonList}
-          auth={auth.getAuth}
-          currentProviders={this.handleCurrentProviders}
-        />
-        <button
-          className="btn__logout"
-          onClick={() => auth.getAuth().signOut()}
-        >
-          Logout
-        </button>
-      </div>
-    );
-  }
-}
+  const updateProviders = providerData => {
+    let buttonList = { ...signInButtons };
 
+    providerData.forEach(provider => {
+      const providerName = provider.providerId.split('.')[0];
+      buttonList = updateButtonList(buttonList, providerName, false);
+    });
+    setSignInButtons(buttonList)
+    setProviderData(providerData)
+  };
+
+  return (
+    <div>
+      <SocialProfileList
+        auth={auth.getAuth}
+        providerData={providerData}
+        unlinkedProvider={handleUnliknedProvider}
+      />
+      <p style={{ textAlign: 'center' }}>
+        <strong>Connect Other Social Accounts</strong>
+      </p>
+      <SocialButtonList
+        buttonList={signInButtons}
+        auth={auth.getAuth}
+        currentProviders={handleCurrentProviders}
+      />
+      <button
+        className="btn__logout"
+        onClick={() => auth.getAuth().signOut()}
+      >
+        Logout
+      </button>
+    </div>
+  );
+
+}
+Dashboard.propTypes = {
+  providerData: PropTypes.arrayOf(PropTypes.object).isRequired
+}
 export default Dashboard;
