@@ -1,7 +1,7 @@
 import '../bootstrap/css/style.css'
 import '../bootstrap/fonts/material-icon/css/material-design-iconic-font.min.css'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 const Login = () => {
     return (
@@ -42,3 +42,6 @@ const Login = () => {
     )
 }
 export default Login
+
+const wrapper = document.getElementById("container1");
+wrapper ? ReactDOM.render(<Login />, wrapper) : false;
