@@ -1,21 +1,30 @@
-import React from 'react';
-class App extends React.Component {
-    render() {
-        return (
-            <div>
-                <div class="jumbotron">
-                    <h1 class="display-4">Amazing React, Bootstrap and Webpack</h1>
-                    <p class="lead">Created</p>
-                    <hr class="my-4" />
-                    <p>It uses utility classes for j and spacing to space content out
-within the larger container.</p>
-                    <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-                    </p>
-                </div>
+import React, { useEffect } from 'react';
+import { IonReactRouter } from '@ionic/react-router';
+import { IonApp, IonRouterOutlet } from '@ionic/react'
+import { Route, Redirect } from 'react-router-dom'
+import ProfilePage from './pages/ProfilePage'
 
-            </div>
-        );
-    }
+const App = () => {
+
+    useEffect(() => {
+        
+    }, [])
+
+    const isLoggedIn = true
+    return (
+        <IonApp>
+            <IonReactRouter>
+                <IonRouterOutlet>
+                    <Route
+                        exact path="/profile"
+                        render={props => {
+                            return isLoggedIn ? <ProfilePage {...props} /> : <div >login</div>
+                        }}
+                    />
+                    <Redirect exact from="/" to="/profile" />
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </IonApp>
+    );
 }
 export default App;

@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@ionic/react": "^5.0.7",
+    "@ionic/react-router": "^5.0.7",
     "bootstrap": "^4.4.1",
     "jquery": "^3.5.0",
     "popper.js": "^1.16.1",
