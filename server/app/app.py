@@ -1,7 +1,6 @@
 from flask import Flask
-
-from app.auth.auth import auth_blueprint
-from sign_in_up.register import register_blueprint
+from server.app.auth.auth import auth_blueprint
+from server.app.sign_in_up.register import register_blueprint
 
 app = Flask(__name__,)
 app.register_blueprint(register_blueprint)

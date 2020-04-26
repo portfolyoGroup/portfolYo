@@ -1,12 +1,14 @@
 import json
 
-from flask import Blueprint, render_template, make_response
+from flask import Blueprint, render_template, make_response, request
 from google.oauth2 import id_token
 from google.auth.transport import requests
+
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 CLIENT_ID = "clientid"
+
 
 @auth_blueprint.route('/auth', methods=['POST'])
 def validate_user():
@@ -18,6 +20,6 @@ def validate_user():
             raise ValueError('Wrong issuer.')
 
         userid = idinfo['sub']
-    except ValueError:
+    except ValueError as e:
         return make_response("Invalid user: " + str(e), 500)
     return True
