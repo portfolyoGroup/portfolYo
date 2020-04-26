@@ -1,15 +1,12 @@
-import json
 
-from flask import Blueprint, render_template, request, make_response
-import service.mongo_db.mongo_client as mongo_client
-from service.mongo_db.db_entities import User
-register_blueprint = Blueprint('register_blueprint', __name__, static_folder='static/react')
+from flask import Blueprint, render_template
+register_blueprint = Blueprint('register_blueprint', __name__, static_folder='../static')
 headers = {"Content-Type": "application/json"}
 
 
 @register_blueprint.route('/', methods=['GET'])
 def register():
-    return render_template('index.html', flask_token="kaki in the underwear")
+    return render_template('index.html')
     # body = json.loads(request.data)
     # response = dict()
     # try:
