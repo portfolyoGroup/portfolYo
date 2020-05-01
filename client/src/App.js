@@ -1,27 +1,23 @@
-import React, { useEffect } from 'react';
-import { IonReactRouter } from '@ionic/react-router';
-import { IonApp, IonRouterOutlet } from '@ionic/react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
+import { IonApp, IonRouterOutlet } from '@ionic/react'
+import { IonReactRouter } from '@ionic/react-router'
 import ProfilePage from './pages/ProfilePage'
 
 const App = () => {
-
-    useEffect(() => {
-        
-    }, [])
-
     const isLoggedIn = true
     return (
         <IonApp>
             <IonReactRouter>
                 <IonRouterOutlet>
+                    <Route path="/profile:id">
+                        <ProfilePage />
+                    </Route>
                     <Route
-                        exact path="/profile"
-                        render={props => {
-                            return isLoggedIn ? <ProfilePage {...props} /> : <div >login</div>
-                        }}
+                        path="/login"
+                        component={ProfilePage}
                     />
-                    <Redirect exact from="/" to="/profile" />
+                    <Route path={'/'} render={() => isLoggedIn ? <Redirect to={'/profile1'} /> : <Redirect to='/login' />}></Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
