@@ -43,7 +43,7 @@ var config = {
   ],
   devServer: {
     contentBase: '../static/react/bundle.[hash].js',
-    host: 'localhost',
+    host: '127.0.0.1',
     port: port,
     historyApiFallback: true,
     open: true,
