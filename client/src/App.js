@@ -17,7 +17,7 @@ const App = () => {
                         path="/login"
                         component={ProfilePage}
                     />
-                    <Route path={'/'} render={() => isLoggedIn ? <Redirect to={'/profile1'} /> : <Redirect to='/login' />}></Route>
+                    <Route  path={'/'} render={() => isLoggedIn ? <Redirect to={'/profile1/home'} /> : <Redirect to='/login' />}></Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
