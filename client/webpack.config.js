@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const port = process.env.PORT || 3000;
 
 var config = {
+  output:{publicPath:'/'},
   mode: "development",
   entry: './src/index.js',
   module: {

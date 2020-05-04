@@ -6,7 +6,6 @@ const About = () => {
     return (
         <IonContent>
             <IonTitle>About</IonTitle>
-
         </IonContent>
     )
 }
