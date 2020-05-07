@@ -4,11 +4,25 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const port = process.env.PORT || 3000;
 
 var config = {
-  output:{publicPath:'/'},
+
+  output: {
+    publicPath:'/'
+  },
   mode: "development",
   entry: './src/index.js',
   module: {
     rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
