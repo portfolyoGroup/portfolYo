@@ -18,8 +18,7 @@
 * technologies (like langueges in the mock-up)
 * go to project
 
-### properties as PROFILE page owner:
-* edit profile button.
+
 
 
 
@@ -54,11 +53,10 @@ like in here: https://material.io/components/cards/#behavior
 * colapased component, that opens on click just like the highlight components.
 * titile 'source code'.
 * opens git hub - like source code nevigator.
-### properties as PROJECT page owner:
-* edit project button.
 
 
-## Profile page edit form
+
+## Profile edit page 
 (an empty profile page will defaultley be created, and the user will update it through this page.
 including adding new project.)
  * pic - croped to fit exactley the page layout.
@@ -66,7 +64,7 @@ including adding new project.)
  * role description.
  * free text.
 
-## Project page update form
+## Project edit page 
  *this page will page will edit both project page and porject card.
 * project name
 * big descrption
