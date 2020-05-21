@@ -1,0 +1,10 @@
+@import '../theme/variables.scss' ;
+ion-card-title{
+    font-size: 1.5rem;
+}
+.title-secondry{
+    color: var(--ion-color-secondary);
+}
+ion-label{
+height: auto !important;
+}
