@@ -5,14 +5,10 @@ import './about.scss'
 import '../sharedStyles.scss'
 import { object } from 'prop-types'
 const dataOfAbout = {
-    description: 'Keep close to Natures heart... and break clear away, once in awhile, and climb a mountain or spend a week in the woods. Wash your spiritspend a week in the woods. Wash your spiritspend a week in the woods. Wash your spirit clean.',
+    description: "I'm a student you guys, very loving the open sourve community, you guys.",
     programing_languages: 'c, Java',
-    programing_languages2: 'c, Java',
-    programing_languages3: 'c, Java',
-    programing_languages4: 'c, Java',
-    programing_languages5: 'c, Java',
-    programing_languages6: 'c, Java',
-    skills: 'react'
+    skills: 'react',
+    experience: 'working at a nice company the I am doc, s about n v d. ahh I get it.'
 }
 const About = () => {
     const MyList = () => {
