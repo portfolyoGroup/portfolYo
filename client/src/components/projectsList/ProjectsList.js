@@ -4,13 +4,13 @@ import { withRouter } from 'react-router'
 import pic from '../../resources/snakeGamePic.png'
 import '../about/about.scss'
 import '../sharedStyles.scss'
-import '../projectsList/projectsList.scss'
+import '../projectsList/projectList.scss'
 
 const ProjectsList = () => {
 
     const OneProj = () => {
         return (
-            <IonItem>
+            <IonItem class='centeredItem'>
                 <IonCard>
                         <img src={pic} />
                     <IonCardHeader>
