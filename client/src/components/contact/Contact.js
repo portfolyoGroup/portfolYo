@@ -40,7 +40,7 @@ const Contact = () => {
 
                 <IonCardContent>
                     <MyList></MyList>
-                    <IonButton>Download CV</IonButton>
+                    <IonButton onClick={() => {alert("Thanks for downloading my CV")}}>Download CV</IonButton>
                 </IonCardContent>
             </IonCard>
         </IonContent>

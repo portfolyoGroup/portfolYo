@@ -8,6 +8,7 @@ import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-
 import ProjectsList from '../../components/projectsList/ProjectsList'
 import About from '../../components/about/About'
 import ProfileHeader from '../../components/profileHeader/ProfileHeader';
+import Contact from '../../components/contact/Contact'
 import './ProfilePage.scss'
 
 const ProfilePage = () => {
@@ -24,7 +25,7 @@ const ProfilePage = () => {
                         <Route path={`${match.url}/home`} component={ProfileHeader} exact={true}/>
                         <Route path={`${match.url}/about`} component={About} exact={true}/>
                         <Route path={`${match.url}/projectsList`} component={ProjectsList} exact={true}/>
-                        <Route path={`${match.url}/contact`} component={About} />
+                        <Route path={`${match.url}/contact`} component={Contact} />
                         <Route path={`${match.url}/`} render={() => <Redirect to={`${match.url}/home`} />} exact={true} />
                     </Switch>
                 </IonRouterOutlet>
