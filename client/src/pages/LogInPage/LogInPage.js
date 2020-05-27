@@ -32,7 +32,7 @@ const LogIn = () => {
                                 <IonItem class='centeredItem'>
                                 <IonButton onClick={()=> alert('you are loged in, I am proud of you.')}size="large" type="submit">Login</IonButton>
                                 </IonItem>
-                                <IonItem>
+                                <IonItem class='centeredItem'>
                                 <u> not a member? fuck off!</u>
                                 </IonItem>
                                 
