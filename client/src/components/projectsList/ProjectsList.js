@@ -1,28 +1,35 @@
 import React from 'react'
-import { IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding } from '@ionic/react'
+import { IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton } from '@ionic/react'
 import { withRouter } from 'react-router'
 import pic from '../../resources/snakeGamePic.png'
 import '../about/about.scss'
 import '../sharedStyles.scss'
 import '../projectsList/projectList.scss'
-
+import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 const ProjectsList = () => {
 
     const OneProj = () => {
         return (
             <IonItem class='centeredItem'>
                 <IonCard>
-                        <img src={pic} />
+                    <img src={pic} />
                     <IonCardHeader>
                         <IonCardSubtitle>Cool game</IonCardSubtitle>
                         <IonCardTitle>Snake</IonCardTitle>
                     </IonCardHeader>
 
                     <IonCardContent>
+                        <h3>
                         written in cpp
-      </IonCardContent>
+                        </h3>
+                        <IonItem class='centeredItem'>    
+                        <IonButton onClick={()=>{alert('TODO: redirect to proj')}}>
+                            Take A Look
+                        </IonButton>
+                        </IonItem>
+                    </IonCardContent>
                 </IonCard>
-                </IonItem>
+            </IonItem>
         )
     }
     return (
@@ -35,9 +42,9 @@ const ProjectsList = () => {
                 </IonCardHeader>
                 <IonCardContent>
                     <IonList>
-                    <OneProj></OneProj>
-                    <OneProj></OneProj>
-                    <OneProj></OneProj>
+                        <OneProj></OneProj>
+                        <OneProj></OneProj>
+                        <OneProj></OneProj>
                     </IonList>
                 </IonCardContent>
             </IonCard>
