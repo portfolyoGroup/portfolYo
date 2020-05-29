@@ -1,10 +1,4 @@
-@import '../theme/variables.scss' ;
-ion-card-title{
-    font-size: 1.5rem;
-}
-.title-secondry{
-    color: var(--ion-color-secondary);
-}
+@import '../sharedStyles.scss';
 ion-card {
     height: auto;
     width: 70%;

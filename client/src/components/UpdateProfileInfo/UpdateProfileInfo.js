@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 // import allComponents from '../components'
 
@@ -36,13 +36,13 @@ const UpdateProfileInfo = () => {
         )
     }
     return (
-        <IonPage>
-            <IonHeader>
+        <IonCard>
+            <IonCardHeader>
                 <IonToolbar>
                     <IonTitle>Update your profile</IonTitle>
                 </IonToolbar>
-            </IonHeader>
-            <IonContent>
+            </IonCardHeader>
+            <IonCardContent>
                 <IonItemDivider>Main Profile info</IonItemDivider>
                 <MyList dataToRead={dataOfProfileHome}></MyList>
                 <IonItem class='ion-padding'>
@@ -53,8 +53,9 @@ const UpdateProfileInfo = () => {
                 <MyList dataToRead={dataOfAbout}></MyList>
                 <IonItemDivider>Contact</IonItemDivider>
                 <MyList dataToRead={dataOfContact}></MyList>
-            </IonContent>
-        </IonPage>
+            </IonCardContent>
+        </IonCard>
     );
+    
 };
 export default UpdateProfileInfo

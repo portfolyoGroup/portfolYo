@@ -4,13 +4,15 @@ import { IonApp, IonRouterOutlet } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 import ProjectPage from './pages/ProjectPage/ProjectPage'
-import UpdateProfileInfo from './pages/UpdateProfileInfo/UpdateProfileInfo'
+import UpdateProfileInfo from './components/UpdateProfileInfo/UpdateProfileInfo'
+import HomePage from './pages/HomePage/HomePage'
 import './theme/variables.scss';
 import LogIn from './pages/LogInPage/LogInPage'
 
 
 const App = () => {
     const pages = {
+        home:'/home',
         profileRoute: '/profile1/about',
         projectRoute: '/project1/home',
         UpdateProfileRoute: '/updateProfile',
@@ -37,15 +39,15 @@ const App = () => {
                     <Route path="/project:id">
                         <ProjectPage />
                     </Route>
-                    <Route path="/updateProfile">
-                        <UpdateProfileInfo />
-                    </Route>
                     <Route path='/login'>
-                        <LogIn/> 
+                        <LogIn />
+                    </Route>
+                    <Route path='/home'>
+                        <HomePage/>
                     </Route>
 
 
-                    <Route path={'/'} render={() => IsLogedIn ? <Redirect to={pages.projectRoute} /> : <Redirect to={pages.logInRoute} />}></Route>
+                    <Route path={'/'} render={() => IsLogedIn ? <Redirect to={pages.home} /> : <Redirect to={pages.logInRoute} />}></Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
