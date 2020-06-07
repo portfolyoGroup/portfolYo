@@ -4,13 +4,7 @@ import { withRouter } from 'react-router'
 import '../about/about.scss'
 import '../sharedStyles.scss'
 import { object } from 'prop-types'
-const dataOfContact= {
-    date_of_birth: "5.5.1875",
-    mail: 'donotreplay@dnr.com',
-    Adress: 'TLV fashion mall',
-    phone: '051113345'
-}
-const Contact = () => {
+const Contact = ({dataOfContact}) => {
     const MyList = () => {
         return (
             <IonList>

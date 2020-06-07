@@ -4,13 +4,9 @@ import { withRouter } from 'react-router'
 import './about.scss'
 import '../sharedStyles.scss'
 import { object } from 'prop-types'
-const dataOfAbout = {
-    description: "I'm a student you guys, very loving the open sourve community, you guys.",
-    programing_languages: 'c, Java',
-    skills: 'react',
-    experience: 'working at a nice company the I am doc, s about n v d. ahh I get it.'
-}
-const About = () => {
+
+const About = ({dataOfAbout}) => {
+    console.log(dataOfAbout)
     const MyList = () => {
         return (
             <IonList>

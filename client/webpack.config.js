@@ -51,7 +51,7 @@ var config = {
       }
     ]
   },
-  plugins: [
+  plugins: [ 
     new HtmlWebPackPlugin({
       template: "./public/index.html",
     }),

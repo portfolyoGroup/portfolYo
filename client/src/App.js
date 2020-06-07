@@ -47,7 +47,7 @@ const App = () => {
                     </Route>
 
 
-                    <Route path={'/'} render={() => IsLogedIn ? <Redirect to={pages.home} /> : <Redirect to={pages.logInRoute} />}></Route>
+                    <Route path={'/'} render={() => IsLogedIn ? <Redirect to={pages.profileRoute} /> : <Redirect to={pages.logInRoute} />}></Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
