@@ -17,7 +17,6 @@ const ProfilePage = () => {
     let { id } = useParams();
     const match = useRouteMatch()
     const [profileData, setProfileData] = useState(undefined)
-    const [showLoading, setShowLoading] = useState(true)
     let curr_component;
     useEffect(() => {
         const getData = async () => {
@@ -60,7 +59,6 @@ const ProfilePage = () => {
                 </IonTabs>
             }
             </IonContent>
-
         )
     }
     else {
@@ -68,9 +66,8 @@ const ProfilePage = () => {
             <IonContent>
                 <IonLoading
                     isOpen={true}
-                    onDidDismiss={() => setShowLoading(true)}
                     message={'ProtfolYoing...'}
-                    duration={500000}
+                    duration={Number.MAX_SAFE_INTEGER}
                 />
             </IonContent>
         ) 
