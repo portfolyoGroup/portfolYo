@@ -10,7 +10,7 @@ import About from '../../components/about/About'
 import ProfileHeader from '../../components/profileHeader/ProfileHeader';
 import Contact from '../../components/contact/Contact'
 import './ProfilePage.scss'
-import { useGetProfile } from '../../services/profileService'
+import { getProfile } from '../../services/profileService'
 
 const ProfilePage = () => {
 
@@ -21,13 +21,12 @@ const ProfilePage = () => {
     let curr_component;
     useEffect(() => {
         const getData = async () => {
-            const profile = await useGetProfile(id)
+            const profile = await getProfile(id)
             setProfileData(profile)
         }
         getData()
     }, [])
     if ((profileData?.dataOfAbout)) {
-        console.log('in the if')
         curr_component = (
             <IonContent>
                 <IonTabs>
@@ -70,7 +69,7 @@ const ProfilePage = () => {
                 <IonLoading
                     isOpen={true}
                     onDidDismiss={() => setShowLoading(true)}
-                    message={'Please wait...'}
+                    message={'ProtfolYoing...'}
                     duration={500000}
                 />
             </IonContent>

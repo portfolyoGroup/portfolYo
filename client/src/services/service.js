@@ -1,1 +1,1 @@
-export const serverPath = 'https://www.google.com'
+export const serverPath = 'http://dummy.restapiexample.com/api/v1/employees'

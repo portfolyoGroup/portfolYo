@@ -13,20 +13,27 @@ const dataOfContact = {
     phone: '051113345'
 }
 
-export const useGetProfile = async (profileId) => {
+export const getProfile = async (profileId) => {
     //call the server by id.
-    const {loading, error, get, response} = useFetch(serverPath) //error is not clear, might use it later.
-    const profileData = await get(`/`)
-    // const profileData = await get(`/profile:${profileId}`)
-    if (response.ok) {
-        console.log('we did it')
-        console.log(response.text)
-        profileData = { dataOfAbout, dataOfContact }
-        return profileData
+
+    try {
+    //    return await fetchFromServer(`profile${profileId}`, 'GET')
+       const s = await fetchFromServer(``, 'GET')
+       console.log(s)
+       return { dataOfAbout, dataOfContact }
+    }
+    catch(err) {
+        // todo : handle catch
+    }
+}
+
+export const fetchFromServer = async (route, method, body=null) => {
+    const res = await fetch(`${serverPath}/${route}`)
+    if(res.ok) {
+        // handle some default when accept
+        return await res.json()
     }
     else {
-        return error
+        // handle some default when rejected
     }
-
-   // return { dataOfAbout, dataOfContact }
 }
