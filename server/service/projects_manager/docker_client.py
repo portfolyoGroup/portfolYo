@@ -13,10 +13,11 @@ def create_image(project_name: str, project_type, user_name: str, project_root: 
     return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
 
 def run_container(container_tag: str):
-    os.system(f"docker run -p 5001:5000 -d --name {container_tag} {container_tag}")
+    os.system(f"docker run --name {container_tag} -p 5001:5000 -d {container_tag}")
 
 def kill_container(container_tag: str):
     container = docker_client.containers.get(container_tag)
     container.kill()
+    container.remove()
 
 #create_image("pythonWebServer")
