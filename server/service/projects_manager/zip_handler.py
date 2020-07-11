@@ -6,7 +6,7 @@ import shutil
 
 def _generate_project_tmp_path(project_type: str):
     return os.getcwd() + os.path.sep + ".." +\
-           os.path.sep + "Dockerimages" + os.path.sep + project_type + os.path.sep + "tmp"
+           os.path.sep + "service" + os.path.sep + "Dockerimages" + os.path.sep + project_type + os.path.sep + "tmp"
 
 
 def base64_encoder(path2file): # this method is for testing
@@ -15,7 +15,7 @@ def base64_encoder(path2file): # this method is for testing
         return base64.b64encode(bytes)
 
 
-def base64_to_zip(base64_zip_file: str, zip_file_name: str):
+def base64_to_zip(base64_zip_file: bytes, zip_file_name: str):
     with open(f"/tmp/{zip_file_name}", "wb") as f:
         decoded = base64.b64decode(base64_zip_file)
         f.write(decoded)
