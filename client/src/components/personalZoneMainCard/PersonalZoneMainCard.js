@@ -1,10 +1,9 @@
 import React from 'react'
-import { IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonList, IonLabel, IonItemDivider, IonItem, IonText } from '@ionic/react'
+import { IonContent, IonCard, IonCardContent, IonCardHeader} from '@ionic/react'
 import { withRouter } from 'react-router'
 import '../sharedStyles.scss'
-import { object } from 'prop-types'
 
-const HomePageMainCard = () => {
+const PersonalZoneMainCard = () => {
     return (
         <IonContent>
             <IonCard>
@@ -24,4 +23,4 @@ const HomePageMainCard = () => {
         </IonContent>
     )
 }
-export default withRouter(HomePageMainCard)
+export default withRouter(PersonalZoneMainCard)

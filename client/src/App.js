@@ -1,24 +1,27 @@
-import React, { useEffect } from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Route, Redirect, useParams } from 'react-router-dom'
 import { IonApp, IonRouterOutlet } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 import ProjectPage from './pages/ProjectPage/ProjectPage'
-import UpdateProfileInfo from './components/UpdateProfileInfo/UpdateProfileInfo'
-import HomePage from './pages/HomePage/HomePage'
+import HomePage from './pages/PersonalZonePage/PersonalZonePage'
 import './theme/variables.scss';
 import LogIn from './pages/LogInPage/LogInPage'
-
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 const App = () => {
+
     const pages = {
-        home:'/home',
-        profileRoute: '/profile1/about',
-        projectRoute: '/project1/home',
-        UpdateProfileRoute: '/updateProfile',
-        logInRoute: '/login'
+        home: `/home`,
+        profileRoute: `/profile1/about`,
+        projectRoute: `/project1/home`,
+        UpdateProfileRoute: `/updateProfile`,
+        logInRoute: `/login`,
+        registerRoute: `/register`
     }
-    const IsLogedIn = true
+
+    const id = localStorage.getItem('id')
+
     useEffect(() => {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         toggleDarkTheme(prefersDark.matches);
@@ -33,21 +36,22 @@ const App = () => {
         <IonApp>
             <IonReactRouter>
                 <IonRouterOutlet>
-                    <Route path="/profile:id">
+                    <Route path="/profile/:id">
                         <ProfilePage />
                     </Route>
-                    <Route path="/project:id">
+                    <Route path="/project/:id">
                         <ProjectPage />
                     </Route>
                     <Route path='/login'>
                         <LogIn />
                     </Route>
-                    <Route path='/home'>
-                        <HomePage/>
+                    <Route path={`/home/:${id}`}>
+                        <HomePage />
                     </Route>
-
-
-                    <Route path={'/'} render={() => IsLogedIn ? <Redirect to={pages.profileRoute} /> : <Redirect to={pages.logInRoute} />}></Route>
+                    <Route path='/register'>
+                        <RegisterPage />
+                    </Route>
+                    <Route exact path={`/`} render={() => id ? <Redirect to={`/home/${id}`} /> : <Redirect to={pages.logInRoute} />}></Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>

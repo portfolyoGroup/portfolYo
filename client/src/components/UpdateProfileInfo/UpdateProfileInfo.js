@@ -12,7 +12,7 @@ const dataOfAbout = {
 const dataOfContact = {
     date_of_birth: "5.5.1875",
     mail: 'donotreplay@dnr.com',
-    Adress: 'TLV fashion mall',
+    address: 'TLV fashion mall',
     phone: '051113345'
 }
 const dataOfProfileHome = {
@@ -20,7 +20,12 @@ const dataOfProfileHome = {
     title: 'your main occpation, e.g cs student',
     main_description: 'your main occpation, e.g cs student'
 }
+const profoileCredentials = {
+
+}
+
 const UpdateProfileInfo = () => {
+
     const MyList = ({ dataToRead }) => {
         return (
             <IonList>
@@ -35,6 +40,7 @@ const UpdateProfileInfo = () => {
             </IonList>
         )
     }
+    
     return (
         <IonCard>
             <IonCardHeader>

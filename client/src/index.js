@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css'
@@ -13,4 +12,6 @@ import '@ionic/react/css/flex-utils.css'
 import '@ionic/react/css/display.css'
 import '@ionic/react/css/text-transformation.css'
 import "regenerator-runtime/runtime";
-ReactDOM.render(<App />, document.getElementById("root"));
+import App from './App'
+
+ReactDOM.render(<App/>, document.getElementById("root"));

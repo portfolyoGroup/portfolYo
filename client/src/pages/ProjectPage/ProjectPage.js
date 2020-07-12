@@ -14,6 +14,7 @@ const ProjectPage = () => {
    
     let { id } = useParams();
     const match = useRouteMatch()
+    
     return (
 
         <IonContent>

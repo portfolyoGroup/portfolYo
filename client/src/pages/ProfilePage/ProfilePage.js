@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
-    IonTabs, IonTabBar, IonTabButton, IonLabel, IonPage, IonRouterOutlet, IonToolbar, IonHeader, IonContent,
-    IonTitle, IonSpinner, IonLoading
+    IonTabs, IonTabBar, IonTabButton, IonLabel, IonRouterOutlet, IonContent,
+    IonTitle, IonLoading
 } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 // import allComponents from '../components'
@@ -10,22 +10,17 @@ import About from '../../components/about/About'
 import ProfileHeader from '../../components/profileHeader/ProfileHeader';
 import Contact from '../../components/contact/Contact'
 import './ProfilePage.scss'
-import { getProfile } from '../../services/profileService'
+import { useProfileData } from '../../services/profileService'
+
 
 const ProfilePage = () => {
 
     let { id } = useParams();
     const match = useRouteMatch()
-    const [profileData, setProfileData] = useState(undefined)
     let curr_component;
-    useEffect(() => {
-        const getData = async () => {
-            const profile = await getProfile(id)
-            setProfileData(profile)
-        }
-        getData()
-    }, [])
-    if ((profileData?.dataOfAbout)) {
+    const { dataOfAbout, dataOfContact } = useProfileData(id)
+
+    if (dataOfAbout) {
         curr_component = (
             <IonContent>
                 <IonTabs>

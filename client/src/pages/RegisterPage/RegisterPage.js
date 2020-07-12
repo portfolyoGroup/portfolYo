@@ -1,13 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
 // import allComponents from '../components'
-import { useHistory } from "react-router-dom";
+import { useHistory, Router } from "react-router-dom";
+import { useRegister } from '../../services/profileService'
+import '../LogInPage/LogInPage.scss'
 import { Link } from "react-router-dom";
-import './LogInPage.scss'
+import { Route, Redirect, useParams } from 'react-router-dom'
 
-const LogIn = () => {
+const RegisterPage = ({ onRegister }) => {
 
-    const history = useHistory()
+    const history = useHistory();
+
+    const handleRegister = async () => {
+        if (isValidForm()) {
+            const { id } = await useRegister()
+            navigateToHomePage(id)
+        }
+    }
+
+    const navigateToHomePage = (id) => {
+        localStorage.setItem('id', `${id}`)
+        history.push(`/home/${id}`)
+    }
+
+    const isValidForm = () => {
+        return true
+    }
 
     return (
         <IonPage>
@@ -22,7 +40,7 @@ const LogIn = () => {
                         <IonRow color="primary" >
                             <IonCol className='colStyle'>
                                 <div className='centeredItem'>
-                                    <h1>Login</h1>
+                                    <h1>Register</h1>
                                 </div>
                                 <div className='centeredItem'>
                                     <IonItem class='centeredItem'>
@@ -31,13 +49,11 @@ const LogIn = () => {
                                     <IonItem class='centeredItem' >
                                         <IonInput name="password" type="password" placeholder="Password" />
                                     </IonItem>
+
                                 </div>
                                 <div>
                                     <IonItem class='centeredItem'>
-                                        <IonButton onClick={() => alert('you are loged in, I am proud of you.')} size="large" type="submit">Login</IonButton>
-                                    </IonItem>
-                                    <IonItem class='centeredItem'>
-                                        <IonLabel onClick={() => history.push('/register')} style={{ cursor: 'pointer' }}>not a member ? sign in</IonLabel>
+                                        <IonButton onClick={handleRegister} size="large" type="submit">Register</IonButton>
                                     </IonItem>
                                 </div>
                             </IonCol>
@@ -48,4 +64,4 @@ const LogIn = () => {
         </IonPage >
     );
 };
-export default LogIn
+export default RegisterPage
