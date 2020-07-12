@@ -7,13 +7,14 @@ import '../LogInPage/LogInPage.scss'
 import { Link } from "react-router-dom";
 import { Route, Redirect, useParams } from 'react-router-dom'
 
-const RegisterPage = ({ onRegister }) => {
+const RegisterPage = () => {
 
     const history = useHistory();
-
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
     const handleRegister = async () => {
         if (isValidForm()) {
-            const { id } = await useRegister()
+            const { id } = await useRegister(email, password)
             navigateToHomePage(id)
         }
     }
@@ -23,7 +24,7 @@ const RegisterPage = ({ onRegister }) => {
         history.push(`/home/${id}`)
     }
 
-    const isValidForm = () => {
+    const isValidForm = () => {// TODO: vaildate form
         return true
     }
 
@@ -44,10 +45,12 @@ const RegisterPage = ({ onRegister }) => {
                                 </div>
                                 <div className='centeredItem'>
                                     <IonItem class='centeredItem'>
-                                        <IonInput className='robricStyle' name="email" type="email" placeholder="your@email.com" ></IonInput>
+                                        <IonInput className='robricStyle' name="email" type="email" placeholder="your@email.com" onIonChange={(e) =>{
+                                setEmail(e.detail.value)}}></IonInput>
                                     </IonItem>
                                     <IonItem class='centeredItem' >
-                                        <IonInput name="password" type="password" placeholder="Password" />
+                                        <IonInput name="password" type="password" placeholder="Password" onIonChange={(e) =>{
+                                setPassword(dataToRead, key, e.detail.value)}}/>
                                     </IonItem>
 
                                 </div>

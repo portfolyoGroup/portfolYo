@@ -10,7 +10,7 @@ import About from '../../components/about/About'
 import ProfileHeader from '../../components/profileHeader/ProfileHeader';
 import Contact from '../../components/contact/Contact'
 import './ProfilePage.scss'
-import { useProfileData } from '../../services/profileService'
+import { getProfileData } from '../../services/profileService'
 
 
 const ProfilePage = () => {
@@ -18,7 +18,7 @@ const ProfilePage = () => {
     let { id } = useParams();
     const match = useRouteMatch()
     let curr_component;
-    const { dataOfAbout, dataOfContact } = useProfileData(id)
+    const { dataOfAbout, dataOfContact, dataOfProfileHome } = getProfileData(id)
 
     if (dataOfAbout) {
         curr_component = (
@@ -27,9 +27,9 @@ const ProfilePage = () => {
                     <IonRouterOutlet>
                         <Switch>
                             <Route path={`${match.url}/home`} component={ProfileHeader} exact={true} />
-                            <Route path={`${match.url}/about`} component={() => <About dataOfAbout={profileData.dataOfAbout} />} exact={true} />
+                            <Route path={`${match.url}/about`} component={() => <About dataOfAbout={dataOfAbout} />} exact={true} />
                             <Route path={`${match.url}/projectsList`} component={ProjectsList} exact={true} />
-                            <Route path={`${match.url}/contact`} component={() => <Contact dataOfContact={profileData.dataOfContact} />} />
+                            <Route path={`${match.url}/contact`} component={() => <Contact dataOfContact={dataOfContact} />} />
                             <Route path={`${match.url}/`} render={() => <Redirect to={`${match.url}/home`} />} exact={true} />
                         </Switch>
                     </IonRouterOutlet>

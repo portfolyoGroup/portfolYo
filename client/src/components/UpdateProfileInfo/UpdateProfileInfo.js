@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard } from '@ionic/react';
+import { IonButton, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
-// import allComponents from '../components'
+import {setProfile, setProfileData} from '../../services/profileService'
 
 const dataOfAbout = {
     description: "Tell us about you:",
@@ -11,7 +11,6 @@ const dataOfAbout = {
 }
 const dataOfContact = {
     date_of_birth: "5.5.1875",
-    mail: 'donotreplay@dnr.com',
     address: 'TLV fashion mall',
     phone: '051113345'
 }
@@ -20,12 +19,11 @@ const dataOfProfileHome = {
     title: 'your main occpation, e.g cs student',
     main_description: 'your main occpation, e.g cs student'
 }
-const profoileCredentials = {
-
-}
 
 const UpdateProfileInfo = () => {
-
+    const setField = (dataToRead, key, text) => {
+        dataToRead[key] = text
+    }
     const MyList = ({ dataToRead }) => {
         return (
             <IonList>
@@ -33,14 +31,18 @@ const UpdateProfileInfo = () => {
                     return (
                         <IonItem key={index}>
                             <IonLabel position="floating">{key}</IonLabel>
-                            <IonInput  placeholder={value} clearInput></IonInput>
+                            <IonInput placeholder={value} clearInput onIonChange={(e) =>{
+                                setField(dataToRead, key, e.detail.value)}} ></IonInput>
                         </IonItem>
                     )
                 })}
             </IonList>
         )
     }
-    
+    const handleFormSubmit = () => {
+        const id = localStorage.getItem('id')
+        setProfileData(id, {dataOfAbout, dataOfContact, dataOfProfileHome})
+    }
     return (
         <IonCard>
             <IonCardHeader>
@@ -52,16 +54,19 @@ const UpdateProfileInfo = () => {
                 <IonItemDivider>Main Profile info</IonItemDivider>
                 <MyList dataToRead={dataOfProfileHome}></MyList>
                 <IonItem class='ion-padding'>
-                <IonLabel position='stacked'> Upload a photo</IonLabel>
-                <IonInput type='file' clearInput></IonInput>
+                    <IonLabel position='stacked'> Upload a photo</IonLabel>
+                    <IonInput type='file' clearInput></IonInput>
                 </IonItem>
                 <IonItemDivider>About</IonItemDivider>
                 <MyList dataToRead={dataOfAbout}></MyList>
                 <IonItemDivider>Contact</IonItemDivider>
                 <MyList dataToRead={dataOfContact}></MyList>
             </IonCardContent>
+                <IonItem class='centeredItem'>
+                    <IonButton onClick={handleFormSubmit} size="large" type="submit">update!</IonButton>
+                </IonItem>
         </IonCard>
     );
-    
+
 };
 export default UpdateProfileInfo

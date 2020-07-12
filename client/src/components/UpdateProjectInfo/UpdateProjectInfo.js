@@ -3,13 +3,13 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 // import allComponents from '../components'
 // import '../../components/sharedStyles.scss'
-import dataOfAbout from '../../dummyJsons'
-// const dataOfAbout = {
-//     description: "Tell us about you:",
-//     programing_languages: 'c, Java, etc...',
-//     skills: 'react, ',
-//     experience: 'mention your current and past roles in projects and jobs'
-// }
+
+const dataOfAbout = {
+    description: "Tell us about you:",
+    programing_languages: 'c, Java, etc...',
+    skills: 'react, ',
+    experience: 'mention your current and past roles in projects and jobs'
+}
 const dataOfContact = {
     date_of_birth: "5.5.1875",
     mail: 'donotreplay@dnr.com',

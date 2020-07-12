@@ -20,7 +20,7 @@ export const fetchFromServer = async (route, method, body = null) => {
             }
     
             const res = await fetch(`${serverPath}/${route}`, options)
-    
+                
             if (res.ok) {
                 // handle some default when accept
                 setResponse(await res.json())

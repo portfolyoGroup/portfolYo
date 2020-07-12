@@ -26,6 +26,7 @@ const App = () => {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         toggleDarkTheme(prefersDark.matches);
         prefersDark.addListener((mediaQuery) => toggleDarkTheme(mediaQuery.matches));
+        return () => localStorage.clear()
     }, [])
 
     const toggleDarkTheme = shouldAdd => {
