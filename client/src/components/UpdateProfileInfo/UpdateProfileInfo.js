@@ -42,8 +42,7 @@ const UpdateProfileInfo = () => {
         dataToRead[key] = text
     }
     const MyList = ({ dataToRead }) => {
-        console.log("dataToRead")
-        console.log(dataToRead)
+        
         return (
             <IonList>
                 {Object.entries(dataToRead).map(([key, value], index) => {
@@ -60,11 +59,14 @@ const UpdateProfileInfo = () => {
         )
     }
     const handleFormSubmit = async () => {
+        console.log("submit")
+        
         const id = localStorage.getItem('id')
         let file
         const input = await picUploadRef.current.getInputElement()
-        if (!picUploadRef || !picUploadRef.current || !input.file) {
+        if (!picUploadRef || !picUploadRef.current || !input.files) {
             // ask levivot to send default pic
+            console.log("submit2")
         }
         else {
             file = input.files[0]
@@ -74,6 +76,8 @@ const UpdateProfileInfo = () => {
             const picType = fileParts[1];
             reader.onload = function (recievedFile) {
                 const picData = recievedFile.target.result;
+                console.log("picData")
+                console.log(picData)
                 const profilePic = { picName, picType, picData }
                 setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic })
             }

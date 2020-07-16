@@ -14,11 +14,25 @@ import { getProfileData } from '../../services/profileService'
 
 
 const ProfilePage = () => {
-
+ 
     let { id } = useParams();
     const match = useRouteMatch()
     let curr_component;
-    const { dataOfAbout, dataOfContact, dataOfProfileHome } = getProfileData(id)
+    const picUploadRef = useRef(null)
+    const [dataOfContact, setDataOfContact] = useState()
+    const [dataOfAbout, setDataOfAbout] = useState()
+    const [dataOfProfileHome, setDataOfProfileHome] = useState()
+
+    useEffect(() => {
+        const getData = async () => {
+            const id = localStorage.getItem('id')
+            const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic } = await getProfileData(id)
+            setDataOfContact(dataOfContact)
+            setDataOfAbout(dataOfAbout)
+            setDataOfProfileHome(dataOfProfileHome)
+        }
+        getData()
+    }, [])
 
     if (dataOfAbout && dataOfContact && dataOfProfileHome) {
         curr_component = (

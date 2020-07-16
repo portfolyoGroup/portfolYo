@@ -52,7 +52,7 @@ const App = () => {
                     <Route path='/register'>
                         <RegisterPage />
                     </Route>
-                    <Route exact path={`/`} render={() => id ? <Redirect to={`/home/${id}`} /> : <Redirect to={pages.logInRoute} />}></Route>
+                    <Route exact path={`/`} render={() => id ? <Redirect to={`/home/${id}`} /> : <Redirect to={pages.profileRoute} />}></Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
