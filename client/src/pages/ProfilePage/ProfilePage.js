@@ -49,10 +49,8 @@ const ProfilePage = () => {
                         <IonTabButton tab="contact" href={`${match.url}/contact`}>
                             <IonLabel>Contact</IonLabel>
                         </IonTabButton>
-
                     </IonTabBar>
                 </IonTabs>
-            }
             </IonContent>
         )
     }
