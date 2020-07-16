@@ -2,6 +2,28 @@ import { fetchFromServer } from './service'
 import * as dummyProfileData from '../services/dummyProfileData.json'
 import { object } from 'prop-types';
 
+
+const allData = {
+    "5": {
+        dataOfAbout: {
+        description: "about started with it ",
+            programing_languages: "about started with it ",
+            skills: "about started with it",
+            experience: "about started with it"
+        },
+        dataOfContact: {
+            date_of_birth: "contact started with it",
+            address: "contact started with it",
+            phone: "contact started with it"
+        },
+        dataOfProfileHome: {
+            name: "profHome started with it",
+            title: "profHome started with it",
+            main_description: "profHome started with it"
+        }
+    }
+}
+
 const isRealServer = false;
 export const getProfileData = async (profileId) => {
     if (isRealServer) {
@@ -15,7 +37,9 @@ export const getProfileData = async (profileId) => {
         }
     }
     else {
-        return await dummyProfileData[profileId]
+        console.log("allData")
+        console.log(allData["5"])
+        return await allData["5"]
     }
 }
 
@@ -32,9 +56,10 @@ export const setProfileData = async (profileId, data) => {
         }
     }
     else {
-        dummyProfileData[profileId][dataOfAbout] = data.dataOfAbout
-        dummyProfileData[profileId][dataOfContact] = data.dataOfContact
-        dummyProfileData[profileId][dataOfProfileHome] = data.dataOfProfileHome
+        console.log('this is the id: ' + profileId)
+        console.log('this is the data: ')
+        console.log(data)
+        // nothing to do its here
     }
 }
 
@@ -42,16 +67,14 @@ export const useRegister = async (email, password) => {
     if (isRealServer) {
         try {
             const id = await fetchFromServer('/profile', 'POST', { email, password })
-            return { id }
+            return id 
         }
         catch (err) {
             // todo : handle catch
         }
     }
     else {
-        console.log("this is the email " + email)
-        dummyProfileData[email] = dummyProfileData[5]
-        return email // we mock with the email as the id.
+        return await "5"
     }
 }
 

@@ -6,6 +6,8 @@ profile:
 
     set - we give id and data,(not including password and email)
     and the server saves this data for the id.
+    If there's no pic, put a default one.
+    (I've put it in  client/src/resources, take it wherever you want.)
 
 project:
     get

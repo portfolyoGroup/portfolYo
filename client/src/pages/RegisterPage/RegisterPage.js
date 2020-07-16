@@ -14,12 +14,14 @@ const RegisterPage = () => {
     const [password, setPassword] = useState()
     const handleRegister = async () => {
         if (isValidForm()) {
-            const { id } = await useRegister(email, password)
+            const id  = await useRegister(email, password)
             navigateToHomePage(id)
         }
     }
 
     const navigateToHomePage = (id) => {
+        console.log('id:')
+        console.log(id)
         localStorage.setItem('id', `${id}`)
         history.push(`/home/${id}`)
     }

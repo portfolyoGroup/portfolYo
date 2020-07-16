@@ -20,7 +20,7 @@ const ProfilePage = () => {
     let curr_component;
     const { dataOfAbout, dataOfContact, dataOfProfileHome } = getProfileData(id)
 
-    if (dataOfAbout) {
+    if (dataOfAbout && dataOfContact && dataOfProfileHome) {
         curr_component = (
             <IonContent>
                 <IonTabs>
