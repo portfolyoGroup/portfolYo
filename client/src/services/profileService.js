@@ -53,7 +53,7 @@ export const setProfileData = async (profileId, data) => {
         if (isRealServer) {
             //call the server by id.
             try {
-                return await fetchFromServer(`/profile?profileId=${profileId}`, 'SET', data)
+                return await fetchFromServer(`/profile?profileId=${profileId}`, 'PUT', data)
 
             }
             catch (err) {
