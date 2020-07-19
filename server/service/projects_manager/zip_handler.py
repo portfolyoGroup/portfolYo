@@ -38,7 +38,7 @@ def remove_unzipped_folder(project_type: str):
 def _remove_readonly(func, path, _):
     os.chmod(path, stat.S_IWRITE)
     func(path)
-#
-# file_encoded = base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\pythonWebServer.zip")
+# #
+# file_encoded = base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\fakebook-using-Flask.zip")
 # base64_to_zip(file_encoded, "flaskWebTest.zip")
 # unzip_file("C:\\tmp\\flaskWebTest.zip")
