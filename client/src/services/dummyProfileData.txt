@@ -1,0 +1,39 @@
+// const dataOfAbout = {
+//     description: "Tell us about you:",
+//     programing_languages: 'c, Java, etc...',
+//     skills: 'react, ',
+//     experience: 'mention your current and past roles in projects and jobs'
+// }
+// const dataOfContact = {
+//     date_of_birth: "5.5.1875",
+//     address: 'TLV fashion mall',
+//     phone: '051113345'
+// }
+// const dataOfProfileHome = {
+//     name: "Israel Israeli",
+//     title: 'your main occpation, e.g cs student',
+//     main_description: 'your main occpation, e.g cs student',
+// }
+"5": {
+    dataOfAbout: {
+        description: "about started with it ",
+        programing_languages: "about started with it ",
+        skills: "about started with it",
+        experience: "about started with it"
+    },
+    dataOfContact: {
+        date_of_birth: "contact started with it",
+        address: "contact started with it",
+        phone: "contact started with it"
+    },
+    dataOfProfileHome: {
+        name: "profHome started with it",
+        title: "profHome started with it",
+        main_description: "profHome started with it"
+    },
+    profilePic: {
+        picName: "some pic",
+        picType: "png",
+        picData: 'kaki of yonim'//in src/resoueces
+    }
+}
