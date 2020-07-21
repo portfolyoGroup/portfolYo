@@ -5,7 +5,7 @@ import os
 def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, project_root: str, user_name: str):
     try:
         zip_handler.base64_to_zip(encoded_zip, project_name + ".zip")
-        zip_handler.unzip_file(f"{os.path.sep}tmp{os.path.sep}{project_name}.zip", project_type)
+        zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type)
         docker_client.create_image(project_name, project_type, user_name, project_root)
     finally:
         zip_handler.remove_zip(project_name + ".zip")

@@ -3,14 +3,12 @@ import os
 docker_client = docker.from_env()
 
 def create_image(project_name: str, project_type, user_name: str, project_root: str):
-    path_to_dockerfile = f"{os.getcwd() + os.path.sep}..{os.path.sep}" \
-                         f"service{os.path.sep}" \
-                         f"Dockerimages{os.path.sep}{project_type}"
+    path_to_dockerfile = os.path.join(os.getcwd(), 'server', 'service', 'Dockerimages', project_type)
     buildargs = {"PROJECT_NAME": project_root}
     tag = f"{user_name}_{project_name}"
 
     # os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg {buildargs}")
-    return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
+    print(docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower()))
 
 def run_container(container_tag: str):
     os.system(f"docker run --name {container_tag} -p 5001:5000 -d {container_tag}")

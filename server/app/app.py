@@ -1,7 +1,9 @@
 from flask import Flask
-from auth.auth import auth_blueprint
-from sign_in_up.register import register_blueprint
-from project.project import project_blueprint
+from app.auth.auth import auth_blueprint
+# from auth import auth_blueprint
+from app.sign_in_up.register import register_blueprint
+# from  import register_blueprint
+from app.project.project import project_blueprint
 # from user.user import user_blueprint
 
 app = Flask(__name__,)
