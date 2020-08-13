@@ -1,4 +1,3 @@
-
 from flask import Blueprint, render_template, make_response, request
 import service.projects_manager.projects_manager as projects_manager
 import service.projects_manager.zip_handler as zip_handler
@@ -48,7 +47,7 @@ def run():
     user_name = request.args.get("userName")
 
     try:
-        projects_manager.run_project(project_name, user_name)
+        projects_manager.run_project(project_name, user_name, "3000")
         return make_response("project is up and running!", 200)
     except Exception as e:
         make_response("Error accrued while trying to run project: " + str(e), 500)

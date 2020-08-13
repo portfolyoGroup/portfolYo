@@ -8,11 +8,13 @@ from db_entities import Project, User
 
 connect(host=URI)
 
+
 def save_user(user: User):
     try:
         return user.save()
     except NotUniqueError as e:
         raise Exception("User already exist", e)
+
 
 def get_user(email: str):
     try:
@@ -20,14 +22,17 @@ def get_user(email: str):
     except DoesNotExist as e:
         raise DoesNotExist("user with email address " + email + " does not exist", e)
 
+
 def update_user(email: str, *args):
     pass
+
 
 def delete_user(email: str):
     try:
         User.objects(email=email).get().delete()
     except DoesNotExist as e:
         raise DoesNotExist("user not found", e)
+
 
 def save_project(project: Project):
     try:
