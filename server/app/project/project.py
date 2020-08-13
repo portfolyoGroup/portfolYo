@@ -47,8 +47,8 @@ def run():
     user_name = request.args.get("userName")
 
     try:
-        projects_manager.run_project(project_name, user_name, "3000")
-        return make_response("project is up and running!", 200)
+        port = projects_manager.run_project(project_name, user_name, "3000")
+        return make_response(f"project is up and running on: {port}", 200)
     except Exception as e:
         make_response("Error accrued while trying to run project: " + str(e), 500)
 

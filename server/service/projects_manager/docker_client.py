@@ -12,9 +12,9 @@ def create_image(project_name: str, project_type, user_name: str, project_root: 
     # os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg {buildargs}")
     print(docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower()))
 
-def run_container(container_tag: str, app_port: str):
+def run_container(container_tag: str, app_port: str, host_port: int):
     # os.system(f"docker run --name {container_tag} -p 5001:{app_port} -d {container_tag}")
-    ports = {f"{app_port}/tcp": 5001}
+    ports = {f"{app_port}/tcp": host_port}
     docker_client.containers.run(image=container_tag, detach=True, auto_remove=True, ports=ports, name=container_tag)
 
 def kill_container(container_tag: str):

@@ -1,5 +1,6 @@
 from service.projects_manager import zip_handler, docker_client
 import os
+import socket
 
 
 def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, project_root: str, user_name: str):
@@ -13,11 +14,22 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, p
 
 
 def run_project(project_name: str, user_name: str, app_port: str):
-    docker_client.run_container(f"{user_name}_{project_name}".lower(), app_port)
+    port = _get_available_port()
+    docker_client.run_container(f"{user_name}_{project_name}".lower(), app_port, port)
+    return port
 
 
 def kill_container(user_name: str, project_name: str):
     docker_client.kill_container(f"{user_name}_{project_name}".lower())
+
+
+def _get_available_port():
+    free_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    free_socket.bind(('0.0.0.0', 0))
+    free_socket.listen(5)
+    port = free_socket.getsockname()[1]
+    free_socket.close()
+    return port
 
 # save_new_project(zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip"), "Exam_Trainer_React", "node", "Exam_Trainer_React", "itzik")
 # encoded_file = zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip")
