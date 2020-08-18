@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, make_response
 import json
 from server.service.mongo_db.mongo_client import save_user
 from server.service.mongo_db.db_entities import User
+import uuid
 
 user_blueprint = Blueprint('user_blueprint', __name__, static_folder='../static')
 headers = {"Content-Type": "application/json"}
@@ -14,11 +15,9 @@ def create_user():
     # password = body.get('password')
     # description = body.get('description')
     # pic = body.get('pic')
-
     # user = User(email=email, password=password, description=description, pic=pic)
-
     # save_user(user)
-    id = "123"
+    id = generateUID()
     dictionary = dict()
     dictionary["id"] = id
 
@@ -32,4 +31,5 @@ def create_user():
 #     email = body.get('email')
 #     password = body.get('password')
 
-
+def generateUID():
+    return str(uuid.uuid4())
