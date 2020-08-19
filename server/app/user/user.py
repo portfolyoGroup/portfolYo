@@ -16,13 +16,17 @@ def create_user():
     password = body.get('password')
     description = body.get('description')
     pic = body.get('pic')
-    id = generateUID()
-    user = User(email=email, password=password, description=description, pic=pic, id=id)
-    mongo_save_user(user)
-    dictionary = dict()
-    dictionary["id"] = id
+    uid = generateUID()
+    try:
+        user = User(email=email, password=password, description=description, pic=pic, uid=uid)
+        mongo_save_user(user)
+        dictionary = dict()
+        dictionary["id"] = uid
 
-    return make_response(json.dumps(dictionary), 200)
+        return make_response(json.dumps(dictionary), 200)
+    except Exception as e:
+        return make_response(str(e), 500)
+
 
     # return "user created successfully "
 

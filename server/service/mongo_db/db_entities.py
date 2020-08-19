@@ -13,5 +13,5 @@ class User(Document):
     description = StringField()
     projects = StringField()
     pic = StringField()
-    id = StringField(unique=True, required=True)
+    uid = StringField(required=True)
 
