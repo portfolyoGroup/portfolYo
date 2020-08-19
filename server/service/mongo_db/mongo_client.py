@@ -1,9 +1,9 @@
 import json
 import os
-from constatnts import URI, DB_NAME, USERS_COLLECTION_NAME, MONGO_PASSWORD
+from service.mongo_db.constatnts import URI, DB_NAME, USERS_COLLECTION_NAME, MONGO_PASSWORD
 from mongoengine import *
 
-from db_entities import Project, User
+from service.mongo_db.db_entities import Project, User
 
 
 connect(host=URI)
