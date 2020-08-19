@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, make_response
 import json
-from server.service.mongo_db.mongo_client import save_user
-from server.service.mongo_db.db_entities import User
+from service.mongo_db.mongo_client import save_user
+from service.mongo_db.db_entities import User
 import uuid
 
 user_blueprint = Blueprint('user_blueprint', __name__, static_folder='../static')
