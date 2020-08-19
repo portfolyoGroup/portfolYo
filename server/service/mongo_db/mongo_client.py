@@ -29,6 +29,7 @@ def mongo_delete_user(email: str):
     except DoesNotExist as e:
         raise DoesNotExist("user not found", e)
 
+
 def save_project(project: Project):
     try:
         project.save()
