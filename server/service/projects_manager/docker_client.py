@@ -4,9 +4,9 @@ import re
 import time
 docker_client = docker.from_env()
 
-def create_image(project_name: str, project_type, user_name: str, project_root: str):
+def create_image(project_name: str, project_type, user_name: str):
     path_to_dockerfile = os.path.join(os.getcwd(), 'server', 'service', 'Dockerimages', project_type)
-    buildargs = {"PROJECT_NAME": project_root}
+    buildargs = {"PROJECT_NAME": project_name}
     tag = f"{user_name}_{project_name}"
 
     # os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg {buildargs}")

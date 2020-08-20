@@ -23,13 +23,12 @@ def upload():
     encoded_project = bytes(body.get("encodedProject"), 'ascii')
     project_name = body.get("projectName")
     project_type = body.get("projectType")
-    project_root = body.get("projectRoot")
     user_name = body.get("userName")
+    port = body.get("port")
     try:
         projects_manager.save_new_project(encoded_zip=encoded_project,
                                           project_name=project_name,
                                           project_type=project_type,
-                                          project_root=project_root,
                                           user_name=user_name)
         return make_response("project uploaded succesfully!", 200)
     except Exception as e:
