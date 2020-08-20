@@ -14,11 +14,11 @@ def mongo_save_user(user: User):
     except NotUniqueError as e:
         raise Exception("User already exist", e)
 
-def mongo_get_user(email: str):
+def mongo_get_user(user_id: str):
     try:
-        return User.objects(email=email).get()
+        return User.objects(uid=user_id).get()
     except DoesNotExist as e:
-        raise DoesNotExist("user with email address " + email + " does not exist", e)
+        raise DoesNotExist("user with id address " + user_id + " does not exist", e)
 
 def mongo_update_user(email: str, *args):
     pass
@@ -35,6 +35,14 @@ def mongo_save_project(project: Project):
     except Exception as e:
         raise Exception("Could'nt save project", e)
 
+def mongo_get_project(pKey: str):
+    try:
+        return Project.objects(pKey=pKey).get()
+    except Exception as e:
+        raise Exception("project not found", e)
+
+def get_project_pKey(user_id: str, project_name: str):
+    return f"{user_id}_{project_name}"
 
 
 # result = save_user(User(email="noam1@gmail.com", password='123'))
