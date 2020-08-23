@@ -38,7 +38,7 @@ def get_user():
     # TODO: Authentication by email-password is required
 #     password = body.get('password')
     result = dict()
-    result["id"] = userResult["id"]
+    result["id"] = userResult["uid"]
 
     return make_response(json.dumps(result), 200)
 
