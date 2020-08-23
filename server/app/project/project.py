@@ -13,7 +13,7 @@ body structure:
     "projectName": "flask-test",
     "projectType": "python",
     "projectRoot": "pythonWebServer",
-    "userName": "Noam",
+    "userId": "Noam",
     "encodedProject": ""
 }
 """
@@ -23,14 +23,13 @@ def upload():
     encoded_project = bytes(body.get("encodedProject"), 'ascii')
     project_name = body.get("projectName")
     project_type = body.get("projectType")
-    project_root = body.get("projectRoot")
-    user_name = body.get("userName")
+    user_id = body.get("userId")
+    port = body.get("port")
     try:
         projects_manager.save_new_project(encoded_zip=encoded_project,
                                           project_name=project_name,
                                           project_type=project_type,
-                                          project_root=project_root,
-                                          user_name=user_name)
+                                          user_id=user_id, port=port)
         return make_response("project uploaded succesfully!", 200)
     except Exception as e:
         make_response("Error accrued while uploading project: " + str(e), 500)
@@ -44,10 +43,10 @@ query param2: userName
 @project_blueprint.route('/project', methods=['GET'])
 def run():
     project_name = request.args.get("projectName")
-    user_name = request.args.get("userName")
+    user_id = request.args.get("userId")
 
     try:
-        port = projects_manager.run_project(project_name, user_name, "3000")
+        port = projects_manager.run_project(project_name, user_id)
         return make_response(f"project is up and running on: {port}", 200)
     except Exception as e:
         make_response("Error accrued while trying to run project: " + str(e), 500)
