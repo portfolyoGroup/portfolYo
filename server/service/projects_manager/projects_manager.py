@@ -1,21 +1,28 @@
+from docker.errors import BuildError, APIError
+from service.errors.container_errors.ContainerError import ContainerError
+from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
-from service.mongo_db.db_entities import Project
-from service.mongo_db.mongo_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_get_user
+from service.mongo_db.db_entities import Project, DoesNotExist
+from service.mongo_db.mongo_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_get_user, \
+    mongo_is_user_exist
 import os
 import socket
 
 
 def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, user_id: str, port: str):
+    if not mongo_is_user_exist(user_id):
+        raise DbError("User doesnt exist")
+
     try:
-        # mongo_get_user(user_id)
         zip_handler.base64_to_zip(encoded_zip, project_name + ".zip")
         zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type)
-        docker_client.create_image(project_name, project_type, user_id)
+        image = docker_client.create_image(project_name, project_type, user_id)[0]
         _save_to_db(project_name, port, user_id)
     except BuildError or APIError as e:
-        raise Exception(" couldnt build image for project: " + project_name)
-    except DoesNotExist as e:
-        raise Exception("could not upload project for a non existing user")
+        raise ContainerError(" couldnt build image for project: " + project_name, e)
+    except DbError as e:
+        docker_client.remove_image(image.id)
+        raise e
     finally:
         zip_handler.remove_zip(project_name + ".zip")
         # zip_handler.remove_unzipped_folder(project_type)

@@ -9,8 +9,7 @@ WORKDIR /app
 COPY ./tmp/${PROJECT_NAME} /app
 
 RUN make
-#RUN npm install && npm run client-install
-#
+
 ENTRYPOINT ["npm"]
 
 CMD ["run", "dev"]

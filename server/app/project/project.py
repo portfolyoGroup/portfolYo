@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template, make_response, request
+from flask import Blueprint, make_response, request, jsonify
 import service.projects_manager.projects_manager as projects_manager
-import service.projects_manager.zip_handler as zip_handler
 import json
 project_blueprint = Blueprint('project_blueprint', __name__)
-headers = {"Content-Type": "application/json"}
 
 
 """
@@ -25,14 +23,12 @@ def upload():
     project_type = body.get("projectType")
     user_id = body.get("userId")
     port = body.get("port")
-    try:
-        projects_manager.save_new_project(encoded_zip=encoded_project,
-                                          project_name=project_name,
-                                          project_type=project_type,
-                                          user_id=user_id, port=port)
-        return make_response("project uploaded succesfully!", 200)
-    except Exception as e:
-        make_response("Error accrued while uploading project: " + str(e), 500)
+    projects_manager.save_new_project(encoded_zip=encoded_project,
+                                      project_name=project_name,
+                                      project_type=project_type,
+                                      user_id=user_id, port=port)
+    return jsonify({"success": True}), 200
+
 
 
 """
@@ -45,11 +41,9 @@ def run():
     project_name = request.args.get("projectName")
     user_id = request.args.get("userId")
 
-    try:
-        port = projects_manager.run_project(project_name, user_id)
-        return make_response(f"project is up and running on: {port}", 200)
-    except Exception as e:
-        make_response("Error accrued while trying to run project: " + str(e), 500)
+    port = projects_manager.run_project(project_name, user_id)
+    return jsonify({"success": True, "port": port}), 200
+
 
 
 """
@@ -67,9 +61,7 @@ def stop():
     project_name = body.get("project")
     user_name = body.get("user")
 
-    try:
-        projects_manager.kill_container(user_name, project_name)
-        return make_response("project has stopped!", 200)
-    except Exception as e:
-        make_response("Error accrued while trying to stop project: " + str(e), 500)
+    projects_manager.kill_container(user_name, project_name)
+    return make_response("project has stopped!", 200)
+
 

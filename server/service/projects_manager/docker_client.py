@@ -2,6 +2,9 @@ import docker
 import os
 import re
 import time
+
+from docker.models.images import Image
+
 docker_client = docker.from_env()
 
 def create_image(project_name: str, project_type, user_id: str):
@@ -10,7 +13,10 @@ def create_image(project_name: str, project_type, user_id: str):
     tag = f"{user_id}_{project_name}"
 
     # os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg {buildargs}")
-    print(docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower()))
+    return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
+
+def remove_image(image: Image):
+    docker_client.images.remove(image)
 
 def run_container(container_tag: str, app_port: str, host_port: int):
     # os.system(f"docker run --name {container_tag} -p 5001:{app_port} -d {container_tag}")
