@@ -3,8 +3,7 @@ from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
 from service.mongo_db.db_entities import Project, DoesNotExist
-from service.mongo_db.mongo_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_get_user, \
-    mongo_is_user_exist
+from service.mongo_db.mongo_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_is_user_exist
 import os
 import socket
 

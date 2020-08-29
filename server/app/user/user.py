@@ -1,12 +1,13 @@
 from flask import Blueprint, request, render_template, make_response
 import json
 from service.mongo_db.mongo_client import mongo_save_user
-from service.mongo_db.mongo_client import mongo_get_user
+from service.mongo_db.mongo_client import mongo_get_user_by_email
 from service.mongo_db.db_entities import User
 import uuid
 
 user_blueprint = Blueprint('user_blueprint', __name__, static_folder='../static')
 headers = {"Content-Type": "application/json"}
+
 
 @user_blueprint.route('/user', methods=['POST'])
 def create_user():
@@ -16,7 +17,7 @@ def create_user():
     password = body.get('password')
     description = body.get('description')
     pic = body.get('pic')
-    uid = generateUID()
+    uid = generate_uid()
     try:
         user = User(email=email, password=password, description=description, pic=pic, uid=uid)
         mongo_save_user(user)
@@ -28,33 +29,18 @@ def create_user():
         return make_response(str(e), 500)
 
 
-    # return "user created successfully "
-
 @user_blueprint.route('/user', methods=['GET'])
 def get_user():
     body = json.loads(request.data)
     email = body.get('email')
-    userResult = mongo_get_user(email=email)
+    user_result = mongo_get_user_by_email(email=email)
     # TODO: Authentication by email-password is required
 #     password = body.get('password')
     result = dict()
-    result["id"] = userResult["uid"]
+    result["id"] = user_result["uid"]
 
     return make_response(json.dumps(result), 200)
 
 
-@user_blueprint.route('/user', methods=['POST'])
-def get_user():
-    body = json.loads(request.data)
-    email = body.get('email')
-    userResult = mongo_get_user(email=email)
-    # TODO: Authentication by email-password is required
-#     password = body.get('password')
-    result = dict()
-    result["id"] = userResult["uid"]
-
-    return make_response(json.dumps(result), 20
-
-
-def generateUID():
+def generate_uid():
     return str(uuid.uuid4())
