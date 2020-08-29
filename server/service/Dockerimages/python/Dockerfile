@@ -7,9 +7,9 @@ COPY ./tmp/${PROJECT_NAME}/requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
-RUN pip install -r requirements.txt
-
 COPY ./tmp/${PROJECT_NAME} /app
+
+RUN make
 
 ENTRYPOINT [ "python" ]
 

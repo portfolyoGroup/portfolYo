@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template, make_response, request
+from flask import Blueprint, make_response, request, jsonify
 import service.projects_manager.projects_manager as projects_manager
-import service.projects_manager.zip_handler as zip_handler
 import json
 project_blueprint = Blueprint('project_blueprint', __name__)
-headers = {"Content-Type": "application/json"}
 
 
 """
@@ -13,7 +11,7 @@ body structure:
     "projectName": "flask-test",
     "projectType": "python",
     "projectRoot": "pythonWebServer",
-    "userName": "Noam",
+    "userId": "Noam",
     "encodedProject": ""
 }
 """
@@ -23,17 +21,14 @@ def upload():
     encoded_project = bytes(body.get("encodedProject"), 'ascii')
     project_name = body.get("projectName")
     project_type = body.get("projectType")
-    project_root = body.get("projectRoot")
-    user_name = body.get("userName")
-    try:
-        projects_manager.save_new_project(encoded_zip=encoded_project,
-                                          project_name=project_name,
-                                          project_type=project_type,
-                                          project_root=project_root,
-                                          user_name=user_name)
-        return make_response("project uploaded succesfully!", 200)
-    except Exception as e:
-        make_response("Error accrued while uploading project: " + str(e), 500)
+    user_id = body.get("userId")
+    port = body.get("port")
+    projects_manager.save_new_project(encoded_zip=encoded_project,
+                                      project_name=project_name,
+                                      project_type=project_type,
+                                      user_id=user_id, port=port)
+    return jsonify({"success": True}), 200
+
 
 
 """
@@ -44,13 +39,11 @@ query param2: userName
 @project_blueprint.route('/project', methods=['GET'])
 def run():
     project_name = request.args.get("projectName")
-    user_name = request.args.get("userName")
+    user_id = request.args.get("userId")
 
-    try:
-        port = projects_manager.run_project(project_name, user_name, "3000")
-        return make_response(f"project is up and running on: {port}", 200)
-    except Exception as e:
-        make_response("Error accrued while trying to run project: " + str(e), 500)
+    port = projects_manager.run_project(project_name, user_id)
+    return jsonify({"success": True, "port": port}), 200
+
 
 
 """
@@ -68,9 +61,7 @@ def stop():
     project_name = body.get("project")
     user_name = body.get("user")
 
-    try:
-        projects_manager.kill_container(user_name, project_name)
-        return make_response("project has stopped!", 200)
-    except Exception as e:
-        make_response("Error accrued while trying to stop project: " + str(e), 500)
+    projects_manager.kill_container(user_name, project_name)
+    return make_response("project has stopped!", 200)
+
 
