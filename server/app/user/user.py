@@ -43,5 +43,18 @@ def get_user():
     return make_response(json.dumps(result), 200)
 
 
+@user_blueprint.route('/user', methods=['POST'])
+def get_user():
+    body = json.loads(request.data)
+    email = body.get('email')
+    userResult = mongo_get_user(email=email)
+    # TODO: Authentication by email-password is required
+#     password = body.get('password')
+    result = dict()
+    result["id"] = userResult["uid"]
+
+    return make_response(json.dumps(result), 20
+
+
 def generateUID():
     return str(uuid.uuid4())
