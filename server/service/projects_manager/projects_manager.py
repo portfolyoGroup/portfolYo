@@ -4,7 +4,7 @@ from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
 from service.mongo_db.db_entities import Project, DoesNotExist
 from service.mongo_db.mongo_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_get_user, \
-    mongo_is_user_exist
+    mongo_is_user_exist, mongo_delete_project
 import os
 import socket
 
@@ -32,7 +32,7 @@ def run_project(project_name: str, user_id: str):
     try:
         project = mongo_get_project(get_project_pKey(user_id, project_name))
     except Exception as e:
-        raise Exception("couldnt run project as the project doesnt exist.")
+        raise ContainerError("couldnt run project as the project doesnt exist.")
 
     app_port = project.port
     host_port = _get_available_port()
@@ -65,6 +65,11 @@ def _save_to_db(project_name: str, port: str, user_id: str, description: str = N
     mongo_save_project(project)
 
 
+def delete_project(user_id, project_name):
+    project_pkey = f"{user_id}_{project_name}"
+    image = docker_client.get_image(project_pkey)
+    docker_client.remove_image(image)
+    mongo_delete_project(project_pkey)
 
 # save_new_project(zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip"), "Exam_Trainer_React", "node", "Exam_Trainer_React", "itzik")
 # encoded_file = zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip")

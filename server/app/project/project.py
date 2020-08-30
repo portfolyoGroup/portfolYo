@@ -59,9 +59,22 @@ def stop():
     body = json.loads(request.data)
 
     project_name = body.get("project")
+    user_id = body.get("uId")
+
+    projects_manager.kill_container(user_id, project_name)
+    return jsonify({"success": True}), 200
+
+
+@project_blueprint.route('/project', methods=['DELETE'])
+def stop():
+    body = json.loads(request.data)
+
+    project_name = body.get("project")
     user_name = body.get("user")
 
-    projects_manager.kill_container(user_name, project_name)
-    return make_response("project has stopped!", 200)
+    projects_manager.delete_project(user_name, project_name)
+    return jsonify({"success": True}), 200
+
+
 
 
