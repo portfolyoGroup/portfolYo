@@ -3,7 +3,8 @@ from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
 from service.mongo_db.db_entities import Project, DoesNotExist
-from service.mongo_db.mongo_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_is_user_exist
+from service.mongo_db.mongo_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_get_user, \
+    mongo_is_user_exist, mongo_delete_project
 import os
 import socket
 
@@ -16,7 +17,7 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
         zip_handler.base64_to_zip(encoded_zip, project_name + ".zip")
         zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type)
         image = docker_client.create_image(project_name, project_type, user_id)[0]
-        _save_to_db(project_name, port, user_id)
+        _save_to_db(project_name, port, user_id) #Todo: should be save or update
     except BuildError or APIError as e:
         raise ContainerError(" couldnt build image for project: " + project_name, e)
     except DbError as e:
@@ -31,7 +32,7 @@ def run_project(project_name: str, user_id: str):
     try:
         project = mongo_get_project(get_project_pKey(user_id, project_name))
     except Exception as e:
-        raise Exception("couldnt run project as the doesnt exist.")
+        raise ContainerError("couldnt run project as the project doesnt exist.")
 
     app_port = project.port
     host_port = _get_available_port()
@@ -64,6 +65,11 @@ def _save_to_db(project_name: str, port: str, user_id: str, description: str = N
     mongo_save_project(project)
 
 
+def delete_project(user_id, project_name):
+    project_pkey = f"{user_id}_{project_name}"
+    image = docker_client.get_image(project_pkey)
+    docker_client.remove_image(image)
+    mongo_delete_project(project_pkey)
 
 # save_new_project(zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip"), "Exam_Trainer_React", "node", "Exam_Trainer_React", "itzik")
 # encoded_file = zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip")

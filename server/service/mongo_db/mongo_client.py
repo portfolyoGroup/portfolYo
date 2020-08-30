@@ -65,8 +65,16 @@ def mongo_get_project(pKey: str):
         raise DbError("project not found", e)
 
 
+def mongo_delete_project(pKey: str):
+    try:
+        return Project.objects(pKey=pKey).get().delete()
+    except Exception as e:
+        raise DbError("project not found", e)
+
+
 def get_project_pKey(user_id: str, project_name: str):
     return f"{user_id}_{project_name}"
+
 
 # result = save_user(User(email="noam1@gmail.com", password='123'))
 # result = get_user("noam@gmail.com")
