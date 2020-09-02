@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, make_response
 import json
-from service.mongo_db.mongo_client import mongo_save_user
-from service.mongo_db.mongo_client import mongo_get_user
+from service.mongo_db.db_client import save_user
+from service.mongo_db.db_client import get_user
 from service.mongo_db.db_entities import User
 import uuid
 
@@ -19,7 +19,7 @@ def create_user():
     uid = generateUID()
     try:
         user = User(email=email, password=password, description=description, pic=pic, uid=uid)
-        mongo_save_user(user)
+        save_user(user)
         dictionary = dict()
         dictionary["id"] = uid
 
@@ -34,7 +34,7 @@ def create_user():
 def get_user():
     body = json.loads(request.data)
     email = body.get('email')
-    userResult = mongo_get_user(email=email)
+    userResult = get_user(email=email)
     # TODO: Authentication by email-password is required
 #     password = body.get('password')
     result = dict()
