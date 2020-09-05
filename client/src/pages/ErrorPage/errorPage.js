@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import './errorPage.scss'
 import pages from '../Pages'
 
-const LogIn = () => {
+const ErrorPage = () => {
 
     const history = useHistory()
 

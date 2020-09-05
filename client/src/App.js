@@ -14,7 +14,6 @@ import ErrorPage from './pages/ErrorPage/errorPage'
 const App = () => {
 
     const id = localStorage.getItem('id')
-    console.log("ssss")
     useEffect(() => {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         toggleDarkTheme(prefersDark.matches);

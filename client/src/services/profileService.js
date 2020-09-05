@@ -32,14 +32,8 @@ const allData = {
 const isRealServer = true;
 export const getProfileData = async (profileId) => {
     if (isRealServer) {
-
         //call the server by id.
-        try {
-            return await fetchFromServer(`/profile?profileId=${profileId}`, 'GET')
-        }
-        catch (err) {
-            // todo : handle catch
-        }
+        return await fetchFromServer(`profile?id=${profileId}`, 'GET')
     }
     else {
         return await allData["5"]
@@ -51,8 +45,7 @@ export const setProfileData = async (profileId, data) => {
     if (isRealServer) {
         //call the server by id.
         try {
-            return await fetchFromServer(`/profile?profileId=${profileId}`, 'PUT', data)
-
+            return await fetchFromServer(`/profile?id=${profileId}`, 'PUT', data)
         }
         catch (err) {
             // todo : handle catch
@@ -68,13 +61,13 @@ export const setProfileData = async (profileId, data) => {
 }
 
 export const serverRegister = async (email, password) => {
-    try {
-        const response = await fetchFromServer('user', 'POST', { email, password })
-        return response.id
-    }
-    catch (err) {
-        console.log("error" + err)
-        // todo : handle catch
-    }
+    const response = await fetchFromServer('user', 'POST', { email, password })
+    return response.id
 }
+
+export const serverLogin = async (email, password) => {
+    const response = await fetchFromServer('login', 'POST', { email, password })
+    return response.id
+}
+
 

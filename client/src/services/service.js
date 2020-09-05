@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-
+import { useHistory } from 'react-router-dom'
 export const serverPath = '192.168.1.24'
 
 
@@ -21,6 +21,8 @@ export const fetchFromServer = async (route, method, body = null) => {
         return await res.json()
     }
     else {
-        // handle some default when rejected
+        const err = await res.json()
+        console.log(err)
+        throw new Error(res.status)
     }
 }
