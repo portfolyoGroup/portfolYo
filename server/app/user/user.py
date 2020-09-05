@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, make_response
+from flask import Blueprint, request, render_template, make_response, jsonify
 import json
 from service.mongo_db.db_client import save_user
 from service.mongo_db.db_client import get_user_by_email
@@ -18,15 +18,10 @@ def create_user():
     description = body.get('description')
     pic = body.get('pic')
     uid = generate_uid()
-    try:
-        user = User(email=email, password=password, description=description, pic=pic, uid=uid)
-        save_user(user)
-        dictionary = dict()
-        dictionary["id"] = uid
+    user = User(email=email, password=password, description=description, pic=pic, uid=uid)
+    save_user(user)
 
-        return make_response(json.dumps(dictionary), 200)
-    except Exception as e:
-        return make_response(str(e), 500)
+    return jsonify({"id": uid, "success": True}), 200
 
 
 @user_blueprint.route('/user', methods=['GET'])
