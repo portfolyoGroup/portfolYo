@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, make_response, jsonify
 import json
-from service.mongo_db.db_client import save_user
+from service.mongo_db.db_client import save_user, get_user_by_id
 from service.mongo_db.db_client import get_user_by_email
 from service.mongo_db.db_entities import User
 import uuid
@@ -24,17 +24,16 @@ def create_user():
     return jsonify({"id": uid, "success": True}), 200
 
 
-@user_blueprint.route('/user', methods=['GET'])
+@user_blueprint.route('/login', methods=['POST'])
 def get_user():
     body = json.loads(request.data)
     email = body.get('email')
     user_result = get_user_by_email(email=email)
     # TODO: Authentication by email-password is required
 #     password = body.get('password')
-    result = dict()
-    result["id"] = user_result["uid"]
+    uid = user_result["uid"]
 
-    return make_response(json.dumps(result), 200)
+    return jsonify({"id": uid, "success": True}), 200
 
 
 def generate_uid():
