@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
 // import allComponents from '../components'
 import { useHistory, Router } from "react-router-dom";
-import { useRegister } from '../../services/profileService'
+import { serverRegister } from '../../services/profileService'
 import '../LogInPage/LogInPage.scss'
 import { Link } from "react-router-dom";
 import { Route, Redirect, useParams } from 'react-router-dom'
+// import { createBrowserHistory } from 'history' //maybe?
 
 const RegisterPage = () => {
 
     const history = useHistory();
+    // const history = createBrowserHistory({ forceRefresh: true }) //maybe??
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const handleRegister = async () => {
         if (isValidForm()) {
-            const id  = await useRegister(email, password)
+            const id = await serverRegister(email, password)
+            console.log(" id in reg page")
+            console.log(id)
             navigateToHomePage(id)
         }
     }
 
     const navigateToHomePage = (id) => {
-        console.log('id:')
-        console.log(id)
         localStorage.setItem('id', `${id}`)
         history.push(`/home/${id}`)
     }
@@ -47,12 +49,14 @@ const RegisterPage = () => {
                                 </div>
                                 <div className='centeredItem'>
                                     <IonItem class='centeredItem'>
-                                        <IonInput className='robricStyle' name="email" type="email" placeholder="your@email.com" onIonChange={(e) =>{
-                                setEmail(e.detail.value)}}></IonInput>
+                                        <IonInput className='robricStyle' name="email" type="email" placeholder="your@email.com" onIonChange={(e) => {
+                                            setEmail(e.detail.value)
+                                        }}></IonInput>
                                     </IonItem>
                                     <IonItem class='centeredItem' >
-                                        <IonInput name="password" type="password" placeholder="Password" onIonChange={(e) =>{
-                                setPassword(dataToRead, key, e.detail.value)}}/>
+                                        <IonInput name="password" type="password" placeholder="Password" onIonChange={(e) => {
+                                            setPassword(e.detail.value)
+                                        }} />
                                     </IonItem>
 
                                 </div>

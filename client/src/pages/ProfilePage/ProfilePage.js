@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     IonTabs, IonTabBar, IonTabButton, IonLabel, IonRouterOutlet, IonContent,
     IonTitle, IonLoading
@@ -11,36 +11,28 @@ import ProfileHeader from '../../components/profileHeader/ProfileHeader';
 import Contact from '../../components/contact/Contact'
 import './ProfilePage.scss'
 import { getProfileData } from '../../services/profileService'
-
+import { withRouter } from 'react-router-dom';
 
 const ProfilePage = () => {
- 
+
     let { id } = useParams();
     const match = useRouteMatch()
     let curr_component;
-    const picUploadRef = useRef(null)
-    const [dataOfContact, setDataOfContact] = useState()
-    const [dataOfAbout, setDataOfAbout] = useState()
-    const [dataOfProfileHome, setDataOfProfileHome] = useState()
-
+    const [{ dataOfAbout, dataOfContact, dataOfProfileHome }, setProfileData] = useState({})
+    
     useEffect(() => {
-        const getData = async () => {
-            const id = localStorage.getItem('id')
-            const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic } = await getProfileData(id)
-            setDataOfContact(dataOfContact)
-            setDataOfAbout(dataOfAbout)
-            setDataOfProfileHome(dataOfProfileHome)
-        }
-        getData()
+        (async () => {
+            setProfileData(await getProfileData(id))
+        })()
     }, [])
-
+    console.log({dataOfAbout, dataOfContact, dataOfProfileHome})
     if (dataOfAbout && dataOfContact && dataOfProfileHome) {
         curr_component = (
             <IonContent>
                 <IonTabs>
                     <IonRouterOutlet>
                         <Switch>
-                            <Route path={`${match.url}/home`} component={ProfileHeader} exact={true} />
+                            <Route path={`${match.url}/home`} component={() => <ProfileHeader dataOfProfileHome={dataOfProfileHome} />} exact={true} />
                             <Route path={`${match.url}/about`} component={() => <About dataOfAbout={dataOfAbout} />} exact={true} />
                             <Route path={`${match.url}/projectsList`} component={ProjectsList} exact={true} />
                             <Route path={`${match.url}/contact`} component={() => <Contact dataOfContact={dataOfContact} />} />
@@ -69,7 +61,7 @@ const ProfilePage = () => {
         )
     }
     else {
-        curr_component =(
+        curr_component = (
             <IonContent>
                 <IonLoading
                     isOpen={true}
@@ -82,3 +74,4 @@ const ProfilePage = () => {
     return  curr_component
 };
 export default ProfilePage
+

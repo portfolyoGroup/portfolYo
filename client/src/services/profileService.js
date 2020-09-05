@@ -29,57 +29,52 @@ const allData = {
     }
 }
 
-const isRealServer = false;
-    export const getProfileData = async (profileId) => {
-        if (isRealServer) {
+const isRealServer = true;
+export const getProfileData = async (profileId) => {
+    if (isRealServer) {
 
-            //call the server by id.
-            try {
-                return await fetchFromServer(`/profile?profileId=${profileId}`, 'GET')
-            }
-            catch (err) {
-                // todo : handle catch
-            }
+        //call the server by id.
+        try {
+            return await fetchFromServer(`/profile?profileId=${profileId}`, 'GET')
         }
-        else {
-            console.log("allData")
-            console.log(allData["5"])
-            return await allData["5"]
+        catch (err) {
+            // todo : handle catch
         }
     }
+    else {
+        return await allData["5"]
+    }
+}
 
 export const setProfileData = async (profileId, data) => {
 
-        if (isRealServer) {
-            //call the server by id.
-            try {
-                return await fetchFromServer(`/profile?profileId=${profileId}`, 'PUT', data)
+    if (isRealServer) {
+        //call the server by id.
+        try {
+            return await fetchFromServer(`/profile?profileId=${profileId}`, 'PUT', data)
 
-            }
-            catch (err) {
-                // todo : handle catch
-            }
         }
-        else {
-            console.log('this is the id: ' + profileId)
-            console.log('this is the data: ')
-            console.log(data)
-            // nothing to do its here
+        catch (err) {
+            // todo : handle catch
         }
     }
-
-export const useRegister = async (email, password) => {
-        if (isRealServer) {
-            try {
-                const id = await fetchFromServer('/user', 'POST', { email, password })
-                return id
-            }
-            catch (err) {
-                // todo : handle catch
-            }
-        }
-        else {
-            return await "5"
-        }
+    else {
+        console.log('this is the id: ' + profileId)
+        console.log('this is the data: ')
+        console.log(data)
+        return await '5'
+        // nothing to do its here
     }
+}
+
+export const serverRegister = async (email, password) => {
+    try {
+        const response = await fetchFromServer('user', 'POST', { email, password })
+        return response.id
+    }
+    catch (err) {
+        console.log("error" + err)
+        // todo : handle catch
+    }
+}
 

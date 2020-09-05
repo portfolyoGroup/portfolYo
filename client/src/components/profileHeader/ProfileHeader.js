@@ -5,7 +5,7 @@ import '../sharedStyles.scss'
 import '../profileHeader/profileHeader.scss'
 import pic from '../../resources/profile_pic.png'
 // /Users/noamambar/Desktop/portfolYo/client/src/resources
-const ProfileHeader = ({ dataOfProfileHome, picData: { picData } }) => {
+const ProfileHeader = ({ dataOfProfileHome }) => {
 
 	return (
 		<IonContent>

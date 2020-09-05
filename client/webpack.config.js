@@ -1,7 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000 ;
 
 var config = {
 
