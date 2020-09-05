@@ -1,8 +1,8 @@
 from mongoengine import *
 
 
-class Project(Document): # Todo: add encoded project if we are staying with the current implementation
-    pKey = StringField(unique=True, required=True) # userId_projectName
+class Project(Document):  # Todo: add encoded project if we are staying with the current implementation
+    pKey = StringField(unique=True, required=True)  # userId_projectName
     name = StringField(required=True)
     port = StringField(max_length=5)
     description = StringField()
