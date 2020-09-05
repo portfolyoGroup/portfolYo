@@ -1,4 +1,5 @@
 import base64
+import subprocess
 import zipfile
 import os, stat
 import shutil
@@ -21,12 +22,25 @@ def base64_to_zip(base64_zip_file: bytes, zip_file_name: str):
         f.write(decoded)
 
 
-def unzip_file(path2file: str, project_type):
+def unzip_file(path2file: str, project_type, project_name):
     with zipfile.ZipFile(path2file, 'r') as zip_ref:
         try: # Todo: fix this hacking
-            zip_ref.extractall(_generate_project_tmp_path(project_type))
+            path = _generate_project_tmp_path(project_type)
+            project_path = path + project_name
+            # os.chmod(project_path, stat.S_IREAD, stat.S_IWRITE)
+            # subprocess.call(['chmod', '-R', '+rw', project_path])
+
+            zip_ref.extractall(path)
         except Exception as e:
             pass
+
+
+def change_permissions_recursive(path, mode):
+    for root, dirs, files in os.walk(path, topdown=False):
+        for dir in [os.path.join(root,d) for d in dirs]:
+            os.chmod(dir, mode)
+    for file in [os.path.join(root, f) for f in files]:
+            os.chmod(file, mode)
 
 
 def remove_zip(zip_file_name):
@@ -36,8 +50,7 @@ def remove_zip(zip_file_name):
 
 def remove_unzipped_folder(project_type: str, project_name: str):
     path = _generate_project_tmp_path(project_type) + project_name + os.path.sep
-    os.chmod(path, stat.S_IWRITE)
-    shutil.rmtree(path)
+    shutil.rmtree(path)   # TODO: fix; fail to remove files
 
 
 def _remove_readonly(func, path, _):

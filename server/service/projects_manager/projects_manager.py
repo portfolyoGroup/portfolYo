@@ -18,7 +18,7 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
 
     try:
         zip_handler.base64_to_zip(encoded_zip, project_name + ".zip")
-        zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type)
+        zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type, project_name)
         image = docker_client.create_image(project_name, project_type, user_id)[0]
         _save_to_db(project_name, port, user_id) #Todo: should be save or update
     except BuildError or APIError as e:
