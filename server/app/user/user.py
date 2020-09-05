@@ -1,12 +1,7 @@
 from flask import Blueprint, request, render_template, make_response
 import json
-<<<<<<< HEAD
 from service.mongo_db.mongo_client import mongo_save_user
 from service.mongo_db.mongo_client import mongo_get_user_by_email
-=======
-from service.mongo_db.db_client import save_user
-from service.mongo_db.db_client import get_user
->>>>>>> 65e960925f24a956915801e543183ca1228b86ad
 from service.mongo_db.db_entities import User
 import uuid
 
@@ -38,11 +33,7 @@ def create_user():
 def get_user():
     body = json.loads(request.data)
     email = body.get('email')
-<<<<<<< HEAD
     user_result = mongo_get_user_by_email(email=email)
-=======
-    userResult = get_user(email=email)
->>>>>>> 65e960925f24a956915801e543183ca1228b86ad
     # TODO: Authentication by email-password is required
 #     password = body.get('password')
     result = dict()
