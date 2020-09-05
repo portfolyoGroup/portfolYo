@@ -9,7 +9,8 @@ class Project(Document):  # Todo: add encoded project if we are staying with the
 
 
 class User(Document):
-    email = EmailField(unique=True, required=True)
+    # email = EmailField(unique=True, required=True) // TODO: Return back to EmailField
+    email = StringField(unique=True, required=True)
     password = StringField(required=True)
     description = StringField()
     projects = StringField()
