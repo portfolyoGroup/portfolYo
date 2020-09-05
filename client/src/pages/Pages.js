@@ -4,5 +4,6 @@ export default {
     projectRoute: `/project1/home`,
     UpdateProfileRoute: `/updateProfile`,
     logInRoute: `/login`,
-    registerRoute: `/register`
+    registerRoute: `/register`,
+    errorRoute: `/error`
 }

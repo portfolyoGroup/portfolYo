@@ -9,6 +9,7 @@ import './theme/variables.scss';
 import LogIn from './pages/LogInPage/LogInPage'
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import pages from "./pages/Pages.js"
+import ErrorPage from './pages/ErrorPage/errorPage'
 
 const App = () => {
 
@@ -43,6 +44,9 @@ const App = () => {
                     </Route>
                     <Route path='/register'>
                         <RegisterPage />
+                    </Route>
+                    <Route path='/error'>
+                        <ErrorPage />
                     </Route>
                     <Route exact path={`/`} render={() => id ? <Redirect to={`${pages.home}/${id}`} /> : <Redirect to={pages.logInRoute} />}></Route>
                 </IonRouterOutlet>
