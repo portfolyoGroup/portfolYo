@@ -28,12 +28,14 @@ def unzip_file(path2file: str, project_type):
         except Exception as e:
             pass
 
+
 def remove_zip(zip_file_name):
-    os.remove(f"/tmp/{zip_file_name}")
+    path_to_zip = os.path.join(f"{os.path.sep}tmp", zip_file_name)
+    os.remove(path_to_zip)
 
 
-def remove_unzipped_folder(project_type: str):
-    path = _generate_project_tmp_path(project_type)
+def remove_unzipped_folder(project_type: str, project_name: str):
+    path = _generate_project_tmp_path(project_type) + project_name + os.path.sep
     os.chmod(path, stat.S_IWRITE)
     shutil.rmtree(path)
 

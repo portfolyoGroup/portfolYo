@@ -2,14 +2,17 @@ from docker.errors import BuildError, APIError
 from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
-from service.mongo_db.db_entities import Project, DoesNotExist
-from service.mongo_db.db_client import save_project, get_project, get_project_pKey, get_user, \
-    is_user_exist, delete_project
+from service.mongo_db.db_entities import Project
+from service.mongo_db.db_client import save_project, get_project, get_project_pKey, is_user_exist, delete_project
 import os
 import socket
 
+SUPPORTED_LANGUAGES = ['c', 'python', 'node']
+
 
 def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, user_id: str, port: str):
+    if project_type not in SUPPORTED_LANGUAGES:
+        raise NotImplementedError(project_type + " not supported")
     if not is_user_exist(user_id):
         raise DbError("User doesnt exist")
 
@@ -19,20 +22,20 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
         image = docker_client.create_image(project_name, project_type, user_id)[0]
         _save_to_db(project_name, port, user_id) #Todo: should be save or update
     except BuildError or APIError as e:
-        raise ContainerError(" couldnt build image for project: " + project_name, e)
+        raise ContainerError(" couldn't build image for project: " + project_name, e)
     except DbError as e:
         docker_client.remove_image(image.id)
         raise e
     finally:
         zip_handler.remove_zip(project_name + ".zip")
-        # zip_handler.remove_unzipped_folder(project_type)
+        zip_handler.remove_unzipped_folder(project_type, project_name)
 
 
 def run_project(project_name: str, user_id: str):
     try:
         project = get_project(get_project_pKey(user_id, project_name))
-    except Exception as e:
-        raise ContainerError("couldnt run project as the project doesnt exist.")
+    except Exception:
+        raise ContainerError("couldn't run project as the project doesnt exist.")
 
     app_port = project.port
     host_port = _get_available_port()

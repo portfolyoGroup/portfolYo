@@ -66,7 +66,7 @@ def stop():
 
 
 @project_blueprint.route('/project', methods=['DELETE'])
-def stop():
+def delete():
     body = json.loads(request.data)
 
     project_name = body.get("project")

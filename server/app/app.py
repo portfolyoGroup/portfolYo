@@ -4,7 +4,7 @@ from app.sign_in_up.register import register_blueprint
 from app.project.project import project_blueprint
 from app.user.user import user_blueprint
 
-app = Flask(__name__,)
+app = Flask(__name__)
 app.register_blueprint(register_blueprint)
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(project_blueprint)
