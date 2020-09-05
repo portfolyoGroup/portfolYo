@@ -4,6 +4,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput,
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './LogInPage.scss'
+import pages from '../Pages'
 
 const LogIn = () => {
 
@@ -37,7 +38,7 @@ const LogIn = () => {
                                         <IonButton onClick={() => alert('you are loged in, I am proud of you.')} size="large" type="submit">Login</IonButton>
                                     </IonItem>
                                     <IonItem class='centeredItem'>
-                                        <IonLabel onClick={() => history.push('/register')} style={{ cursor: 'pointer' }}>not a member ? sign in</IonLabel>
+                                        <IonLabel onClick={() => history.push(pages.registerRoute)} style={{ cursor: 'pointer' }}>not a member ? sign in</IonLabel>
                                     </IonItem>
                                 </div>
                             </IonCol>

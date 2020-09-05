@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { IonContent, IonLoading, IonButton, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
-import { setProfileData, getProfileData } from '../../services/profileService'
-
+import { setProfileData, getProfileData, useRegister } from '../../services/profileService'
+import pages from '../../pages/Pages'
 
 // const dataOfAbout = {
 //     description: "Tell us about you:",
@@ -27,7 +27,6 @@ const UpdateProfileInfo = () => {
     const [dataOfContact, setDataOfContact] = useState()
     const [dataOfAbout, setDataOfAbout] = useState()
     const [dataOfProfileHome, setDataOfProfileHome] = useState()
-
     useEffect(() => {
         const getData = async () => {
             const id = localStorage.getItem('id')
@@ -59,12 +58,10 @@ const UpdateProfileInfo = () => {
         )
     }
     const handleFormSubmit = async () => {
-        console.log("submit")
-        
         const id = localStorage.getItem('id')
         let file
         const input = await picUploadRef.current.getInputElement()
-        if (!picUploadRef || !picUploadRef.current || !input.files) {
+        if (!picUploadRef || !picUploadRef.current || !input.files || !input.files[0]) {
             // ask levivot to send default pic
             console.log("submit2")
         }
@@ -74,12 +71,11 @@ const UpdateProfileInfo = () => {
             const fileParts = file.name.split('.');
             const picName = fileParts[0];
             const picType = fileParts[1];
-            reader.onload = function (recievedFile) {
+            reader.onload = async (recievedFile) => {
                 const picData = recievedFile.target.result;
-                console.log("picData")
-                console.log(picData)
                 const profilePic = { picName, picType, picData }
-                setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic })
+                const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic })
+                console.log(response)
             }
             reader.readAsDataURL(file);
         }
@@ -108,6 +104,8 @@ const UpdateProfileInfo = () => {
             <IonItem class='centeredItem'>
                 <IonButton onClick={handleFormSubmit} size="large" type="submit">update!</IonButton>
             </IonItem>
+            <br/>
+            <br/>
     </IonCard> 
     }
     else{

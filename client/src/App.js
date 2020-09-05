@@ -8,20 +8,12 @@ import HomePage from './pages/PersonalZonePage/PersonalZonePage'
 import './theme/variables.scss';
 import LogIn from './pages/LogInPage/LogInPage'
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import pages from "./pages/Pages.js"
 
 const App = () => {
 
-    const pages = {
-        home: `/home`,
-        profileRoute: `/profile1/about`,
-        projectRoute: `/project1/home`,
-        UpdateProfileRoute: `/updateProfile`,
-        logInRoute: `/login`,
-        registerRoute: `/register`
-    }
-
     const id = localStorage.getItem('id')
-
+    console.log("ssss")
     useEffect(() => {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         toggleDarkTheme(prefersDark.matches);
@@ -52,7 +44,7 @@ const App = () => {
                     <Route path='/register'>
                         <RegisterPage />
                     </Route>
-                    <Route exact path={`/`} render={() => id ? <Redirect to={`/home/${id}`} /> : <Redirect to={pages.profileRoute} />}></Route>
+                    <Route exact path={`/`} render={() => id ? <Redirect to={`${pages.home}/${id}`} /> : <Redirect to={pages.logInRoute} />}></Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
