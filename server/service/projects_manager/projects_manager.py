@@ -3,14 +3,14 @@ from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
 from service.mongo_db.db_entities import Project, DoesNotExist
-from service.mongo_db.db_client import save_project, get_project, get_project_pKey, get_user, \
-    is_user_exist, delete_project
+from service.mongo_db.db_client import mongo_save_project, mongo_get_project, get_project_pKey, mongo_get_user_by_email, \
+    mongo_is_user_exist, mongo_delete_project
 import os
 import socket
 
 
 def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, user_id: str, port: str):
-    if not is_user_exist(user_id):
+    if not mongo_is_user_exist(user_id):
         raise DbError("User doesnt exist")
 
     try:
@@ -30,7 +30,7 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
 
 def run_project(project_name: str, user_id: str):
     try:
-        project = get_project(get_project_pKey(user_id, project_name))
+        project = mongo_get_project(get_project_pKey(user_id, project_name))
     except Exception as e:
         raise ContainerError("couldnt run project as the project doesnt exist.")
 

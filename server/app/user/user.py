@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, make_response
 import json
-from service.mongo_db.mongo_client import mongo_save_user
-from service.mongo_db.mongo_client import mongo_get_user_by_email
+from service.mongo_db.db_client import mongo_save_user
+from service.mongo_db.db_client import mongo_get_user_by_email
 from service.mongo_db.db_entities import User
 import uuid
 
@@ -20,7 +20,7 @@ def create_user():
     uid = generate_uid()
     try:
         user = User(email=email, password=password, description=description, pic=pic, uid=uid)
-        save_user(user)
+        mongo_save_user(user)
         dictionary = dict()
         dictionary["id"] = uid
 
