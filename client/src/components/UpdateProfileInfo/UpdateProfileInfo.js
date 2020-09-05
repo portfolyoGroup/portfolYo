@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { IonContent, IonLoading, IonButton, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
-import { setProfileData, getProfileData, useRegister } from '../../services/profileService'
+import { setProfileData, getProfileData } from '../../services/profileService'
 import pages from '../../pages/Pages'
 
 // const dataOfAbout = {

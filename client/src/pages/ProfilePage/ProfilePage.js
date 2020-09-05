@@ -11,21 +11,29 @@ import ProfileHeader from '../../components/profileHeader/ProfileHeader';
 import Contact from '../../components/contact/Contact'
 import './ProfilePage.scss'
 import { getProfileData } from '../../services/profileService'
-import { withRouter } from 'react-router-dom';
-
+import { useHistory } from 'react-router-dom';
+import pages from '../Pages'
 const ProfilePage = () => {
 
     let { id } = useParams();
     const match = useRouteMatch()
+    const history = useHistory()
     let curr_component;
     const [{ dataOfAbout, dataOfContact, dataOfProfileHome }, setProfileData] = useState({})
     
     useEffect(() => {
         (async () => {
-            setProfileData(await getProfileData(id))
+            try{
+                const profileData = await getProfileData(id);
+                setProfileData(profileData)
+            } catch(e) {
+                console.log(pages.errorRoute)
+                history.push(pages.errorRoute)
+            }
         })()
     }, [])
-    console.log({dataOfAbout, dataOfContact, dataOfProfileHome})
+
+
     if (dataOfAbout && dataOfContact && dataOfProfileHome) {
         curr_component = (
             <IonContent>

@@ -16,10 +16,20 @@ const RegisterPage = () => {
     const [password, setPassword] = useState()
     const handleRegister = async () => {
         if (isValidForm()) {
-            const id = await serverRegister(email, password)
-            console.log(" id in reg page")
-            console.log(id)
-            navigateToHomePage(id)
+            try {
+                const id = await serverRegister(email, password)
+                navigateToHomePage(id)
+            }
+            catch(e) {
+                console.log(e.status)
+                switch(e.status) {
+                    case "500":
+                        alert(e.message[0] || "try again - email exists")
+                        break;
+                    default:
+                        alert("somthing went wrong")
+                }
+            }
         }
     }
 
