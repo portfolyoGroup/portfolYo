@@ -4,22 +4,19 @@ import { withRouter } from 'react-router'
 import '../sharedStyles.scss'
 import '../projectHeader/projectHeader.scss'
 import pic from '../../resources/snakeGamePic.png'
-const ProjectHeader = () => {
+const ProjectHeader = ({ dataOfProjectHeader }) => {
     return (
         <IonContent>
             <IonCard>
                 <img src={pic} className="photo" />
                 <IonCardHeader>
-                    <IonCardSubtitle>A snake game written in JavaFx</IonCardSubtitle>
-                    <IonCardTitle>Snake</IonCardTitle>
+                    <IonCardSubtitle>{dataOfProjectHeader.sub_title}</IonCardSubtitle>
+                    <IonCardTitle>{dataOfProjectHeader.title}</IonCardTitle>
                 </IonCardHeader>
 
                 <IonCardContent>
-                    The game is nice!!!
-                    we want it to be al chavlaz
-                    we want it to be al chavlaz
-                    we want it to be al chavlaz
-      </IonCardContent>
+                    {dataOfProjectHeader.description}
+                </IonCardContent>
             </IonCard>
         </IonContent>
     );

@@ -1,7 +1,7 @@
 export default {
     home: `/home`,
     profileRoute: `/profile`,
-    projectRoute: `/project1/home`,
+    projectRoute: `/project`,
     UpdateProfileRoute: `/updateProfile`,
     logInRoute: `/login`,
     registerRoute: `/register`,

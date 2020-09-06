@@ -28,6 +28,8 @@ const allData = {
         }
     }
 }
+const DummyProjList = ["71",  "72", "73"]
+
 
 const isRealServer = true;
 export const getProfileData = async (profileId) => {
@@ -40,21 +42,29 @@ export const getProfileData = async (profileId) => {
     }
 }
 
+export const getUserProjList = async (profileId) => { //gets list of projects IDs
+    if (isRealServer) {
+        //call the server by id.
+        return await fetchFromServer(`user_proj_list?id=${profileId}`, 'GET')
+    }
+    else {
+        return await DummyProjList
+    }
+}
+
+
 export const setProfileData = async (profileId, data) => {
 
     if (isRealServer) {
         //call the server by id.
         try {
-            return await fetchFromServer(`/profile?id=${profileId}`, 'PUT', data)
+            return await fetchFromServer(`profile?id=${profileId}`, 'PUT', data)
         }
         catch (err) {
             // todo : handle catch
         }
     }
     else {
-        console.log('this is the id: ' + profileId)
-        console.log('this is the data: ')
-        console.log(data)
         return await '5'
         // nothing to do its here
     }

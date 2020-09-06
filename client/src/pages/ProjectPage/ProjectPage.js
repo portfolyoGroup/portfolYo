@@ -1,30 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import {
     IonTabs, IonTabBar, IonTabButton, IonLabel, IonPage, IonRouterOutlet, IonToolbar, IonHeader, IonContent,
-    IonTitle, IonNav
+    IonTitle, IonNav, IonLoading
 } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 // import allComponents from '../components'
 import RunTheProj from '../../components/runTheProj/RunTheProj'
-import CodeInspector from '../../components/codeInspector/CodeInspector'
+// import CodeInspector from '../../components/codeInspector/CodeInspector'
 import ProjectHeader from '../../components/projectHeader/ProjectHeader';
 import './ProjectPage.scss'
+import { getProjectData } from '../../services/projectService'
 
 const ProjectPage = () => {
-   
+    const [{ dataOfProjectHeader, dataOfCodeRunner }, setProjectData] = useState({})
     let { id } = useParams();
     const match = useRouteMatch()
-    
-    return (
+    let curr_component;
+    useEffect(() => {
+        (async () => {
+            try{
+                const projectData = await getProjectData(id);
+                setProjectData(projectData)
+                console.log("hhh")
+                console.log(projectData)
+            } catch(e) {
+                console.log(pages.errorRoute)
+                history.push(pages.errorRoute)
+            }
+        })()
+    }, [])
 
+    if(dataOfProjectHeader && dataOfCodeRunner)
+    curr_component =  (
         <IonContent>
-
             <IonTabs>
                 <IonRouterOutlet>
                     <Switch>
-                        <Route path={`${match.url}/home`} component={ProjectHeader} exact={true}/>
-                        <Route path={`${match.url}/RunTheProj`} component={RunTheProj} exact={true}/>
-                        <Route path={`${match.url}/CodeInspector`} component={CodeInspector} exact={true}/>
+                        <Route path={`${match.url}/home`} component={() => <ProjectHeader dataOfProjectHeader={dataOfProjectHeader}/>} exact={true}/>
+                        <Route path={`${match.url}/RunTheProj`} component={() => <RunTheProj dataOfCodeRunner={dataOfCodeRunner}/>} exact={true}/>
                         <Route path={`${match.url}/`} render={() => <Redirect to={`${match.url}/home`} />} exact={true} />
                     </Switch>
                 </IonRouterOutlet>
@@ -38,14 +51,22 @@ const ProjectPage = () => {
                     <IonTabButton tab="RunTheProj" href={`${match.url}/RunTheProj`}>
                         <IonLabel>RunTheProj</IonLabel>
                     </IonTabButton>
-                    <IonTabButton tab="CodeInspector" href={`${match.url}/CodeInspector`}>
-                        <IonLabel>CodeInspector</IonLabel>
-                    </IonTabButton>
-
                 </IonTabBar>
             </IonTabs>
 
         </IonContent>
-    );
+    )
+    else {
+        curr_component = (
+            <IonContent>
+                <IonLoading
+                    isOpen={true}
+                    message={'ProtfolYoing...'}
+                    duration={Number.MAX_SAFE_INTEGER}
+                />
+            </IonContent>
+        ) 
+    }
+    return  curr_component
 };
 export default ProjectPage
