@@ -89,6 +89,12 @@ def save_project(project: Project):
         raise DbError("Could'nt save project")
 
 
+def get_project_if_exist(pKey: str):
+    project_objects = Project.objects(pKey=pKey)
+
+    return project_objects.get() if project_objects else None
+
+
 def get_project(pKey: str):
     try:
         return Project.objects(pKey=pKey).get()

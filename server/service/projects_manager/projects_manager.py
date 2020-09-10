@@ -5,7 +5,8 @@ from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
 from service.mongo_db.db_entities import Project
-from service.mongo_db.db_client import save_project, get_project, get_project_pKey, is_user_exist, delete_project
+from service.mongo_db.db_client import save_project, get_project, get_project_pKey, is_user_exist, delete_project, \
+    get_project_if_exist
 import os
 import socket
 
@@ -24,7 +25,7 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
         zip_handler.base64_to_zip(encoded_zip, project_name + ".zip")
         zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type, project_name)
         image = docker_client.create_image(project_name, project_type, user_id)[0]
-        _save_to_db(project_name, port, user_id) #Todo: should be save or update
+        _save_or_update_project(project_name, port, user_id) #Todo: should be save or update
     except BuildError or APIError as e:
         logging.error(e)
         raise ContainerError(" couldn't build image for project: " + project_name, e)
@@ -64,9 +65,12 @@ def _get_available_port():
     return port
 
 
-def _save_to_db(project_name: str, port: str, user_id: str, description: str = None):
+def _save_or_update_project(project_name: str, port: str, user_id: str, description: str = None):
     project_id = get_project_pKey(user_id, project_name)
-    project = Project(pKey=project_id, name=project_name)
+
+    project = get_project_if_exist(project_id)
+    if not project:
+        project = Project(pKey=project_id, name=project_name)
     if port:
         project.port = port
     if description:
