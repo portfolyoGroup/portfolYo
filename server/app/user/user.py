@@ -63,3 +63,4 @@ def create_default_user(email: str, password: str, uid: str):
         email=email, password=password, uid=uid, description=default_description, name=default_name,
         projects=default_projects, programming_languages=default_programming_languages, skills=default_skills, experience=default_experience,
         date_of_birth=default_birth_date, address=default_address, phone=default_phone, title=default_title, main_description=default_main_description)
+
