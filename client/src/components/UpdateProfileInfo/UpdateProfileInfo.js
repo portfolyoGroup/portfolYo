@@ -28,6 +28,7 @@ const UpdateProfileInfo = () => {
     const [dataOfContact, setDataOfContact] = useState()
     const [dataOfAbout, setDataOfAbout] = useState()
     const [dataOfProfileHome, setDataOfProfileHome] = useState()
+    const [projectsList, setProjectsList] = useState()
     const [profilePic, setProfilePic] = useState()
     const [picUploaded, setPicUploaded] = useState(false)
     const history = createBrowserHistory()
@@ -36,11 +37,12 @@ const UpdateProfileInfo = () => {
         const getData = async () => {
             const id = localStorage.getItem('id')
             try {
-                const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic } = await getProfileData(id)
+                const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList } = await getProfileData(id)
                 setDataOfContact(dataOfContact)
                 setDataOfAbout(dataOfAbout)
                 setDataOfProfileHome(dataOfProfileHome)
                 setProfilePic(profilePic)
+                setProjectsList(projectsList)
             } catch(e) {
                 history.push(pages.errorRoute)
             }
@@ -94,7 +96,7 @@ const UpdateProfileInfo = () => {
     }
     const handleFormSubmit = async () => {
         const id = localStorage.getItem('id')
-        const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic })
+        const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList })
     }
 
     let currComp
