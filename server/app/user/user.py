@@ -48,7 +48,7 @@ def generate_uid():
 def create_default_user(email: str, password: str, uid: str):
     default_name = 'Israel Israeli'
     default_title = 'your main occupation, e.g cs student'
-    default_main_description = 'your main occpation, e.g cs student'
+    default_main_description = 'your main occupation, e.g cs student'
     default_description = 'Tell us about you:'
     default_programming_languages = 'c, Java, etc...'
     default_skills = 'react, '

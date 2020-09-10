@@ -19,6 +19,24 @@ def get_profile():
     return jsonify(json_profile_result), 200
 
 
+@profile_blueprint.route('/profile', methods=['POST'])
+def update_profile():
+    uid = request.args.get('id')
+    profile_data = json.loads(request.data)
+    data_of_about = profile_data.get('dataOfAbout')
+    data_of_contact = profile_data.get('dataOfContact')
+    data_of_profile_home = profile_data.get('dataOfProfileHome')
+    projects_list = profile_data.get('projectsList')
+    user = User
+
+    uid = request.args.get('id')
+    user = get_user_by_id(uid)
+    json_profile_result = convert_user_to_dict(user, uid)
+    json_profile_result["success"] = True
+    return jsonify(json_profile_result), 200
+
+
+
 def convert_user_to_dict(user: User, uid: str):
     profile_res_dict = dict()
     data_of_about_dict = dict()
@@ -43,7 +61,7 @@ def convert_user_to_dict(user: User, uid: str):
     profile_res_dict["dataOfAbout"] = data_of_about_dict
     profile_res_dict["dataOfContact"] = data_of_contact_dict
     profile_res_dict["dataOfProfileHome"] = data_of_profile_home_dict
-    # profile_res_dict["projectList"] = projects_list_arr
+    profile_res_dict["projectsList"] = projects_list_arr
     profile_res_dict["profilePic"] = profile_pic_dict if profile_pic_dict.get('picName') is not None \
         else _get_default_pic_dict()
 
