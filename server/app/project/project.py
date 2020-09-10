@@ -1,6 +1,9 @@
 from flask import Blueprint, make_response, request, jsonify
 import service.projects_manager.projects_manager as projects_manager
 import json
+
+from service.mongo_db.db_client import is_user_exist, add_user_project
+
 project_blueprint = Blueprint('project_blueprint', __name__)
 
 
@@ -27,6 +30,8 @@ def upload():
                                       project_name=project_name,
                                       project_type=project_type,
                                       user_id=user_id, port=port)
+    if is_user_exist(user_id):
+        add_user_project(user_id, project_name)
     return jsonify({"success": True}), 200
 
 

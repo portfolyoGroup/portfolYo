@@ -21,7 +21,6 @@ def save_user(user: User):
 def get_user_by_id(user_id: str):
     try:
         user_result = User.objects(uid=user_id).get()
-        print(user_result)
         return user_result
     except DoesNotExist as e:
         raise DbError("user with id address " + user_id + " does not exist")
@@ -76,6 +75,15 @@ def delete_project(pKey: str):
 
 def get_project_pKey(user_id: str, project_name: str):
     return f"{user_id}_{project_name}"
+
+
+def add_user_project(uid: str, project_name: str):
+    try:
+        user = User.objects(uid=uid).get()
+        user.projects.append(project_name)
+        user.save()
+    except Exception as e:
+        raise DbError("user not found")
 
 
 # result = save_user(User(email="noam1@gmail.com", password='123'))
