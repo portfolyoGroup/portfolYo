@@ -1,39 +1,75 @@
-import React from 'react'
-import { IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton } from '@ionic/react'
+import { IonToolbar, IonLoading, IonTitle, IonRouterOutlet, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton } from '@ionic/react'
 import { withRouter } from 'react-router'
+import { createBrowserHistory } from 'history'
 import pic from '../../resources/snakeGamePic.png'
 import '../about/about.scss'
 import '../sharedStyles.scss'
 import '../projectsList/projectList.scss'
+import { getProjectData } from '../../services/projectService'
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
-const ProjectsList = () => {
+import React, { useState, useEffect } from 'react'
+import pages from '../../pages/Pages'
+import ProjectPage from '../../pages/ProjectPage/ProjectPage'
+const ProjectsList = ({ projectsList }) => {
+    const history = createBrowserHistory();
+    const match = useRouteMatch();
+    const [projectsCards, setProjectsCards] = useState([])
+    useEffect(() => {
+        setProjectsCards(projectsList.map((currId, index) => <OneProj key={currId + index} id={currId} />))
+    }, [])
+    const OneProj = ({ id }) => {
+        const [{ dataOfProjectHeader, projectPic }, setProjAllData] = useState({})
+        useEffect(() => {
+            (async () => {
+                const projAllData = await getProjectData(id)
+                setProjAllData(projAllData)
+            })()
+        }, [])
+        let currComponent;
+        if (dataOfProjectHeader && projectPic) {
 
-    const OneProj = () => {
-        return (
-            <IonItem class='centeredItem'>
-                <IonCard>
-                    <img src={pic} />
-                    <IonCardHeader>
-                        <IonCardSubtitle>Cool game</IonCardSubtitle>
-                        <IonCardTitle>Snake</IonCardTitle>
-                    </IonCardHeader>
+            currComponent = (
+                <IonItem class='centeredItem'>
 
-                    <IonCardContent>
-                        <h3>
-                        written in cpp
-                        </h3>
-                        <IonItem class='centeredItem'>    
-                        <IonButton onClick={()=>{alert('TODO: redirect to proj')}}>
-                            Take A Look
-                        </IonButton>
-                        </IonItem>
-                    </IonCardContent>
-                </IonCard>
-            </IonItem>
-        )
+                    <IonCard>
+                        <img src={projectPic.picData} alt="no pic available" />
+                        <IonCardHeader>
+                            <IonCardSubtitle>{dataOfProjectHeader.sub_title}</IonCardSubtitle>
+                            <IonCardTitle>{dataOfProjectHeader.title}</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <h3>
+                                {dataOfProjectHeader.description}
+                            </h3>
+                            <IonItem class='centeredItem'>
+                                <IonButton onClick={() => history.push(`${pages.projectRoute}/${id}`)}>
+                                    Take A Look
+                            </IonButton>
+                            </IonItem>
+                        </IonCardContent>
+                    </IonCard>
+                </IonItem>
+            )
+        }
+        else {
+            currComponent = (
+                <IonContent>
+                    <IonLoading
+                        isOpen={true}
+                        message={'ProtfolYoing...'}
+                        duration={Number.MAX_SAFE_INTEGER}
+                    />
+                </IonContent>);
+        }
+        return currComponent;
     }
+
+
+
     return (
         <IonContent>
+
             <IonCard>
                 <IonCardHeader>
                     <ion-text color="primary">
@@ -42,9 +78,7 @@ const ProjectsList = () => {
                 </IonCardHeader>
                 <IonCardContent>
                     <IonList>
-                        <OneProj></OneProj>
-                        <OneProj></OneProj>
-                        <OneProj></OneProj>
+                        {projectsCards}
                     </IonList>
                 </IonCardContent>
             </IonCard>

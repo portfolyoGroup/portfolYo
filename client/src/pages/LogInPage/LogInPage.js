@@ -13,7 +13,6 @@ const LogIn = () => {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const handleLogin = async () => {
-        if (isValidForm()) {
             try {
                 const id = await serverLogin(email, password)
                 navigateToHomePage(id)
@@ -28,15 +27,12 @@ const LogIn = () => {
                         alert("somthing went wrong")
                 }
             }
-        }
     }
 
     const navigateToHomePage = (id) => {
         localStorage.setItem('id', `${id}`)
         history.push(`/home/${id}`)
     }
-
-    const isValidForm = () => true
     
     return (
         <IonPage>

@@ -19,30 +19,28 @@ const ProfilePage = () => {
     const match = useRouteMatch()
     const history = useHistory()
     let curr_component;
-    const [{ dataOfAbout, dataOfContact, dataOfProfileHome }, setProfileData] = useState({})
-    
+    const [{ dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList }, setProfileData] = useState({})
     useEffect(() => {
         (async () => {
             try{
                 const profileData = await getProfileData(id);
                 setProfileData(profileData)
             } catch(e) {
-                console.log(pages.errorRoute)
                 history.push(pages.errorRoute)
             }
         })()
     }, [])
 
 
-    if (dataOfAbout && dataOfContact && dataOfProfileHome) {
+    if (dataOfAbout && dataOfContact && dataOfProfileHome && profilePic && projectsList) {
         curr_component = (
             <IonContent>
                 <IonTabs>
                     <IonRouterOutlet>
                         <Switch>
-                            <Route path={`${match.url}/home`} component={() => <ProfileHeader dataOfProfileHome={dataOfProfileHome} />} exact={true} />
+                            <Route path={`${match.url}/home`} component={() => <ProfileHeader dataOfProfileHome={dataOfProfileHome} profilePic={profilePic} />} exact={true} />
                             <Route path={`${match.url}/about`} component={() => <About dataOfAbout={dataOfAbout} />} exact={true} />
-                            <Route path={`${match.url}/projectsList`} component={ProjectsList} exact={true} />
+                            <Route path={`${match.url}/projectsList`} component={() => <ProjectsList projectsList={projectsList}/>} exact={true} />
                             <Route path={`${match.url}/contact`} component={() => <Contact dataOfContact={dataOfContact} />} />
                             <Route path={`${match.url}/`} render={() => <Redirect to={`${match.url}/home`} />} exact={true} />
                         </Switch>
