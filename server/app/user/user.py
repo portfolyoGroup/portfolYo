@@ -1,5 +1,7 @@
 from flask import Blueprint, request, render_template, make_response, jsonify
 import json
+
+from service.errors.user_errors.AuthenticationError import AuthenticationError
 from service.mongo_db.db_client import save_user, get_user_by_id
 from service.mongo_db.db_client import get_user_by_email
 from service.mongo_db.db_entities import User
@@ -11,7 +13,6 @@ headers = {"Content-Type": "application/json"}
 
 @user_blueprint.route('/user', methods=['POST'])
 def create_user():
-    # # Todo: debug, build response, exception handling
     body = json.loads(request.data)
     email = body.get('email')
     password = body.get('password')
@@ -29,8 +30,9 @@ def get_user():
     body = json.loads(request.data)
     email = body.get('email')
     user_result = get_user_by_email(email=email)
-    # TODO: Authentication by email-password is required
-#     password = body.get('password')
+    password = body.get('password')
+    if password != user_result['password']:
+        raise AuthenticationError("incorrect password.")
     uid = user_result["uid"]
 
     return jsonify({"id": uid, "success": True}), 200
