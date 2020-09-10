@@ -5,10 +5,11 @@ import { useRouteMatch } from "react-router-dom";
 import '../../pages/LogInPage/LogInPage.scss'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import UpdateProfileInfo from '../../components/UpdateProfileInfo/UpdateProfileInfo'
-import UpdateProjectInfo from '../../components/UpdateProjectInfo/UpdateProjectInfo'
+import UpdateProjects from '../../components/UpdateProjects/UpdateProjects'
 import PersonalZoneMainCard from '../../components/personalZoneMainCard/PersonalZoneMainCard'
 import pages from '../Pages.js'
 import { createBrowserHistory } from 'history'
+import UpdateProjectInfo from '../../components/UpdateProjectInfo/UpdateProjectInfo';
 const PersonalZonePage = (props) => {
 
     const match = useRouteMatch()
@@ -26,8 +27,9 @@ const PersonalZonePage = (props) => {
                     <IonRouterOutlet>
                         <Switch>
                             <Route path={`${match.url}/main`} component={PersonalZoneMainCard} exact={true} />
+                            <Route path={`${match.url}/updateProject/:projectId`} component={UpdateProjectInfo} exact={true} />
                             <Route path={`${match.url}/updateProfile`} component={UpdateProfileInfo} exact={true} />
-                            <Route path={`${match.url}/updateProject`} component={UpdateProjectInfo} exact={true} />
+                            <Route path={`${match.url}/updateProjects`} component={UpdateProjects} exact={true} />
                             <Route path={`${match.url}/`} render={() => <Redirect to={`${match.url}/main`}/>} />
                         </Switch>
                     </IonRouterOutlet>
@@ -41,8 +43,8 @@ const PersonalZonePage = (props) => {
                         <IonTabButton tab="update Profile" href={`${match.url}/updateProfile`}>
                             <IonLabel>Update Profile</IonLabel>
                         </IonTabButton>
-                        <IonTabButton tab="update Project" href={`${match.url}/updateProject`}>
-                            <IonLabel>Update Project</IonLabel>
+                        <IonTabButton tab="update Projects" href={`${match.url}/updateProjects`}>
+                            <IonLabel>Update Projects</IonLabel>
                         </IonTabButton>
                     </IonTabBar>
                 </IonTabs >
