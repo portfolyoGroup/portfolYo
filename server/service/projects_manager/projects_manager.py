@@ -1,3 +1,5 @@
+import logging
+
 from docker.errors import BuildError, APIError
 from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
@@ -12,8 +14,10 @@ SUPPORTED_LANGUAGES = ['c', 'python', 'node']
 
 def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, user_id: str, port: str):
     if project_type not in SUPPORTED_LANGUAGES:
+        logging.log(project_type + "not supported")
         raise NotImplementedError(project_type + " not supported")
     if not is_user_exist(user_id):
+        logging.error("user doesnt exist")
         raise DbError("User doesnt exist")
 
     try:
@@ -22,8 +26,10 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
         image = docker_client.create_image(project_name, project_type, user_id)[0]
         _save_to_db(project_name, port, user_id) #Todo: should be save or update
     except BuildError or APIError as e:
+        logging.error(e)
         raise ContainerError(" couldn't build image for project: " + project_name, e)
     except DbError as e:
+        logging.error(e)
         docker_client.remove_image(image.id)
         raise e
     finally:
@@ -34,7 +40,8 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
 def run_project(project_name: str, user_id: str):
     try:
         project = get_project(get_project_pKey(user_id, project_name))
-    except Exception:
+    except Exception as e:
+        logging.error(e)
         raise ContainerError("couldn't run project as the project doesnt exist.")
 
     app_port = project.port
