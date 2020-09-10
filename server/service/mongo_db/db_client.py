@@ -46,7 +46,7 @@ def update_user(email: str, *args):
 
 
 def update_user_profile(profile_data: dict):
-    if is_user_exist(profile_data.uid).get():
+    if is_user_exist(profile_data['id']).get():
         user = User.objects(uid=profile_data.uid)
         user.name = profile_data.data_of_profile_home.name
         user.title = profile_data.data_of_profile_home.title
