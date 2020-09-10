@@ -7,6 +7,7 @@ from app.sign_in_up.register import register_blueprint
 from app.project.project import project_blueprint
 from app.user.user import user_blueprint
 from flask_cors import CORS
+import logging
 from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
@@ -30,7 +31,7 @@ def handle_exception(error):
             'message': message
         }
     }
-
+    logging.error(message)
     return jsonify(response), status_code
 
 
