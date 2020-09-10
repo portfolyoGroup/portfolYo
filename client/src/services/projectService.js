@@ -24,7 +24,7 @@ const allData = {
     }
 }
 
-const isRealServer = true;
+const isRealServer = false;
 export const getProjectData = async (projectId) => {
     if (isRealServer) {
         //call the server by id.
@@ -35,12 +35,12 @@ export const getProjectData = async (projectId) => {
     }
 }
 
-export const setProjectData = async (projectId, data) => {
+export const setProjectData = async (profileId, data) => {
 
     if (isRealServer) {
         //call the server by id.
         try {
-            return await fetchFromServer(`profileId?id=${profileId}`, 'POST', data)
+            return await fetchFromServer(`project?profileId=${profileId}`, 'POST', data)
         }
         catch (err) {
             // todo : handle catch

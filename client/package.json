@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "proxy":"192.168.1.24:5000",
+  "proxy": "192.168.1.24:5000",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --open --host 0.0.0.0"
@@ -43,6 +43,7 @@
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
     "bootstrap": "^4.4.1",
+    "file-saver": "^2.0.2",
     "jquery": "^3.5.0",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
