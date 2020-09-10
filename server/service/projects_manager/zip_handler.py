@@ -27,8 +27,8 @@ def unzip_file(path2file: str, project_type, project_name):
             path = _generate_project_tmp_path(project_type)
             project_path = path + project_name
             # os.chmod(project_path, stat.S_IREAD, stat.S_IWRITE)
-            # subprocess.call(['chmod', '-R', '+rw', project_path])
-
+            # os.subprocess.call(['chmod', '-R', '+rw', project_path])
+            change_permissions_recursive(path, stat.S_IWRITE)
             zip_ref.extractall(path)
         except Exception as e:
             pass
