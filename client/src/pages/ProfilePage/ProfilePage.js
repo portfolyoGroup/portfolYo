@@ -22,7 +22,7 @@ const ProfilePage = () => {
     const [{ dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList }, setProfileData] = useState({})
     useEffect(() => {
         (async () => {
-            try{
+            try {
                 const profileData = await getProfileData(id);
                 setProfileData(profileData)
             } catch(e) {
@@ -32,7 +32,7 @@ const ProfilePage = () => {
     }, [])
 
 
-    if (dataOfAbout && dataOfContact && dataOfProfileHome && profilePic && projectsList) {
+    if (dataOfAbout && dataOfContact && dataOfProfileHome && profilePic && !!projectsList) {
         curr_component = (
             <IonContent>
                 <IonTabs>
@@ -72,7 +72,6 @@ const ProfilePage = () => {
                 <IonLoading
                     isOpen={true}
                     message={'ProtfolYoing...'}
-                    duration={Number.MAX_SAFE_INTEGER}
                 />
             </IonContent>
         ) 

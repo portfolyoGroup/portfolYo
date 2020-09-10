@@ -47,7 +47,7 @@ export const setProfileData = async (profileId, data) => {
     if (isRealServer) {
         //call the server by id.
         try {
-            return await fetchFromServer(`profile?id=${profileId}`, 'PUT', data) //put?TODO
+            return await fetchFromServer(`profile?id=${profileId}`, 'POST', data) 
         }
         catch (err) {
             // todo : handle catch

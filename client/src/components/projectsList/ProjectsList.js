@@ -58,7 +58,6 @@ const ProjectsList = ({ projectsList }) => {
                     <IonLoading
                         isOpen={true}
                         message={'ProtfolYoing...'}
-                        duration={Number.MAX_SAFE_INTEGER}
                     />
                 </IonContent>);
         }

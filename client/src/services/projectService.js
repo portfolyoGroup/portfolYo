@@ -10,18 +10,21 @@ const allData = {
             sub_title: "A snake game written in JavaFx",
             description: "This game was a life chenger snaking the snake! This game was a life chenger snaking the snake! This game was a life chenger snaking the snake!"
         },
-        dataOfCodeRunner: {
-            todo: "todo this field"
+        dataOfProjectDetails: {
+            projectName: "flask-test",
+            projectType: "python",
         },
+        encodedProject: "",
         projectPic: {
             picName: "some pic",
             picType: "png",
             picData: 'kaki of yonim'
-        }
+        },
+        
     }
 }
 
-const isRealServer = false;
+const isRealServer = true;
 export const getProjectData = async (projectId) => {
     if (isRealServer) {
         //call the server by id.
@@ -37,7 +40,7 @@ export const setProjectData = async (projectId, data) => {
     if (isRealServer) {
         //call the server by id.
         try {
-            return await fetchFromServer(`project?id=${projectId}`, 'PUT', data)
+            return await fetchFromServer(`profileId?id=${profileId}`, 'POST', data)
         }
         catch (err) {
             // todo : handle catch

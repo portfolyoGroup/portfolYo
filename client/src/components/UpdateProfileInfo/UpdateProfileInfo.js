@@ -3,6 +3,7 @@ import { IonContent, IonLoading, IonButton, IonTitle, IonToolbar, IonInput, IonI
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 import { setProfileData, getProfileData } from '../../services/profileService'
 import pages from '../../pages/Pages'
+import { createBrowserHistory } from 'history'
 
 // const dataOfAbout = {
 //     description: "Tell us about you:",
@@ -27,21 +28,55 @@ const UpdateProfileInfo = () => {
     const [dataOfContact, setDataOfContact] = useState()
     const [dataOfAbout, setDataOfAbout] = useState()
     const [dataOfProfileHome, setDataOfProfileHome] = useState()
+    const [profilePic, setProfilePic] = useState()
+    const [picUploaded, setPicUploaded] = useState(false)
+    const history = createBrowserHistory()
+
     useEffect(() => {
         const getData = async () => {
             const id = localStorage.getItem('id')
-            const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic } = await getProfileData(id)
-            setDataOfContact(dataOfContact)
-            setDataOfAbout(dataOfAbout)
-            setDataOfProfileHome(dataOfProfileHome)
+            try {
+                const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic } = await getProfileData(id)
+                setDataOfContact(dataOfContact)
+                setDataOfAbout(dataOfAbout)
+                setDataOfProfileHome(dataOfProfileHome)
+                setProfilePic(profilePic)
+            } catch(e) {
+                history.push(pages.errorRoute)
+            }
         }
         getData()
     }, [])
+
+    useEffect(() => {
+        (async () => {
+            if (picUploaded) {
+                setPicUploaded(false);
+                if (picUploadRef.current) {
+                    var reader = new FileReader();
+                    let file
+                    const input = await picUploadRef.current.getInputElement()
+                    file = input.files[0]
+                    const fileParts = file.name.split('.');
+                    const picName = fileParts[0];
+                    const picType = fileParts[1];
+                    reader.onload = async (recievedFile) => {
+                        const picData = recievedFile.target.result;
+                        const profilePic = { picName, picType, picData }
+                        setProfilePic(profilePic)
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        })()
+    }, [picUploadRef.current, picUploaded])
+
     const setField = (dataToRead, key, text) => {
         dataToRead[key] = text
     }
+
     const MyList = ({ dataToRead }) => {
-        
+
         return (
             <IonList>
                 {Object.entries(dataToRead).map(([key, value], index) => {
@@ -59,29 +94,12 @@ const UpdateProfileInfo = () => {
     }
     const handleFormSubmit = async () => {
         const id = localStorage.getItem('id')
-        let file
-        const input = await picUploadRef.current.getInputElement()
-        if (!picUploadRef || !picUploadRef.current || !input.files || !input.files[0]) {
-            //unreacable hopefully
-        }
-        else {
-            file = input.files[0]
-            var reader = new FileReader();
-            const fileParts = file.name.split('.');
-            const picName = fileParts[0];
-            const picType = fileParts[1];
-            reader.onload = async (recievedFile) => {
-                const picData = recievedFile.target.result;
-                const profilePic = { picName, picType, picData }
-                const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic })
-                console.log(response)
-            }
-            reader.readAsDataURL(file);
-        }
+        const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic })
     }
+
     let currComp
-    if (dataOfAbout && dataOfContact && dataOfProfileHome) {
-        currComp =  <IonCard>
+    if (dataOfAbout && dataOfContact && dataOfProfileHome && profilePic) {
+        currComp = <IonCard>
             <IonCardHeader>
                 <IonToolbar>
                     <IonTitle>Update your profile</IonTitle>
@@ -92,8 +110,8 @@ const UpdateProfileInfo = () => {
                 <MyList dataToRead={dataOfProfileHome}></MyList>
                 <IonItem class='ion-padding'>
                     <IonLabel position='stacked'> Upload a photo</IonLabel>
-                    <IonInput type='file' ref={picUploadRef}>
-                    </IonInput>
+                    <img src={profilePic.picData} alt="no pic in server"/>
+                    <IonInput onIonChange={() => setPicUploaded(true)} type='file' ref={picUploadRef}/>
                 </IonItem>
                 <IonItemDivider>About</IonItemDivider>
                 <MyList dataToRead={dataOfAbout}></MyList>
@@ -103,17 +121,16 @@ const UpdateProfileInfo = () => {
             <IonItem class='centeredItem'>
                 <IonButton onClick={handleFormSubmit} size="large" type="submit">update!</IonButton>
             </IonItem>
-            <br/>
-            <br/>
-    </IonCard> 
+            <br />
+            <br />
+        </IonCard>
     }
-    else{
-        currComp = (     
+    else {
+        currComp = (
             <IonContent>
                 <IonLoading
                     isOpen={true}
                     message={'PortfolYoing...'}
-                    duration={Number.MAX_SAFE_INTEGER}
                 />
             </IonContent>);
     }
