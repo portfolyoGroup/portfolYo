@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from service.errors.db_errors.DbError import DbError
@@ -84,13 +85,21 @@ def save_project(project: Project):
     try:
         project.save()
     except Exception as e:
+        logging.error(e)
         raise DbError("Could'nt save project")
+
+
+def get_project_if_exist(pKey: str):
+    project_objects = Project.objects(pKey=pKey)
+
+    return project_objects.get() if project_objects else None
 
 
 def get_project(pKey: str):
     try:
         return Project.objects(pKey=pKey).get()
     except Exception as e:
+        logging.error(e)
         raise DbError("project not found")
 
 
@@ -98,6 +107,7 @@ def delete_project(pKey: str):
     try:
         return Project.objects(pKey=pKey).get().delete()
     except Exception as e:
+        logging.error(e)
         raise DbError("project not found")
 
 
@@ -111,6 +121,7 @@ def add_user_project(uid: str, project_name: str):
         user.projects.append(project_name)
         user.save()
     except Exception as e:
+        logging.error(e)
         raise DbError("user not found")
 
 

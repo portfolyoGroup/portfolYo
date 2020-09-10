@@ -24,7 +24,7 @@ def upload():
     encoded_project = bytes(body.get("encodedProject"), 'ascii')
     project_name = body.get("projectName")
     project_type = body.get("projectType")
-    user_id = body.get("userId")
+    user_id = request.args.get("profileId")
     port = body.get("port")
     projects_manager.save_new_project(encoded_zip=encoded_project,
                                       project_name=project_name,
