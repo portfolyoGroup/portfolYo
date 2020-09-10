@@ -45,6 +45,34 @@ def update_user(email: str, *args):
     pass
 
 
+def update_user_profile(profile_data: dict):
+    if is_user_exist(profile_data.uid).get():
+        user = User.objects(uid=profile_data.uid)
+        user.name = profile_data.data_of_profile_home.name
+        user.title = profile_data.data_of_profile_home.title
+        user.main_description = profile_data.data_of_profile_home.main_description
+        user.date_of_birth = profile_data.data_of_contact.date_of_birth
+        user.address = profile_data.data_of_contact.address
+        user.phone = profile_data.data_of_contact.phone
+        user.experience = profile_data.data_of_about.experience
+        user.skills = profile_data.data_of_about.skills
+        user.programming_languages = profile_data.data_of_about.programming_languages
+        user.description = profile_data.data_of_about.description
+        user.projects = profile_data.projectsList
+        user.picName = profile_data.profilePic.picName
+        user.picType = profile_data.profilePic.picType
+        user.picData = profile_data.profilePic.picData
+
+        # user = User(uid=profile_data.uid, name=profile_data.data_of_profile_home.name, title=profile_data.data_of_profile_home.title,
+        #             main_description=profile_data.data_of_profile_home.main_description, date_of_birth=profile_data.data_of_contact.date_of_birth,
+        #             address=profile_data.data_of_contact.address, phone=profile_data.data_of_contact.phone, experience=profile_data.data_of_about.experience,
+        #             skills=profile_data.data_of_about.skills, progrmming_languages=profile_data.data_of_about.programming_languages,
+        #             description=profile_data.data_of_about.description, projects=profile_data.projectsList, picName=profile_data.profilePic.picName,
+        #             picType=profile_data.profilePic.picType, picData=profile_data.profilePic.picData)
+        user.save()
+        return
+
+
 def delete_user(email: str):
     try:
         User.objects(email=email).get().delete()
