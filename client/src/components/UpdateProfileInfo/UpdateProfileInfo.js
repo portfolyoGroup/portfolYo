@@ -30,7 +30,7 @@ const UpdateProfileInfo = () => {
     useEffect(() => {
         const getData = async () => {
             const id = localStorage.getItem('id')
-            const { dataOfAbout, dataOfContact, dataOfProfileHome } = await getProfileData(id)
+            const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic } = await getProfileData(id)
             setDataOfContact(dataOfContact)
             setDataOfAbout(dataOfAbout)
             setDataOfProfileHome(dataOfProfileHome)
@@ -62,8 +62,7 @@ const UpdateProfileInfo = () => {
         let file
         const input = await picUploadRef.current.getInputElement()
         if (!picUploadRef || !picUploadRef.current || !input.files || !input.files[0]) {
-            // ask levivot to send default pic
-            console.log("submit2")
+            //unreacable hopefully
         }
         else {
             file = input.files[0]

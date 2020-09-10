@@ -12,6 +12,11 @@ const allData = {
         },
         dataOfCodeRunner: {
             todo: "todo this field"
+        },
+        projectPic: {
+            picName: "some pic",
+            picType: "png",
+            picData: 'kaki of yonim'
         }
     }
 }
@@ -20,7 +25,7 @@ const isRealServer = false;
 export const getProjectData = async (projectId) => {
     if (isRealServer) {
         //call the server by id.
-        return await fetchFromServer(`profile?id=${projectId}`, 'GET')
+        return await fetchFromServer(`project?id=${projectId}`, 'GET')
     }
     else {
         return await allData["5"]
