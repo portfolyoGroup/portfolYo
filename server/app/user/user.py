@@ -1,3 +1,5 @@
+from datetime import date
+
 from flask import Blueprint, request, render_template, make_response, jsonify
 import json
 from service.mongo_db.db_client import save_user, get_user_by_id
@@ -15,13 +17,22 @@ def create_user():
     body = json.loads(request.data)
     email = body.get('email')
     password = body.get('password')
-    description = body.get('description')
-    pic = body.get('pic')
+    # description = body.get('description')
+    # pic = body.get('pic')
     uid = generate_uid()
-    user = User(email=email, password=password, description=description, pic=pic, uid=uid)
+    # user = User(email=email, password=password, description=description, pic=pic, uid=uid)
+    user = create_default_user(email=email, password=password, uid=uid)
     save_user(user)
 
     return jsonify({"id": uid, "success": True}), 200
+
+
+def create_default_user(email: str, password: str, uid: str):
+    not_available_val = 'N/A'
+    return User(
+        email=email, password=password, uid=uid, description=not_available_val, name=not_available_val,
+        projects=[], programming_languages=[], skills=[], experience=not_available_val, date_of_birth=date.today(),
+        address=not_available_val, phone=not_available_val, title=not_available_val, main_description=not_available_val)
 
 
 @user_blueprint.route('/login', methods=['POST'])

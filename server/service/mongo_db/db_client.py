@@ -20,7 +20,9 @@ def save_user(user: User):
 
 def get_user_by_id(user_id: str):
     try:
-        return User.objects(uid=user_id).get()
+        user_result = User.objects(uid=user_id).get()
+        print(user_result)
+        return user_result
     except DoesNotExist as e:
         raise DbError("user with id address " + user_id + " does not exist")
 

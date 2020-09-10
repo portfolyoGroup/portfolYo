@@ -2,29 +2,30 @@ import json
 
 from flask import request, Blueprint, jsonify, make_response
 from service.mongo_db.db_client import get_user_by_id
+from service.mongo_db.db_entities import User
 
 profile_blueprint = Blueprint('profile_blueprint', __name__)
 
 
 @profile_blueprint.route('/profile', methods=['GET'])
 def get_profile():
-    uid = request.args.get('id')
+    # data = json.loads(request.data)
+    uid = request.args['id']
     user = get_user_by_id(uid)
     json_profile_result = convert_user_to_dict(user, uid)
     json_profile_result["success"] = True
     return jsonify(json_profile_result), 200
 
 
-def convert_user_to_dict(user, uid):
+def convert_user_to_dict(user: User, uid: str):
     profile_res_dict = dict()
     data_of_about_dict = dict()
     data_of_contact_dict = dict()
     data_of_profile_home_dict = dict()
     profile_pic_dict = dict()
-    profile_pic_dict["pic"] = user["pic"]
     profile_pic_dict["picName"] = user["picName"]
     profile_pic_dict["picType"] = user["picType"]
-    profile_res_dict["picData"] = user["picData"]
+    profile_pic_dict["picData"] = user["picData"]
     data_of_about_dict["description"] = user["description"]
     data_of_about_dict["programming_languages"] = user["programming_languages"]
     data_of_about_dict["skills"] = user["skills"]
