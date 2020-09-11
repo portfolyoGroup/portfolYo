@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, request, jsonify
+from flask import Blueprint, request, jsonify
 import service.projects_manager.projects_manager as projects_manager
 import json
 
@@ -78,7 +78,3 @@ def delete():
 
     projects_manager.delete_project(user_name, project_name)
     return jsonify({"success": True}), 200
-
-
-
-
