@@ -139,6 +139,8 @@ const UpdateProjectInfo = () => {
         )
     }
     const handleFormSubmit = async () => {
+        setDisableSubmitTnxButton(true)
+        setDisableSubmitGoToProjectBottun(true)
         setShowSubmitModal(true)
         setLoadingOnSubmit(true)
         setSubmitImage(waitPic)
@@ -150,6 +152,8 @@ const UpdateProjectInfo = () => {
             dataOfProjectDetails.projectType = projectTypeSelectRef.current.defaultValue
         }
         encodedProject.encodedProjectName = dataOfProjectHeader.title
+        encodedProject.encodedProjectData = encodedProject.encodedProjectData.replace('data:application/zip;base64,','')
+        
         const profileId = localStorage.getItem('id');
         try{
             const response = await setProjectData(profileId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject })
@@ -162,8 +166,10 @@ const UpdateProjectInfo = () => {
             setSubmitImage(sorryPic)
             setSubmitStateMsg("We are deeply sorry :( something went wrong, this is still a beta version, for more information, call our support center at 050-111-1111 and no one's there.")
         }
-        setDisableSubmitTnxButton(false)
-        setLoadingOnSubmit(false)
+        finally{
+            setDisableSubmitTnxButton(false)
+            setLoadingOnSubmit(false)
+        }
 
     }
 

@@ -1,6 +1,6 @@
 # portfolYo
 ## TODO
-fix the streching of a contnent in about.
+enable download zip
 ## Commit messege:
 in the commit meseege, let's try to keep a consistant fromat.
 
