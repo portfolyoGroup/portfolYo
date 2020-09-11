@@ -27,7 +27,8 @@ def _get_default_project_data():
 def update_project(project_data: dict, user_id: str):
     project_type = project_data.get(TYPE_AND_PORT).get(PROJECT_PORT)
     encoded_zip = project_data.get(DATA_OF_ENCODED_PROJECT).get(ENCODED_PROJECT)
-    project_name = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_NAME)
+    project_root = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_NAME)
+    project_name = project_data.get(HEADER_DATA).get(TITLE)
     if project_type not in SUPPORTED_LANGUAGES:
         logging.log(project_type + "not supported")
         raise NotImplementedError(project_type + " not supported")
@@ -36,9 +37,9 @@ def update_project(project_data: dict, user_id: str):
         raise DbError("User doesnt exist")
 
     try:
-        zip_handler.base64_to_zip(encoded_zip, project_name + ".zip")
-        zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type, project_name)
-        image = docker_client.create_image(project_name, project_type, user_id)[0]
+        zip_handler.base64_to_zip(encoded_zip, project_root + ".zip")
+        zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_root}.zip"), project_type)
+        image = docker_client.create_image(project_name, project_type, user_id, project_root)[0]
         _update_project(project_data, user_id)
     except BuildError or APIError as e:
         logging.error(e)
@@ -48,20 +49,20 @@ def update_project(project_data: dict, user_id: str):
         docker_client.remove_image(image.id)
         raise e
     finally:
-        zip_handler.remove_zip(project_name + ".zip")
-        zip_handler.remove_unzipped_folder(project_type, project_name)
+        zip_handler.remove_zip(project_root + ".zip")
+        zip_handler.remove_unzipped_folder(project_type, project_root)
 
 
-def run_project(project_name: str, user_id: str):
+def run_project(project_id: str):
     try:
-        project = get_project(get_project_pKey(user_id, project_name))
+        project = get_project(project_id)
     except Exception as e:
         logging.error(e)
         raise ContainerError("couldn't run project as the project doesnt exist.")
 
     app_port = project.port
     host_port = _get_available_port()
-    docker_client.run_container(f"{user_id}_{project_name}".lower(), app_port, host_port)
+    docker_client.run_container(f"{project_id}".lower(), app_port, host_port)
 
     return host_port
 

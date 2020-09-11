@@ -7,9 +7,9 @@ from docker.models.images import Image
 
 docker_client = docker.from_env()
 
-def create_image(project_name: str, project_type, user_id: str):
+def create_image(project_name: str, project_type, user_id: str, project_root):
     path_to_dockerfile = os.path.join(os.getcwd(), 'server', 'service', 'Dockerimages', project_type)
-    buildargs = {"PROJECT_NAME": project_name}
+    buildargs = {"PROJECT_NAME": project_root}
     tag = f"{user_id}_{project_name}"
 
     # os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg {buildargs}")

@@ -42,13 +42,13 @@ def get_project_data():
 
     return jsonify({'success': True} + response), 200
 
-# def run():
-#     project_name = request.args.get("projectName")
-#     user_id = request.args.get("userId")
-#
-#     port = projects_manager.run_project(project_name, user_id)
-#     return jsonify({"success": True, "port": port}), 200
-#
+@project_blueprint.route('/project/run', methods=['GET'])
+def run():
+    project_id = request.args.get("projectId")
+
+    port = projects_manager.run_project(project_id)
+    return jsonify({"success": True, "port": port}), 200
+
 
 """
 stops a running project:

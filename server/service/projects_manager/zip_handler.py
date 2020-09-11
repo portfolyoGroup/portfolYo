@@ -22,7 +22,7 @@ def base64_to_zip(base64_zip_file: bytes, zip_file_name: str):
         f.write(decoded)
 
 
-def unzip_file(path2file: str, project_type, project_name):
+def unzip_file(path2file: str, project_type):
     with zipfile.ZipFile(path2file, 'r') as zip_ref:
         try: # Todo: fix this hacking
             path = _generate_project_tmp_path(project_type)
