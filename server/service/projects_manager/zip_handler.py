@@ -26,7 +26,7 @@ def unzip_file(path2file: str, project_type, project_name):
     with zipfile.ZipFile(path2file, 'r') as zip_ref:
         try: # Todo: fix this hacking
             path = _generate_project_tmp_path(project_type)
-            change_permissions_recursive(path, stat.S_IWRITE)
+            change_permissions_recursive(path, stat.S_IREAD, stat.S_IWRITE)
             zip_ref.extractall(path)
         except Exception as e:
             pass
@@ -57,6 +57,6 @@ def _remove_readonly(func, path, _):
     os.chmod(path, stat.S_IWRITE)
     func(path)
 # #
-# file_encoded = base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\flask-example.zip")
+# file_encoded = base64_encoder("/home/thedude/repos/DudiChen/portfolYo/server/app/profile/statics/default_profile_pic.jpeg")
 # base64_to_zip(file_encoded, "flaskWebTest.zip")
 # unzip_file("C:\\tmp\\flaskWebTest.zip")
