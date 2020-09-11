@@ -118,8 +118,10 @@ def get_project_pKey(user_id: str, project_name: str):
 def add_user_project(uid: str, project_name: str):
     try:
         user = User.objects(uid=uid).get()
-        user.projects.append(project_name)
-        user.save()
+        project_key = get_project_pKey(uid, project_name)
+        if project_key not in user.get('projects'):
+            user.projects.append()
+            user.save()
     except Exception as e:
         logging.error(e)
         raise DbError("user not found")
