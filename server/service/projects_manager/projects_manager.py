@@ -39,10 +39,11 @@ def update_project(project_data: dict, user_id: str):
         raise DbError("User doesnt exist")
 
     try:
+        # encoded_zip = encoded_zip.split(',')[1] # Todo: remove this line
         zip_handler.base64_to_zip(encoded_zip, project_root + ".zip")
         zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_root}.zip"), project_type)
         image = docker_client.create_image(project_name, project_type, user_id, project_root)[0]
-        _update_project(project_data, user_id)
+        _update_project_db(project_data, user_id)
     except BuildError or APIError as e:
         logging.error(e)
         raise ContainerError(" couldn't build image for project: " + project_name, e)
