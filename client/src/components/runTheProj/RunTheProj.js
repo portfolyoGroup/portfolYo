@@ -1,20 +1,10 @@
 import React from 'react'
 import { IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText } from '@ionic/react'
 import { withRouter } from 'react-router'
-const RunTheProj = () => {
+import {serverPath} from '../../pages/Pages'
+const RunTheProj = ({dataOfProjectDetails}) => {
     return (
-        <IonContent>
-            <IonCard>
-                <IonCardHeader>
-                    <IonCardSubtitle>Run the Project</IonCardSubtitle>
-                    <IonCardTitle>Snake</IonCardTitle>
-                </IonCardHeader>
-
-                <IonCardContent>
-                   run
-      </IonCardContent>
-            </IonCard>
-        </IonContent>
+    <iframe style={{height:"100%", width:"100%"}}src={`${serverPath}:${dataOfProjectDetails.port}`}/>
     );
 }
 export default withRouter(RunTheProj)

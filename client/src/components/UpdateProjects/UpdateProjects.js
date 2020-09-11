@@ -1,5 +1,4 @@
 import { IonModal, IonToolbar, IonLoading, IonFabList, IonFab, IonFabButton, IonRouterOutlet, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton, IonIcon, IonInput, setupConfig, IonRow, IonCol, IonTitle, IonImg } from '@ionic/react'
-import { withRouter, useHistory } from 'react-router'
 import { createBrowserHistory } from 'history'
 import pic from '../../resources/snakeGamePic.png'
 import '../about/about.scss'
@@ -13,11 +12,14 @@ import pages from '../../pages/Pages'
 import ProjectPage from '../../pages/ProjectPage/ProjectPage'
 import { add } from 'ionicons/icons'
 import ProjectsList from '../projectsList/ProjectsList'
-import {setProjectData } from '../../services/projectService'
+import { setProjectData } from '../../services/projectService'
 import uploadPic from '../../resources/uploadProjImage.svg'
+import sorryPic from '../../resources/sorry.svg'
+import waitPic from '../../resources/wait.svg'
+
 const UpdateProjects = () => {
     const profileId = React.useMemo(() => localStorage.getItem('id'))
-    const history = useHistory();
+    const history = createBrowserHistory({ forceRefresh: true });
     const match = useRouteMatch();
     const [projectsCards, setProjectsCards] = useState([])
     const [projectsList, setProjectsList] = useState([])
@@ -95,12 +97,13 @@ const UpdateProjects = () => {
             console.log("null input")
             return
         }
-        const response = await setShowModal(false)
-        setProjectData(profileId, {
-            dataOfProjectHeader:{
+        setShowModal(false)
+        await setProjectData(profileId, {
+            dataOfProjectHeader: {
                 title: modalInputValue
             }
         })
+        history.push(match.url)
     }
 
     return (

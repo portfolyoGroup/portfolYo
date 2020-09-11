@@ -13,51 +13,51 @@ import { getProjectData } from '../../services/projectService'
 import { createBrowserHistory } from 'history'
 
 const ProjectPage = () => {
-    const [{ dataOfProjectHeader, dataOfCodeRunner }, setProjectData] = useState({})
+    const [{ dataOfProjectHeader, projectPic, dataOfProjectDetails }, setProjectData] = useState({})
     let { id } = useParams();
     const match = useRouteMatch()
     let curr_component;
     const history = createBrowserHistory({ forceRefresh: true });
     useEffect(() => {
         (async () => {
-            try{
+            try {
                 const projectData = await getProjectData(id);
                 setProjectData(projectData)
                 console.log("hhh")
                 console.log(projectData)
-            } catch(e) {
+            } catch (e) {
                 console.log(pages.errorRoute)
                 history.push(pages.errorRoute)
             }
         })()
     }, [])
 
-    if(dataOfProjectHeader)
-    curr_component =  (
-        <IonContent>
-            <IonTabs>
-                <IonRouterOutlet>
-                    <Switch>
-                        <Route path={`${match.url}/home`} component={() => <ProjectHeader dataOfProjectHeader={dataOfProjectHeader}/>} exact={true}/>
-                        <Route path={`${match.url}/RunTheProj`} component={() => <RunTheProj dataOfCodeRunner={dataOfCodeRunner}/>} exact={true}/>
-                        <Route path={`${match.url}/`} render={() => <Redirect to={`${match.url}/home`} />} exact={true} />
-                    </Switch>
-                </IonRouterOutlet>
-                <IonTabBar slot="top">
-                    <IonTabButton className='title-portfolyo' >
-                        <IonTitle size="large">PortfolYo!</IonTitle>
-                    </IonTabButton>
-                    <IonTabButton tab="home" href={`${match.url}/home`}>
-                        <IonLabel>Home</IonLabel>
-                    </IonTabButton>
-                    <IonTabButton tab="RunTheProj" href={`${match.url}/RunTheProj`}>
-                        <IonLabel>RunTheProj</IonLabel>
-                    </IonTabButton>
-                </IonTabBar>
-            </IonTabs>
+    if (dataOfProjectHeader)
+        curr_component = (
+            <IonContent>
+                <IonTabs>
+                    <IonRouterOutlet>
+                        <Switch>
+                            <Route path={`${match.url}/home`} component={() => <ProjectHeader dataOfProjectHeader={dataOfProjectHeader, projectPic} />} exact={true} />
+                            <Route path={`${match.url}/RunTheProj`} component={() => <RunTheProj dataOfCodeRunner={dataOfProjectDetails} />} exact={true} />
+                            <Route path={`${match.url}/`} render={() => <Redirect to={`${match.url}/home`} />} exact={true} />
+                        </Switch>
+                    </IonRouterOutlet>
+                    <IonTabBar slot="top">
+                        <IonTabButton className='title-portfolyo' >
+                            <IonTitle onClick={() => history.push('/')} size="large">PortfolYo!</IonTitle>
+                        </IonTabButton>
+                        <IonTabButton tab="home" href={`${match.url}/home`}>
+                            <IonLabel>Home</IonLabel>
+                        </IonTabButton>
+                        <IonTabButton tab="RunTheProj" href={`${match.url}/RunTheProj`}>
+                            <IonLabel>RunTheProj</IonLabel>
+                        </IonTabButton>
+                    </IonTabBar>
+                </IonTabs>
 
-        </IonContent>
-    )
+            </IonContent>
+        )
     else {
         curr_component = (
             <IonContent>
@@ -66,8 +66,8 @@ const ProjectPage = () => {
                     message={'ProtfolYoing...'}
                 />
             </IonContent>
-        ) 
+        )
     }
-    return  curr_component
+    return curr_component
 };
 export default ProjectPage

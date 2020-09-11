@@ -5,7 +5,10 @@ import { setProjectData, getProjectData } from '../../services/projectService'
 import pages from '../../pages/Pages'
 import { download } from 'ionicons/icons'
 import { saveAs } from 'file-saver';
-
+import successPic from '../../resources/success.svg'
+import sorryPic from '../../resources/sorry.svg'
+import waitPic from '../../resources/wait.svg'
+import { createBrowserHistory } from 'history'
 const allData = {
     "5": {
         dataOfProjectHeader: {
@@ -31,6 +34,7 @@ const allData = {
 }
 
 const UpdateProjectInfo = () => {
+    const history = createBrowserHistory({ forceRefresh: true })
     const { projectId } = useParams();
     const picUploadRef = useRef(null)
     const encodedProjectUploadRef = useRef(null)
@@ -40,7 +44,15 @@ const UpdateProjectInfo = () => {
     const [picUploaded, setPicUploaded] = useState(false)
     const [encodedProject, setEncodedProject] = useState()
     const [encodedProjectUploaded, setEncodedProjectUploaded] = useState(false)
-    const [showModal, setShowModal] = useState(false)
+    const projectTypeSelectRef = useRef(null)
+    const [showExplainModal, setShowExplainModal] = useState(false)
+    
+    const [showSubmitModal, setShowSubmitModal] = useState(false)
+    const [submitStateMsg, setSubmitStateMsg] = useState("'PortfolYoing your new project...'")
+    const [loadingOnSubmit, setLoadingOnSubmit] = useState(true)
+    const [disableSubmitGoToProjectBottun, setDisableSubmitGoToProjectBottun] = useState(true)
+    const [disableSubmitTnxButton, setDisableSubmitTnxButton] = useState(true)
+    const [submitImage, setSubmitImage] = useState(waitPic)
 
     useEffect(() => {
         const getData = async () => {
@@ -64,7 +76,7 @@ const UpdateProjectInfo = () => {
                     file = input.files[0]
                     const fileParts = file.name.split('.');
                     const picName = fileParts[0];
-                    const picType = fileParts[1];
+                    const picType = fileParts[fileParts.length - 1];
                     reader.onload = async (recievedFile) => {
                         const picData = recievedFile.target.result;
                         const projectPic = { picName, picType, picData }
@@ -75,6 +87,12 @@ const UpdateProjectInfo = () => {
             }
         })()
     }, [picUploadRef.current, picUploaded])
+
+    // useEffect(() => {
+    //     if(projectTypeSelectRef && projectTypeSelectRef.current) {
+    //         console.log(projectTypeSelectRef.current)
+    //     }
+    // }, [projectTypeSelectRef, projectTypeSelectRef.current])
 
     useEffect(() => {
         (async () => {
@@ -87,7 +105,7 @@ const UpdateProjectInfo = () => {
                     file = input.files[0]
                     const fileParts = file.name.split('.');
                     const encodedProjectName = fileParts[0];
-                    const encodedProjectFormat = fileParts[1];
+                    const encodedProjectFormat = fileParts[fileParts.length - 1];
                     reader.onload = async (recievedFile) => {
                         const encodedProjectData = recievedFile.target.result;
                         const encodedProject = { encodedProjectName, encodedProjectFormat, encodedProjectData }
@@ -121,8 +139,32 @@ const UpdateProjectInfo = () => {
         )
     }
     const handleFormSubmit = async () => {
+        setShowSubmitModal(true)
+        setLoadingOnSubmit(true)
+        setSubmitImage(waitPic)
+        setSubmitStateMsg("PortfolYoing your project")
+        if(projectTypeSelectRef.current.value) {
+            dataOfProjectDetails.projectType = projectTypeSelectRef.current.value
+        }
+        else {
+            dataOfProjectDetails.projectType = projectTypeSelectRef.current.defaultValue
+        }
+        encodedProject.encodedProjectName = dataOfProjectHeader.title
+        const profileId = localStorage.getItem('id');
+        try{
+            const response = await setProjectData(profileId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject })
+            setSubmitImage(successPic)
+            setSubmitStateMsg("Project was sucssefully updated in your portfolYo!")
+            setDisableSubmitGoToProjectBottun(false)
 
-        const response = await setProjectData(projectId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProjectData })
+        }
+        catch (e) {
+            setSubmitImage(sorryPic)
+            setSubmitStateMsg("We are deeply sorry :( something went wrong, this is still a beta version, for more information, call our support center at 050-111-1111 and no one's there.")
+        }
+        setDisableSubmitTnxButton(false)
+        setLoadingOnSubmit(false)
+
     }
 
     const donwloadZipFile = () => {
@@ -139,7 +181,17 @@ const UpdateProjectInfo = () => {
     let value
     if (dataOfProjectDetails && dataOfProjectHeader) {
         currComp = <IonCard>
-            <IonModal animated={true} isOpen={showModal}>
+              <IonModal animated={true} isOpen={showSubmitModal}>
+                <img className="uploadphoto" src={submitImage} />
+                <IonTitle>{submitStateMsg}</IonTitle>
+                <IonRow>
+                <IonLoading isOpen={loadingOnSubmit} message={"portfolYoing..."} />
+                <IonButton disabled={disableSubmitGoToProjectBottun} onClick={() => history.push(`${pages.projectRoute}/${projectId}`)} > Go To Project </IonButton>
+                <IonButton disabled={disableSubmitTnxButton} onClick={() => setShowSubmitModal(false)}> ok, tnx</IonButton>
+                </IonRow>
+            </IonModal>
+
+            <IonModal animated={true} isOpen={showExplainModal}>
 
                 <IonText>
                     <br></br>
@@ -158,7 +210,7 @@ const UpdateProjectInfo = () => {
                     <IonItemDivider>nodeJS instructions:</IonItemDivider>
                     <p>    1. edit your package.json to run the project on "npm run dev"</p>
                 </IonText>
-                <IonButton onClick={() => setShowModal(false)}>Got it, tnx</IonButton>
+                <IonButton onClick={() => setShowExplainModal(false)}>Got it, tnx</IonButton>
             </IonModal>
             <IonCardHeader>
                 <IonToolbar>
@@ -177,7 +229,7 @@ const UpdateProjectInfo = () => {
             </IonCardContent>
             <IonItem style={{ width: '100%' }}>
                 <IonLabel position="stacked">Project type</IonLabel>
-                <IonSelect value={value} placeholder="Select One" onIonChange={(e) => setField(dataOfProjectDetails, "projectType", e.detail.value)}>
+                <IonSelect value={value} defaultChecked={true} defaultValue={dataOfProjectDetails.projectType} placeholder="Select One" ref={projectTypeSelectRef} onIonChange={(e) => setField(dataOfProjectDetails, "projectType", e.detail.value)}>
                     <IonSelectOption value="python">python</IonSelectOption>
                     <IonSelectOption value="node">node.js</IonSelectOption>
                 </IonSelect>
@@ -190,7 +242,7 @@ const UpdateProjectInfo = () => {
                 <IonInput onIonChange={() => setEncodedProjectUploaded(true)} type='file' ref={encodedProjectUploadRef} />
                 <IonIcon onClick={donwloadZipFile} style={{ cursor: 'pointer' }} icon={download} />
             </IonItem>
-            <IonLabel onMouseOver={() => setShowModal(true)} color="red" position='stacked'>*what do I need to upload?</IonLabel>
+            <IonLabel style={{cursor:"pointer"}}onClick={() => setShowExplainModal(true)} color="red" position='stacked'> * what do I need to upload?</IonLabel>
             <IonItem class='centeredItem'>
                 <IonButton onClick={handleFormSubmit} size="large" type="submit">update!</IonButton>
             </IonItem>

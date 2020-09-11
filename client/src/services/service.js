@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
-export const serverPath = '192.168.1.24'
-
+import {serverPath} from '../pages/Pages'
 
 export const fetchFromServer = async (route, method, body = null) => {
 
@@ -14,7 +13,7 @@ export const fetchFromServer = async (route, method, body = null) => {
             body: JSON.stringify(body)
         })
     }
-    const res = await fetch(`http://192.168.1.12:5000/${route}`, options)
+    const res = await fetch(`http://${serverPath}:5000/${route}`, options)
 
     if (res.ok) {
         // handle some default when accept
