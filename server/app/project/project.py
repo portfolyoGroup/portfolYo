@@ -6,7 +6,6 @@ from service.mongo_db.db_client import is_user_exist, add_user_project
 
 project_blueprint = Blueprint('project_blueprint', __name__)
 
-
 """
 end point for uploading new project:
 body structure: 
@@ -18,21 +17,15 @@ body structure:
     "encodedProject": ""
 }
 """
+
+
 @project_blueprint.route('/project', methods=['POST'])
 def upload():
     body = json.loads(request.data)
-    encoded_project = body.get("encodedProject")
-    encoded_project = bytes(body.get("encodedProject"), 'ascii') if encoded_project else None
-    project_name = body.get("projectName")
-    project_type = body.get("projectType")
     user_id = request.args.get("profileId")
-    port = body.get("port")
-    response = projects_manager.handle_upload(encoded_zip=encoded_project,
-                                      project_name=project_name,
-                                      project_type=project_type,
-                                      user_id=user_id, port=port)
-    return jsonify({"success": True, "content": response}), 200
 
+    response = projects_manager.handle_upload(project_data=body, user_id=user_id)
+    return jsonify({"success": True, "content": response}), 200
 
 
 """
@@ -40,15 +33,22 @@ run an existing project
 query param1: projectName
 query param2: userName
 """
+
+
 @project_blueprint.route('/project', methods=['GET'])
-def run():
-    project_name = request.args.get("projectName")
-    user_id = request.args.get("userId")
+def get_project_data():
+    project_id = request.args.get("id")
+    response = projects_manager.get_project_data(project_id)
 
-    port = projects_manager.run_project(project_name, user_id)
-    return jsonify({"success": True, "port": port}), 200
+    return jsonify({'success': True} + response), 200
 
-
+# def run():
+#     project_name = request.args.get("projectName")
+#     user_id = request.args.get("userId")
+#
+#     port = projects_manager.run_project(project_name, user_id)
+#     return jsonify({"success": True, "port": port}), 200
+#
 
 """
 stops a running project:
@@ -58,6 +58,8 @@ body structure:
     "user": "noam"
 }
 """
+
+
 @project_blueprint.route('/project/stop', methods=['POST'])
 def stop():
     body = json.loads(request.data)
@@ -78,7 +80,3 @@ def delete():
 
     projects_manager.delete_project(user_name, project_name)
     return jsonify({"success": True}), 200
-
-
-
-

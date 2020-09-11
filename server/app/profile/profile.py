@@ -67,7 +67,7 @@ def convert_user_to_dict(user: User, uid: str):
     data_of_profile_home_dict["name"] = user["name"]
     data_of_profile_home_dict["title"] = user["title"]
     data_of_profile_home_dict["main_description"] = user["main_description"]
-    # projects_list_arr = user["projects"]
+    projects_list_arr = user["projects"]
     profile_res_dict["dataOfAbout"] = data_of_about_dict
     profile_res_dict["dataOfContact"] = data_of_contact_dict
     profile_res_dict["dataOfProfileHome"] = data_of_profile_home_dict

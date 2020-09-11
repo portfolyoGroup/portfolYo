@@ -1,11 +1,27 @@
 from mongoengine import *
 
 
+class ProjectPic(Document):
+    name = StringField()
+    format = StringField()
+    encoded = StringField()
+
+
+class ProjectHeader(Document):
+    title = StringField()
+    subtitle = StringField()
+
+
 class Project(Document):  # Todo: add encoded project if we are staying with the current implementation
     pKey = StringField(unique=True, required=True)  # userId_projectName
     name = StringField(required=True)
     port = StringField(max_length=5)
     description = StringField()
+    picture = ReferenceField(ProjectPic)
+    header_data = ReferenceField(ProjectHeader)
+    format = StringField()
+    type = StringField()
+    encoded = StringField()
 
 
 class User(Document):
