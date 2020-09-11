@@ -47,22 +47,22 @@ def update_user(email: str, *args):
 
 
 def update_user_profile(profile_data: dict):
-    if is_user_exist(profile_data['id']).get():
-        user = User.objects(uid=profile_data.uid)
-        user.name = profile_data.data_of_profile_home.name
-        user.title = profile_data.data_of_profile_home.title
-        user.main_description = profile_data.data_of_profile_home.main_description
-        user.date_of_birth = profile_data.data_of_contact.date_of_birth
-        user.address = profile_data.data_of_contact.address
-        user.phone = profile_data.data_of_contact.phone
-        user.experience = profile_data.data_of_about.experience
-        user.skills = profile_data.data_of_about.skills
-        user.programming_languages = profile_data.data_of_about.programming_languages
-        user.description = profile_data.data_of_about.description
-        user.projects = profile_data.projectsList
-        user.picName = profile_data.profilePic.picName
-        user.picType = profile_data.profilePic.picType
-        user.picData = profile_data.profilePic.picData
+    if is_user_exist(profile_data.get('uid')):
+        user = User.objects(uid=profile_data.get('uid')).get()
+        user.name = profile_data.get('dataOfProfileHome').get('name')
+        user.title = profile_data.get('dataOfProfileHome').get('title')
+        user.main_description = profile_data.get('dataOfProfileHome').get('main_description')
+        user.date_of_birth = profile_data.get('dataOfContact').get('date_of_birth')
+        user.address = profile_data.get('dataOfContact').get('address')
+        user.phone = profile_data.get('dataOfContact').get('phone')
+        user.experience = profile_data.get('dataOfAbout').get('experience')
+        user.skills = profile_data.get('dataOfAbout').get('skills')
+        user.programming_languages = profile_data.get('dataOfAbout').get('programming_languages')
+        user.description = profile_data.get('dataOfAbout').get('description')
+        user.projects = profile_data.get('projectsList')
+        user.picName = profile_data.get('profilePic').get('picName')
+        user.picType = profile_data.get('profilePic').get('picType')
+        user.picData = profile_data.get('profilePic').get('picData')
 
         # user = User(uid=profile_data.uid, name=profile_data.data_of_profile_home.name, title=profile_data.data_of_profile_home.title,
         #             main_description=profile_data.data_of_profile_home.main_description, date_of_birth=profile_data.data_of_contact.date_of_birth,

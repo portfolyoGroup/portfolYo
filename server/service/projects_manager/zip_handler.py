@@ -28,18 +28,21 @@ def unzip_file(path2file: str, project_type, project_name):
             project_path = path + project_name
             # os.chmod(project_path, stat.S_IREAD, stat.S_IWRITE)
             # os.subprocess.call(['chmod', '-R', '+rw', project_path])
-            change_permissions_recursive(path, stat.S_IWRITE)
+            change_permissions_recursive(path, stat.S_IWRITE, stat.S_IREAD)
             zip_ref.extractall(path)
         except Exception as e:
             pass
 
 
-def change_permissions_recursive(path, mode):
+# TODO: Test & Consider changing implementation for recursive permissions
+def change_permissions_recursive(path, *modes):
     for root, dirs, files in os.walk(path, topdown=False):
         for dir in [os.path.join(root,d) for d in dirs]:
-            os.chmod(dir, mode)
-    for file in [os.path.join(root, f) for f in files]:
-            os.chmod(file, mode)
+            for mode in modes:
+                os.chmod(dir, mode)
+        for file in [os.path.join(root, f) for f in files]:
+            for mode in modes:
+                os.chmod(file, mode)
 
 
 def remove_zip(zip_file_name):

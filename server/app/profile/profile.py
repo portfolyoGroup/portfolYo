@@ -22,13 +22,14 @@ def get_profile():
 @profile_blueprint.route('/profile', methods=['POST'])
 def update_profile():
     profile_data = dict()
-    profile_data.uid = request.args.get('id')
+    profile_data['uid'] = request.args.get('id')
+    print(request.args)
     body = json.loads(request.data)
-    profile_data.data_of_about = body.get('dataOfAbout')
-    profile_data.data_of_contact = body.get('dataOfContact')
-    profile_data.data_of_profile_home = body.get('dataOfProfileHome')
-    profile_data.projects_list = body.get('projectsList')
-    profile_data.profilePic = body.get('profilePic')
+    profile_data['dataOfAbout'] = body.get('dataOfAbout')
+    profile_data['dataOfContact'] = body.get('dataOfContact')
+    profile_data['dataOfProfileHome'] = body.get('dataOfProfileHome')
+    profile_data['projectsList'] = body.get('projectsList')
+    profile_data['profilePic'] = body.get('profilePic')
     update_user_profile(profile_data)
     json_profile_result = dict()
     json_profile_result["success"] = True
@@ -67,7 +68,7 @@ def convert_user_to_dict(user: User, uid: str):
     data_of_profile_home_dict["name"] = user["name"]
     data_of_profile_home_dict["title"] = user["title"]
     data_of_profile_home_dict["main_description"] = user["main_description"]
-    # projects_list_arr = user["projects"]
+    projects_list_arr = user['projects']
     profile_res_dict["dataOfAbout"] = data_of_about_dict
     profile_res_dict["dataOfContact"] = data_of_contact_dict
     profile_res_dict["dataOfProfileHome"] = data_of_profile_home_dict
