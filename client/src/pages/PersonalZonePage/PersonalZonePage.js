@@ -24,11 +24,6 @@ const PersonalZonePage = (props) => {
     }
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle className='big-title-portfolyo'>PortfolYo!</IonTitle>
-                </IonToolbar>
-            </IonHeader>
             <IonContent color="primary">
                 <IonTabs>
                     <IonRouterOutlet>
