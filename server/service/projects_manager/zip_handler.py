@@ -57,6 +57,6 @@ def _remove_readonly(func, path, _):
     os.chmod(path, stat.S_IWRITE)
     func(path)
 # #
-# file_encoded = base64_encoder("/home/thedude/repos/DudiChen/portfolYo/server/app/profile/statics/default_profile_pic.jpeg")
+# file_encoded = base64_encoder("/tmp/flask-example.zip")
 # base64_to_zip(file_encoded, "flaskWebTest.zip")
 # unzip_file("C:\\tmp\\flaskWebTest.zip")
