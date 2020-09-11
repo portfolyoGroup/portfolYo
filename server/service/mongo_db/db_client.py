@@ -127,8 +127,8 @@ def add_user_project(uid: str, project_name: str):
     try:
         user = User.objects(uid=uid).get()
         project_key = get_project_pKey(uid, project_name)
-        if project_key not in user.get('projects'):
-            user.projects.append()
+        if project_key not in user.projects:
+            user.projects.append(project_key)
             user.save()
     except Exception as e:
         logging.error(e)

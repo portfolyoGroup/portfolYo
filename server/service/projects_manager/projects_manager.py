@@ -1,7 +1,6 @@
 import logging
 
 from docker.errors import BuildError, APIError
-# from meds.rest import port
 from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
@@ -80,17 +79,10 @@ def _get_available_port():
     return port
 
 
-def _save_or_update_project(project_name: str, port: str, user_id: str, description: str = None):
+def _save_project(project_name: str, user_id: str):
     project_id = get_project_pKey(user_id, project_name)
-
-    project = get_project_if_exist(project_id)
-    if not project:
-        project = Project(pKey=project_id, name=project_name)
-    if port:
-        project.port = port
-    if description:
-        project.description = description
-
+    encoded_project, _, port = _get_default_project_data()
+    project = Project(pKey=project_id, encoded=encoded_project)
     save_project(project)
 
 
@@ -109,8 +101,6 @@ def _update_project(project_data: dict, user_id: str):
     pic_name = project_data.get(PIC_DATA).get(PIC_NAME)
     pic_format = project_data.get(PIC_DATA).get(PIC_FORMAT)
     encoded_pic = project_data.get(PIC_DATA).get(ENCODED_PIC)
-
-
 
     project_id = get_project_pKey(user_id, project_name)
     project = get_project_if_exist(project_id)
@@ -141,11 +131,6 @@ def delete_project(user_id, project_name):
 # print(encoded_file)
 # save_new_project(encoded_file_ascii, "flask-test", "python", "pythonWebServer", "noam")
 # run_project("Exam_Trainer_React", "noam", "3000")
-def save_new_project(project_name, user_id):
-    encoded_project, _, port = _get_default_project_data()
-    _save_or_update_project(project_name, port, user_id)
-
-    return {"encoded_zip": encoded_project}
 
 
 def handle_upload(project_data: dict, user_id: str):
@@ -177,38 +162,38 @@ def handle_upload(project_data: dict, user_id: str):
     if project_data.get(DATA_OF_ENCODED_PROJECT):
         update_project(project_data)
     else:
-        project_name = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_NAME)
+        project_name = project_data.get(HEADER_DATA).get(TITLE)
         add_user_project(user_id, project_name)
-        return save_new_project(project_name, user_id)
+        _save_project(project_name, user_id)
 
 
 def get_project_data(project_id: str):
     project = get_project(project_id)
     data_of_header = dict()
 
-    data_of_header.add(TITLE, project.header_data.title)
-    data_of_header.add(SUB_TITLE, project.header_data.subtitle)
-    data_of_header.add(DESCRIPTION, project.description)
+    data_of_header[TITLE] = project.header_data.title
+    data_of_header[SUB_TITLE] = project.header_data.subtitle
+    data_of_header[DESCRIPTION] = project.description
 
     data_of_project = dict()
-    data_of_project.add(PROJECT_TYPE, project.type)
-    data_of_project.add(PROJECT_PORT, project.port)
+    data_of_project[PROJECT_TYPE] = project.type
+    data_of_project[PROJECT_PORT] = project.port
 
     encoded_project_data = dict()
-    encoded_project_data.add(PROJECT_NAME, project.name)
-    encoded_project_data.add(PROJECT_FORMAT, project.format)
-    encoded_project_data.add(ENCODED_PROJECT, project.encoded)
+    encoded_project_data[PROJECT_NAME] = project.name
+    encoded_project_data[PROJECT_FORMAT] = project.format
+    encoded_project_data[ENCODED_PROJECT] = project.encoded
 
     pic_data = dict()
-    pic_data.add(PIC_NAME,project.picture.name)
-    pic_data.add(PIC_FORMAT, project.picture.format)
-    pic_data.add(ENCODED_PIC,project.picture.encoded)
+    pic_data[PIC_NAME]  = project.picture.name
+    pic_data[PIC_FORMAT] = project.picture.format
+    pic_data[ENCODED_PIC] = project.picture.encoded
 
     result = dict()
-    result.add(HEADER_DATA, data_of_header)
-    result.add(TYPE_AND_PORT, data_of_project)
-    result.add(DATA_OF_ENCODED_PROJECT, encoded_project_data)
-    result.add(PIC_DATA, pic_data)
+    result[HEADER_DATA] =  data_of_header
+    result[TYPE_AND_PORT] = data_of_project
+    result[DATA_OF_ENCODED_PROJECT] = encoded_project_data
+    result[PIC_DATA] = pic_data
 
     return result
 

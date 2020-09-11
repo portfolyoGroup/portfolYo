@@ -24,8 +24,8 @@ def upload():
     body = json.loads(request.data)
     user_id = request.args.get("profileId")
 
-    response = projects_manager.handle_upload(project_data=body, user_id=user_id)
-    return jsonify({"success": True, "content": response}), 200
+    projects_manager.handle_upload(project_data=body, user_id=user_id)
+    return jsonify({"success": True}), 200
 
 
 """
