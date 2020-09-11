@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { IonSelectOption, IonSelect, IonContent, IonLoading, IonButton, IonIcon, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard, IonRow } from '@ionic/react';
+import { IonSelectOption, IonSelect, IonModal, IonCol, IonContent, IonLoading, IonButton, IonIcon, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard, IonRow, IonText } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 import { setProjectData, getProjectData } from '../../services/projectService'
 import pages from '../../pages/Pages'
@@ -19,14 +19,13 @@ const allData = {
         },
         encodedProject: {
             encodedProjectName: "name",
-            encodedProjectType: ".zip",
+            encodedProjectFormat: ".zip",
             encodedProjectData: "KAKI OF PIGIOYOTO"
         },
         projectPic: {
             picName: "some pic",
             picType: "png",
             picData: 'kaki of yonim'
-
         }
     }
 }
@@ -41,6 +40,7 @@ const UpdateProjectInfo = () => {
     const [picUploaded, setPicUploaded] = useState(false)
     const [encodedProject, setEncodedProject] = useState()
     const [encodedProjectUploaded, setEncodedProjectUploaded] = useState(false)
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         const getData = async () => {
@@ -87,10 +87,10 @@ const UpdateProjectInfo = () => {
                     file = input.files[0]
                     const fileParts = file.name.split('.');
                     const encodedProjectName = fileParts[0];
-                    const encodedProjectType = fileParts[1];
+                    const encodedProjectFormat = fileParts[1];
                     reader.onload = async (recievedFile) => {
                         const encodedProjectData = recievedFile.target.result;
-                        const encodedProject = { encodedProjectName, encodedProjectType, encodedProjectData }
+                        const encodedProject = { encodedProjectName, encodedProjectFormat, encodedProjectData }
                         setEncodedProject(encodedProject)
                     }
                     reader.readAsDataURL(file);
@@ -139,6 +139,27 @@ const UpdateProjectInfo = () => {
     let value
     if (dataOfProjectDetails && dataOfProjectHeader) {
         currComp = <IonCard>
+            <IonModal animated={true} isOpen={showModal}>
+
+                <IonText>
+                    <br></br>
+                    <IonTitle> What do we need to run your project?</IonTitle>
+                    <br></br>
+                    <IonItemDivider>Common instructions:</IonItemDivider>
+
+                    <p>    1. make sure the root of your project has the same name as your project zip.</p>
+                    <p>    2. make sure you have a make file at the root of your project that installs all of your project requirements and dependencies and set the environment variables.</p>
+                    <p>    3. make sure to set the host of your project to be 0.0.0.0</p>
+                    
+                    <IonItemDivider>Python project description:</IonItemDivider>
+                    <p>    1. use Python version smaller then 3.7</p>
+                    <p>    2. name the project entry point "app.py" and place it at the root of your project.</p>
+                    
+                    <IonItemDivider>nodeJS instructions:</IonItemDivider>
+                    <p>    1. edit your package.json to run the project on "npm run dev"</p>
+                </IonText>
+                <IonButton onClick={() => setShowModal(false)}>Got it, tnx</IonButton>
+            </IonModal>
             <IonCardHeader>
                 <IonToolbar>
                     <IonTitle>Update your project</IonTitle>
@@ -155,17 +176,21 @@ const UpdateProjectInfo = () => {
                 <IonItemDivider>Project info</IonItemDivider>
             </IonCardContent>
             <IonItem style={{ width: '100%' }}>
-                <IonLabel>Project type</IonLabel>
+                <IonLabel position="stacked">Project type</IonLabel>
                 <IonSelect value={value} placeholder="Select One" onIonChange={(e) => setField(dataOfProjectDetails, "projectType", e.detail.value)}>
                     <IonSelectOption value="python">python</IonSelectOption>
                     <IonSelectOption value="node">node.js</IonSelectOption>
                 </IonSelect>
             </IonItem>
+            <br></br>
+            <IonItemDivider>Upload Project</IonItemDivider>
             <IonItem class='ion-padding'>
                 <IonLabel position='stacked'>Upload Project's .zip File</IonLabel>
+                <p></p>
                 <IonInput onIonChange={() => setEncodedProjectUploaded(true)} type='file' ref={encodedProjectUploadRef} />
                 <IonIcon onClick={donwloadZipFile} style={{ cursor: 'pointer' }} icon={download} />
             </IonItem>
+            <IonLabel onMouseOver={() => setShowModal(true)} color="red" position='stacked'>*what do I need to upload?</IonLabel>
             <IonItem class='centeredItem'>
                 <IonButton onClick={handleFormSubmit} size="large" type="submit">update!</IonButton>
             </IonItem>

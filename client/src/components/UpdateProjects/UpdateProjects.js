@@ -1,4 +1,4 @@
-import { IonModal, IonToolbar, IonLoading, IonFabList, IonFab, IonFabButton, IonRouterOutlet, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton, IonIcon, IonInput, setupConfig, IonRow } from '@ionic/react'
+import { IonModal, IonToolbar, IonLoading, IonFabList, IonFab, IonFabButton, IonRouterOutlet, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton, IonIcon, IonInput, setupConfig, IonRow, IonCol, IonTitle, IonImg } from '@ionic/react'
 import { withRouter, useHistory } from 'react-router'
 import { createBrowserHistory } from 'history'
 import pic from '../../resources/snakeGamePic.png'
@@ -13,6 +13,8 @@ import pages from '../../pages/Pages'
 import ProjectPage from '../../pages/ProjectPage/ProjectPage'
 import { add } from 'ionicons/icons'
 import ProjectsList from '../projectsList/ProjectsList'
+import {setProjectData } from '../../services/projectService'
+import uploadPic from '../../resources/uploadProjImage.svg'
 const UpdateProjects = () => {
     const profileId = React.useMemo(() => localStorage.getItem('id'))
     const history = useHistory();
@@ -88,20 +90,31 @@ const UpdateProjects = () => {
         return currComponent;
     }
 
-    const createNewProject = () => {
-        if(!modalInputValue) {
+    const createNewProject = async () => {
+        if (!modalInputValue) {
             console.log("null input")
             return
         }
-        setShowModal(false)
-        console.log(modalInputValue)
+        const response = await setShowModal(false)
+        setProjectData(profileId, {
+            dataOfProjectHeader:{
+                title: modalInputValue
+            }
+        })
     }
 
     return (
         <IonContent>
-            <IonModal isOpen={showModal}>
-                <p>This is modal content</p>
-                <IonInput placeholder="New Project's Name" autoGrow={true} clearOnEdit={false} size="100%" onIonChange={e => setModalInputValue(e.detail.value)} ></IonInput>
+            <IonModal animated={true} isOpen={showModal}>
+
+                {/* <IonTitle slot="center">Create a New Project</IonTitle>
+                <IonItemDivider></IonItemDivider> */}
+                <img src={uploadPic} className="uploadphoto" />
+                <IonItemDivider>Create a New Project</IonItemDivider>
+                <IonCol>
+                    <IonInput placeholder="Choose Your New Project's Name" autoGrow={true} clearOnEdit={false} size="100%" onIonChange={e => setModalInputValue(e.detail.value)} ></IonInput>
+                </IonCol>
+                <IonItemDivider></IonItemDivider>
                 <IonRow>
                     <IonButton onClick={createNewProject}>Create Project</IonButton>
                     <IonButton onClick={() => setShowModal(false)}>Cancel</IonButton>

@@ -47,7 +47,7 @@ const ProfilePage = () => {
                     </IonRouterOutlet>
                     <IonTabBar slot="top">
                         <IonTabButton className='title-portfolyo' >
-                            <IonTitle size="large">PortfolYo!</IonTitle>
+                            <IonTitle onClick={() => history.push('/')} size="large">PortfolYo!</IonTitle>
                         </IonTabButton>
                         <IonTabButton tab="home" href={`${match.url}/home`}>
                             <IonLabel>Home</IonLabel>

@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { IonContent, IonLoading, IonButton, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard } from '@ionic/react';
+import { IonModal, IonContent, IonLoading, IonButton, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard, IonRow } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 import { setProfileData, getProfileData } from '../../services/profileService'
 import pages from '../../pages/Pages'
 import { createBrowserHistory } from 'history'
+import successPic from '../../resources/success.svg'
+import sorryPic from '../../resources/sorry.svg'
+import waitPic from '../../resources/wait.svg'
 
+ 
 // const dataOfAbout = {
 //     description: "Tell us about you:",
 //     programing_languages: 'c, Java, etc...',
@@ -25,17 +29,25 @@ import { createBrowserHistory } from 'history'
 
 const UpdateProfileInfo = () => {
     const picUploadRef = useRef(null)
+    const [id, setId] = useState()
     const [dataOfContact, setDataOfContact] = useState()
     const [dataOfAbout, setDataOfAbout] = useState()
     const [dataOfProfileHome, setDataOfProfileHome] = useState()
     const [projectsList, setProjectsList] = useState()
     const [profilePic, setProfilePic] = useState()
     const [picUploaded, setPicUploaded] = useState(false)
-    const history = createBrowserHistory()
+    const [showModal, setShowModal] = useState(false)
+    const [submitStateMsg, setSubmitStateMsg] = useState("'PortfolYoing your new profile...'")
+    const [loadingOnSubmit, setLoadingOnSubmit] = useState(true)
+    const [disableSubmitGoToProfileBottun, setdisableSubmitGoToProfileBottun] = useState(true)
+    const [disableSubmitTnxButton, setDisableSubmitTnxButton] = useState(true)
+    const [submitImage, setSubmitImage] = useState(waitPic)
+    const history = createBrowserHistory({ forceRefresh: true })
 
     useEffect(() => {
         const getData = async () => {
             const id = localStorage.getItem('id')
+            setId(id)
             try {
                 const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList } = await getProfileData(id)
                 setDataOfContact(dataOfContact)
@@ -43,7 +55,7 @@ const UpdateProfileInfo = () => {
                 setDataOfProfileHome(dataOfProfileHome)
                 setProfilePic(profilePic)
                 setProjectsList(projectsList)
-            } catch(e) {
+            } catch (e) {
                 history.push(pages.errorRoute)
             }
         }
@@ -96,13 +108,37 @@ const UpdateProfileInfo = () => {
         )
     }
     const handleFormSubmit = async () => {
+        setLoadingOnSubmit(true)
+        setSubmitImage(waitPic)
+        setShowModal(true)
+        setSubmitStateMsg("Updating your profile")
         const id = localStorage.getItem('id')
-        const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList })
+        try {
+            const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList })
+            setSubmitImage(successPic)
+            setSubmitStateMsg("Sucsses")
+            setdisableSubmitGoToProfileBottun(false)
+        }
+        catch (e){
+            setSubmitStateMsg("Sorry, we failed to update." + e)
+            setSubmitImage(sorryPic)
+        }
+        setLoadingOnSubmit(false);
+        setDisableSubmitTnxButton(false);
     }
 
     let currComp
     if (dataOfAbout && dataOfContact && dataOfProfileHome && profilePic) {
         currComp = <IonCard>
+            <IonModal animated={true} isOpen={showModal}>
+                <img className="uploadphoto" src={submitImage} />
+                <IonTitle>{submitStateMsg}</IonTitle>
+                <IonRow>
+                <IonLoading isOpen={loadingOnSubmit} message={"portfolYoing..."} />
+                <IonButton disabled={disableSubmitGoToProfileBottun} onClick={() => history.push(`${pages.profileRoute}/${id}`)} > Go To Profile</IonButton>
+                <IonButton disabled={disableSubmitTnxButton} onClick={() => setShowModal(false)}> ok, tnx</IonButton>
+                </IonRow>
+            </IonModal>
             <IonCardHeader>
                 <IonToolbar>
                     <IonTitle>Update your profile</IonTitle>
@@ -113,8 +149,8 @@ const UpdateProfileInfo = () => {
                 <MyList dataToRead={dataOfProfileHome}></MyList>
                 <IonItem class='ion-padding'>
                     <IonLabel position='stacked'> Upload a photo</IonLabel>
-                    <img src={profilePic.picData} alt="no pic in server"/>
-                    <IonInput onIonChange={() => setPicUploaded(true)} type='file' ref={picUploadRef}/>
+                    <img src={profilePic.picData} alt="no pic in server" />
+                    <IonInput onIonChange={() => setPicUploaded(true)} type='file' ref={picUploadRef} />
                 </IonItem>
                 <IonItemDivider>About</IonItemDivider>
                 <MyList dataToRead={dataOfAbout}></MyList>

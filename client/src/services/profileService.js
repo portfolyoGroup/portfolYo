@@ -26,7 +26,7 @@ const allData = {
             picType: "png",
             picData: 'kaki of yonim'
         },
-        projectsList: ["71",  "72", "73", "74", "75"]
+        projectsList: ["71", "72", "73", "74", "75"]
     }
 }
 
@@ -46,12 +46,7 @@ export const setProfileData = async (profileId, data) => {
 
     if (isRealServer) {
         //call the server by id.
-        try {
-            return await fetchFromServer(`profile?id=${profileId}`, 'POST', data) 
-        }
-        catch (err) {
-            // todo : handle catch
-        }
+        return await fetchFromServer(`profile?id=${profileId}`, 'POST', data)
     }
     else {
         return await '5'

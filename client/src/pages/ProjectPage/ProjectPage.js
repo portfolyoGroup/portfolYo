@@ -10,12 +10,14 @@ import RunTheProj from '../../components/runTheProj/RunTheProj'
 import ProjectHeader from '../../components/projectHeader/ProjectHeader';
 import './ProjectPage.scss'
 import { getProjectData } from '../../services/projectService'
+import { createBrowserHistory } from 'history'
 
 const ProjectPage = () => {
     const [{ dataOfProjectHeader, dataOfCodeRunner }, setProjectData] = useState({})
     let { id } = useParams();
     const match = useRouteMatch()
     let curr_component;
+    const history = createBrowserHistory({ forceRefresh: true });
     useEffect(() => {
         (async () => {
             try{
@@ -30,7 +32,7 @@ const ProjectPage = () => {
         })()
     }, [])
 
-    if(dataOfProjectHeader && dataOfCodeRunner)
+    if(dataOfProjectHeader)
     curr_component =  (
         <IonContent>
             <IonTabs>

@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react'
 import pages from '../../pages/Pages'
 import ProjectPage from '../../pages/ProjectPage/ProjectPage'
 const ProjectsList = ({ projectsList }) => {
-    const history = createBrowserHistory();
+    const history = createBrowserHistory({ forceRefresh: true });
     const match = useRouteMatch();
     const [projectsCards, setProjectsCards] = useState([])
     useEffect(() => {
