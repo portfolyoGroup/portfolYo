@@ -4,7 +4,7 @@ from docker.errors import BuildError, APIError
 from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
-from service.mongo_db.db_entities import Project, ProjectPic, ProjectHeader
+from service.mongo_db.db_entities import Project
 from service.mongo_db.db_client import save_project, get_project, get_project_pKey, is_user_exist, delete_project, \
     get_project_if_exist, add_user_project, delete_user_project
 import os
@@ -25,12 +25,14 @@ def _get_default_project_data():
 
 
 def update_project(project_data: dict, user_id: str):
-    project_type = project_data.get(TYPE_AND_PORT).get(PROJECT_PORT)
+    project_type = project_data.get(TYPE_AND_PORT).get(PROJECT_TYPE)
     encoded_zip = project_data.get(DATA_OF_ENCODED_PROJECT).get(ENCODED_PROJECT)
     project_root = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_NAME)
     project_name = project_data.get(HEADER_DATA).get(TITLE)
     if project_type not in SUPPORTED_LANGUAGES:
-        logging.log(project_type + "not supported")
+        if project_type is None:
+            project_type = 'None type'
+        logging.log(project_type + " not supported")
         raise NotImplementedError(project_type + " not supported")
     if not is_user_exist(user_id):
         logging.error("user doesnt exist")
@@ -83,40 +85,28 @@ def _get_available_port():
 def _save_project(project_name: str, user_id: str):
     project_id = get_project_pKey(user_id, project_name)
     encoded_project, _, port = _get_default_project_data()
-    project = Project(pKey=project_id, encoded=encoded_project)
+    header_title = project_name
+    # TODO: Separation of project_name from header_title is required
+    project = Project(pKey=project_id, name= project_name, headerTitle=header_title, encoded=encoded_project)
     save_project(project)
 
 
-def _update_project(project_data: dict, user_id: str):
-    project_type = project_data.get(TYPE_AND_PORT).get(PROJECT_TYPE)
-    project_port = project_data.get(TYPE_AND_PORT).get(PROJECT_PORT)
-
-    title = project_data.get(HEADER_DATA).get(TITLE)
-    subtitle = project_data.get(HEADER_DATA).get(SUB_TITLE)
-    description = project_data.get(HEADER_DATA).get(DESCRIPTION)
-
+def _update_project_db(project_data: dict, user_id: str):
     project_name = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_NAME)
-    project_format = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_FORMAT)
-    encoded_project = project_data.get(DATA_OF_ENCODED_PROJECT).get(ENCODED_PROJECT)
-
-    pic_name = project_data.get(PIC_DATA).get(PIC_NAME)
-    pic_format = project_data.get(PIC_DATA).get(PIC_FORMAT)
-    encoded_pic = project_data.get(PIC_DATA).get(ENCODED_PIC)
-
     project_id = get_project_pKey(user_id, project_name)
     project = get_project_if_exist(project_id)
-
-    project_pic_db_entity = ProjectPic(name=pic_name, format=pic_format, encoded=encoded_pic)
-    project_header_db_entity = ProjectHeader(title=title, subtitle=subtitle)
-
-    project.port = project_port
-    project.description = description
-    project.picture = project_pic_db_entity
-    project.header_data = project_header_db_entity
-    project.format = project_format
-    project.type = project_type
-    project.encoded = encoded_project
-
+    project.type = project_data.get(TYPE_AND_PORT).get(PROJECT_TYPE)
+    project.port = project_data.get(TYPE_AND_PORT).get(PROJECT_PORT)
+    project.headerTitle = project_data.get(HEADER_DATA).get(TITLE)
+    project.headerSubtitle = project_data.get(HEADER_DATA).get(SUB_TITLE)
+    project.description = project_data.get(HEADER_DATA).get(DESCRIPTION)
+    project.format = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_FORMAT)
+    project.encoded = project_data.get(DATA_OF_ENCODED_PROJECT).get(ENCODED_PROJECT)
+    project.picName = project_data.get(PIC_DATA).get(PIC_NAME)
+    project.picFormat = project_data.get(PIC_DATA).get(PIC_FORMAT)
+    project.picEncodedData = project_data.get(PIC_DATA).get(ENCODED_PIC)
+    # project_pic_db_entity = ProjectPic(name=pic_name, format=pic_format, encoded=encoded_pic)
+    # project_header_db_entity = ProjectHeader(title=title, subtitle=subtitle)
     project.save()
 
 
@@ -161,7 +151,7 @@ def handle_upload(project_data: dict, user_id: str):
     :return:
     """
     if project_data.get(DATA_OF_ENCODED_PROJECT):
-        update_project(project_data)
+        update_project(project_data, user_id)
     else:
         project_name = project_data.get(HEADER_DATA).get(TITLE)
         add_user_project(user_id, project_name)
@@ -172,8 +162,8 @@ def get_project_data(project_id: str):
     project = get_project(project_id)
     data_of_header = dict()
 
-    data_of_header[TITLE] = project.header_data.title
-    data_of_header[SUB_TITLE] = project.header_data.subtitle
+    data_of_header[TITLE] = project.headerTitle
+    data_of_header[SUB_TITLE] = project.headerSubtitle
     data_of_header[DESCRIPTION] = project.description
 
     data_of_project = dict()
@@ -186,15 +176,18 @@ def get_project_data(project_id: str):
     encoded_project_data[ENCODED_PROJECT] = project.encoded
 
     pic_data = dict()
-    pic_data[PIC_NAME]  = project.picture.name
-    pic_data[PIC_FORMAT] = project.picture.format
-    pic_data[ENCODED_PIC] = project.picture.encoded
+    pic_data[PIC_NAME]  = project.picName
+    pic_data[PIC_FORMAT] = project.picFormat
+    pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, project.type)
 
     result = dict()
-    result[HEADER_DATA] =  data_of_header
+    result[HEADER_DATA] = data_of_header
     result[TYPE_AND_PORT] = data_of_project
     result[DATA_OF_ENCODED_PROJECT] = encoded_project_data
     result[PIC_DATA] = pic_data
 
     return result
 
+
+def concat_pic_prefix_to_encoded_data(encoded_pic_data: str, pic_type: str):
+    return 'data:image/' +pic_type + ';base64,  ' + encoded_pic_data

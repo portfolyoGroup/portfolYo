@@ -39,8 +39,8 @@ query param2: userName
 def get_project_data():
     project_id = request.args.get("id")
     response = projects_manager.get_project_data(project_id)
-
-    return jsonify({'success': True} + response), 200
+    response.update({'success': True})
+    return jsonify(response), 200
 
 @project_blueprint.route('/project/run', methods=['GET'])
 def run():
