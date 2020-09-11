@@ -21,18 +21,17 @@ body structure:
 @project_blueprint.route('/project', methods=['POST'])
 def upload():
     body = json.loads(request.data)
-    encoded_project = bytes(body.get("encodedProject"), 'ascii')
+    encoded_project = body.get("encodedProject")
+    encoded_project = bytes(body.get("encodedProject"), 'ascii') if encoded_project else None
     project_name = body.get("projectName")
     project_type = body.get("projectType")
     user_id = request.args.get("profileId")
     port = body.get("port")
-    projects_manager.save_new_project(encoded_zip=encoded_project,
+    response = projects_manager.handle_upload(encoded_zip=encoded_project,
                                       project_name=project_name,
                                       project_type=project_type,
                                       user_id=user_id, port=port)
-    if is_user_exist(user_id):
-        add_user_project(user_id, project_name)
-    return jsonify({"success": True}), 200
+    return jsonify({"success": True, "content": response}), 200
 
 
 
