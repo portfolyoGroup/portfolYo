@@ -32,12 +32,15 @@ def unzip_file(path2file: str, project_type, project_name):
             pass
 
 
-def change_permissions_recursive(path, mode):
+# TODO: Test & Consider changing implementation for recursive permissions
+def change_permissions_recursive(path, *modes):
     for root, dirs, files in os.walk(path, topdown=False):
         for dir in [os.path.join(root,d) for d in dirs]:
-            os.chmod(dir, mode)
-    for file in [os.path.join(root, f) for f in files]:
-            os.chmod(file, mode)
+            for mode in modes:
+                os.chmod(dir, mode)
+        for file in [os.path.join(root, f) for f in files]:
+            for mode in modes:
+                os.chmod(file, mode)
 
 
 def remove_zip(zip_file_name):
