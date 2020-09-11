@@ -8,24 +8,6 @@ import successPic from '../../resources/success.svg'
 import sorryPic from '../../resources/sorry.svg'
 import waitPic from '../../resources/wait.svg'
 
- 
-// const dataOfAbout = {
-//     description: "Tell us about you:",
-//     programing_languages: 'c, Java, etc...',
-//     skills: 'react, ',
-//     experience: 'mention your current and past roles in projects and jobs'
-// }
-// const dataOfContact = {
-//     date_of_birth: "5.5.1875",
-//     address: 'TLV fashion mall',
-//     phone: '051113345'
-// }
-// const dataOfProfileHome = {
-//     name: "Israel Israeli",
-//     title: 'your main occpation, e.g cs student',
-//     main_description: 'your main occpation, e.g cs student',
-// }
-
 
 const UpdateProfileInfo = () => {
     const picUploadRef = useRef(null)
@@ -73,7 +55,7 @@ const UpdateProfileInfo = () => {
                     file = input.files[0]
                     const fileParts = file.name.split('.');
                     const picName = fileParts[0];
-                    const picType = fileParts[1];
+                    const picType = fileParts[fileParts.length - 1]
                     reader.onload = async (recievedFile) => {
                         const picData = recievedFile.target.result;
                         const profilePic = { picName, picType, picData }
@@ -149,6 +131,7 @@ const UpdateProfileInfo = () => {
                 <MyList dataToRead={dataOfProfileHome}></MyList>
                 <IonItem class='ion-padding'>
                     <IonLabel position='stacked'> Upload a photo</IonLabel>
+                    <br></br>
                     <img src={profilePic.picData} alt="no pic in server" />
                     <IonInput onIonChange={() => setPicUploaded(true)} type='file' ref={picUploadRef} />
                 </IonItem>

@@ -28,3 +28,10 @@ modal-wrapper {
     margin-left: 20%;
     margin-right: auto;
   }
+  ion-app {
+    .scroll-content {
+        // prevent scrollbars from showing up in desktop browsers
+        // in the side-menu and in the main content window
+        overflow-y: auto;
+    }
+}

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router'
 import '../sharedStyles.scss'
 import '../projectHeader/projectHeader.scss'
 import pic from '../../resources/snakeGamePic.png'
-const ProjectHeader = ({ dataOfProjectHeader }) => {
+const ProjectHeader = ({ dataOfProjectHeader, projectPic }) => {
     return (
         <IonContent>
             <IonCard>
