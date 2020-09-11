@@ -12,7 +12,6 @@ profile_blueprint = Blueprint('profile_blueprint', __name__)
 
 @profile_blueprint.route('/profile', methods=['GET'])
 def get_profile():
-    # data = json.loads(request.data)
     uid = request.args.get('id')
     user = get_user_by_id(uid)
     json_profile_result = convert_user_to_dict(user, uid)

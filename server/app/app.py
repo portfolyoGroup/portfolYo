@@ -32,6 +32,7 @@ def handle_exception(error):
         }
     }
     logging.error(message)
+
     return jsonify(response), status_code
 
 
