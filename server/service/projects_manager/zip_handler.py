@@ -1,7 +1,8 @@
 import base64
-import zipfile
-import os, stat
+import os
 import shutil
+import stat
+import zipfile
 
 
 def _generate_project_tmp_path(project_type: str):
@@ -25,9 +26,6 @@ def unzip_file(path2file: str, project_type, project_name):
     with zipfile.ZipFile(path2file, 'r') as zip_ref:
         try: # Todo: fix this hacking
             path = _generate_project_tmp_path(project_type)
-            project_path = path + project_name
-            # os.chmod(project_path, stat.S_IREAD, stat.S_IWRITE)
-            # os.subprocess.call(['chmod', '-R', '+rw', project_path])
             change_permissions_recursive(path, stat.S_IWRITE)
             zip_ref.extractall(path)
         except Exception as e:
@@ -56,6 +54,6 @@ def _remove_readonly(func, path, _):
     os.chmod(path, stat.S_IWRITE)
     func(path)
 # #
-# file_encoded = base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\fakebook-using-Flask.zip")
+# file_encoded = base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\flask-example.zip")
 # base64_to_zip(file_encoded, "flaskWebTest.zip")
 # unzip_file("C:\\tmp\\flaskWebTest.zip")

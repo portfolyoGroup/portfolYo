@@ -6,14 +6,23 @@ from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
 from service.mongo_db.db_entities import Project
 from service.mongo_db.db_client import save_project, get_project, get_project_pKey, is_user_exist, delete_project, \
-    get_project_if_exist
+    get_project_if_exist, add_user_project
 import os
 import socket
 
 SUPPORTED_LANGUAGES = ['c', 'python', 'node']
 
 
-def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, user_id: str, port: str):
+def _get_default_encoded_project():
+    f = open(os.path.join(os.getcwd(), "server", "service", "projects_manager", "default-project.txt"), "r")
+    return f.read()
+
+
+def _get_default_project_data():
+    return _get_default_encoded_project(), "python", '5000'
+
+
+def update_project(encoded_zip: bytes, project_name: str, project_type: str, user_id: str, port: str):
     if project_type not in SUPPORTED_LANGUAGES:
         logging.log(project_type + "not supported")
         raise NotImplementedError(project_type + " not supported")
@@ -25,7 +34,7 @@ def save_new_project(encoded_zip: bytes, project_name: str, project_type: str, u
         zip_handler.base64_to_zip(encoded_zip, project_name + ".zip")
         zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_name}.zip"), project_type, project_name)
         image = docker_client.create_image(project_name, project_type, user_id)[0]
-        _save_or_update_project(project_name, port, user_id) #Todo: should be save or update
+        _save_or_update_project(project_name, port, user_id)
     except BuildError or APIError as e:
         logging.error(e)
         raise ContainerError(" couldn't build image for project: " + project_name, e)
@@ -90,3 +99,16 @@ def delete_project(user_id, project_name):
 # print(encoded_file)
 # save_new_project(encoded_file_ascii, "flask-test", "python", "pythonWebServer", "noam")
 # run_project("Exam_Trainer_React", "noam", "3000")
+def save_new_project(project_name, user_id):
+    encoded_project, _, port = _get_default_project_data()
+    _save_or_update_project(project_name, port, user_id)
+
+    return {"encoded_zip": encoded_project}
+
+
+def handle_upload(encoded_zip: bytes, project_name: str, project_type: str, user_id: str, port: str):
+    if encoded_zip:
+        update_project(encoded_zip, project_name, project_type, user_id, port)
+    else:
+        add_user_project(user_id, project_name)
+        return save_new_project(project_name, user_id)
