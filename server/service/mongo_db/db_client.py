@@ -111,6 +111,14 @@ def delete_project(pKey: str):
         raise DbError("project not found")
 
 
+def delete_user_project(uid: str, project_key: str):
+    user = User.objects(uid=uid).get()
+    projects_list = user.get('projects')
+    if project_key in projects_list:
+        projects_list.remove(project_key)
+        user.save()
+
+
 def get_project_pKey(user_id: str, project_name: str):
     return f"{user_id}_{project_name}"
 

@@ -1,13 +1,13 @@
 import logging
 
 from docker.errors import BuildError, APIError
-from meds.rest import port
+# from meds.rest import port
 from service.errors.container_errors.ContainerError import ContainerError
 from service.errors.db_errors.DbError import DbError
 from service.projects_manager import zip_handler, docker_client
 from service.mongo_db.db_entities import Project, ProjectPic, ProjectHeader
 from service.mongo_db.db_client import save_project, get_project, get_project_pKey, is_user_exist, delete_project, \
-    get_project_if_exist, add_user_project
+    get_project_if_exist, add_user_project, delete_user_project
 import os
 import socket
 
@@ -134,6 +134,7 @@ def delete_project(user_id, project_name):
     image = docker_client.get_image(project_pkey)
     docker_client.remove_image(image)
     delete_project(project_pkey)
+    delete_user_project(user_id, project_pkey)
 
 # save_new_project(zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip"), "Exam_Trainer_React", "node", "Exam_Trainer_React", "itzik")
 # encoded_file = zip_handler.base64_encoder("C:\\Users\\noaml\\OneDrive - Nice Systems Ltd\\Desktop\\School\\final project\\Exam_Trainer_React.zip")
