@@ -39,7 +39,6 @@ def update_project(project_data: dict, user_id: str):
         raise DbError("User doesnt exist")
 
     try:
-        # encoded_zip = encoded_zip.split(',')[1] # Todo: remove this line
         zip_handler.base64_to_zip(encoded_zip, project_root + ".zip")
         zip_handler.unzip_file(os.path.join(os.path.sep, 'tmp', f"{project_root}.zip"), project_type)
         image = docker_client.create_image(project_name, project_type, user_id, project_root)[0]
@@ -85,15 +84,14 @@ def _get_available_port():
 
 def _save_project(project_name: str, user_id: str):
     project_id = get_project_pKey(user_id, project_name)
-    encoded_project, _, port = _get_default_project_data()
     header_title = project_name
     # TODO: Separation of project_name from header_title is required
-    project = Project(pKey=project_id, name= project_name, headerTitle=header_title, encoded=encoded_project)
+    project = Project(pKey=project_id, name= project_name, headerTitle=header_title)
     save_project(project)
 
 
 def _update_project_db(project_data: dict, user_id: str):
-    project_name = project_data.get(DATA_OF_ENCODED_PROJECT).get(PROJECT_NAME)
+    project_name = project_data.get(HEADER_DATA).get(TITLE)
     project_id = get_project_pKey(user_id, project_name)
     project = get_project_if_exist(project_id)
     project.type = project_data.get(TYPE_AND_PORT).get(PROJECT_TYPE)
