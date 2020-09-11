@@ -13,7 +13,7 @@ const Contact = ({dataOfContact}) => {
                         <IonItem class='ion-padding' key={index}>
                             <IonLabel>
                                 <IonText>
-                                    <h1>{key}</h1>
+                                    <h1>{key.replaceAll('_', ' ')}</h1>
                                     <p>{value}</p>
                                 </IonText>
                             </IonLabel>

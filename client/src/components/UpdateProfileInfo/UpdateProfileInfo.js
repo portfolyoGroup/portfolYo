@@ -84,10 +84,11 @@ const UpdateProfileInfo = () => {
                 {Object.entries(dataToRead).map(([key, value], index) => {
                     return (
                         <IonItem key={index}>
-                            <IonLabel position="floating">{key}</IonLabel>
-                            <IonInput placeholder={value} clearInput onIonChange={(e) => {
+                            <IonLabel position="floating">{key.replaceAll('_', ' ')}</IonLabel>
+                            <IonInput size="100%" autoGrow={true} placeholder={value} clearInput onIonChange={(e) => {
                                 setField(dataToRead, key, e.detail.value)
-                            }} ></IonInput>
+                            }} >
+                            </IonInput>
                         </IonItem>
                     )
                 })}

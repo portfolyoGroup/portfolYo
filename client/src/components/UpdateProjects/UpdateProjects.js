@@ -1,4 +1,4 @@
-import { IonToolbar, IonLoading, IonFab, IonFabButton, IonRouterOutlet, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton, IonIcon } from '@ionic/react'
+import { IonModal, IonToolbar, IonLoading, IonFabList, IonFab, IonFabButton, IonRouterOutlet, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton, IonIcon, IonInput, setupConfig, IonRow } from '@ionic/react'
 import { withRouter, useHistory } from 'react-router'
 import { createBrowserHistory } from 'history'
 import pic from '../../resources/snakeGamePic.png'
@@ -6,9 +6,9 @@ import '../about/about.scss'
 import '../sharedStyles.scss'
 import '../UpdateProjects/updateProjects.scss'
 import { getProfileData } from '../../services/profileService'
-import {getProjectData} from '../../services/projectService'
+import { getProjectData } from '../../services/projectService'
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import pages from '../../pages/Pages'
 import ProjectPage from '../../pages/ProjectPage/ProjectPage'
 import { add } from 'ionicons/icons'
@@ -19,17 +19,19 @@ const UpdateProjects = () => {
     const match = useRouteMatch();
     const [projectsCards, setProjectsCards] = useState([])
     const [projectsList, setProjectsList] = useState([])
-    const removeLastSlash = (path) =>{
+    const [showModal, setShowModal] = useState(false)
+    const [modalInputValue, setModalInputValue] = useState("")
+    const removeLastSlash = (path) => {
         const splited = path.split('/');
         splited.pop();
-        path = splited.reduce((acc, curr) => acc + '/' + curr , "");
+        path = splited.reduce((acc, curr) => acc + '/' + curr, "");
         path = path.slice(1);
-        
+
         console.log("path")
         console.log(path)
         return path;
     }
-    
+
     useEffect(() => {
         const fetchData = async () => {
             const projectsList = await getProfileData(profileId)
@@ -49,7 +51,7 @@ const UpdateProjects = () => {
         }, [])
         let currComponent;
         if (dataOfProjectHeader && projectPic) {
-            
+
             currComponent = (
                 <IonItem class='centeredItem'>
 
@@ -80,26 +82,40 @@ const UpdateProjects = () => {
                     <IonLoading
                         isOpen={true}
                         message={'ProtfolYoing...'}
-                        />
+                    />
                 </IonContent>);
         }
         return currComponent;
     }
-    
-    
+
+    const createNewProject = () => {
+        if(!modalInputValue) {
+            console.log("null input")
+            return
+        }
+        setShowModal(false)
+        console.log(modalInputValue)
+    }
+
     return (
         <IonContent>
-
+            <IonModal isOpen={showModal}>
+                <p>This is modal content</p>
+                <IonInput placeholder="New Project's Name" autoGrow={true} clearOnEdit={false} size="100%" onIonChange={e => setModalInputValue(e.detail.value)} ></IonInput>
+                <IonRow>
+                    <IonButton onClick={createNewProject}>Create Project</IonButton>
+                    <IonButton onClick={() => setShowModal(false)}>Cancel</IonButton>
+                </IonRow>
+            </IonModal>
             <IonCard>
-
                 <IonCardHeader>
-                    <div style={{display:"flex"}}>
+                    <div style={{ display: "flex" }}>
                         <ion-text color="primary">
                             <h1>My Projects</h1>
                         </ion-text>
                         <IonFab vertical="bottom" horizontal="end" slot="fixed">
                             <IonFabButton>
-                                <IonIcon icon={add} />
+                                <IonIcon icon={add} onClick={() => setShowModal(true)} />
                             </IonFabButton>
                         </IonFab>
                     </div>

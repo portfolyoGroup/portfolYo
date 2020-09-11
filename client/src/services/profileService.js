@@ -31,7 +31,7 @@ const allData = {
 }
 
 
-const isRealServer = true;
+const isRealServer = false;
 export const getProfileData = async (profileId) => {
     if (isRealServer) {
         //call the server by id.
