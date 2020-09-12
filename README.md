@@ -21,22 +21,22 @@ A running Mongo process is requiered(more information here: https://www.mongodb.
 
 ### Server setup:
 Go to the server's folder:
-cd server
+`cd server`
 install the requirements:
-"pip install -e ." (notice the dot)
+`pip install -e .` (notice the dot)
 set the environment variables:
  FLASK_APP=app.py
  MONGO_PASSWORD=<your mongodb password>
  run the server:
- "python app.py
+ `python app.py`
  
 ### Client setup:
 Go to the client directory:
-cd client
+`cd client`
 install dependencies:
-npm install
+`npm install`
 run the client:
-"npm start"
+`npm start`
 
 ### Browse:
 Brose to localhost:3000
