@@ -34,7 +34,7 @@ const Contact = ({dataOfContact}) => {
 
                 <IonCardContent>
                     <MyList></MyList>
-                    <IonButton onClick={() => {alert("Thanks for downloading my CV")}}>Download CV</IonButton>
+                    <IonButton onClick={() => {alert("This user didn't provide CV")}}>Download CV</IonButton>
                 </IonCardContent>
             </IonCard>
         </IonContent>
