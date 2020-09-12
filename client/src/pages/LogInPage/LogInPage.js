@@ -30,7 +30,7 @@ const LogIn = () => {
     }
 
     const navigateToHomePage = (id) => {
-        localStorage.setItem('id', `${id}`)
+        sessionStorage.setItem('id', `${id}`)
         history.push(`/home/${id}`)
     }
     
