@@ -10,16 +10,30 @@ import LogIn from './pages/LogInPage/LogInPage'
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import pages from "./pages/Pages.js"
 import ErrorPage from './pages/ErrorPage/errorPage'
+import { serverTerminateProject } from './services/projectService'
 
 const App = () => {
-
-    const id = localStorage.getItem('id')
+    const[isRunning, setIsRunning] = useState(sessionStorage.getItem("runningProjectId") || "false")
+    
+    const id = sessionStorage.getItem('id')
     useEffect(() => {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         toggleDarkTheme(prefersDark.matches);
         prefersDark.addListener((mediaQuery) => toggleDarkTheme(mediaQuery.matches));
-        return () => localStorage.clear()
     }, [])
+
+    useEffect(() => {
+        (async () => {
+            const tempIsRunning = sessionStorage.getItem('isRunning')
+            setIsRunning(tempIsRunning)
+            if (tempIsRunning == 'true') {
+                const runningProjectElement = document.getElementById('runningProj')
+                if (!runningProjectElement && tempIsRunning == 'true') {
+                    await serverTerminateProject()
+                }
+            }
+        })()
+    }, [isRunning])
 
     const toggleDarkTheme = shouldAdd => {
         document.body.classList.toggle('dark', shouldAdd);

@@ -22,9 +22,12 @@ const ProjectsList = ({ projectsList }) => {
         useEffect(() => {
             (async () => {
                 const projAllData = await getProjectData(id)
+                const stringOfForamt = `data:image/${projAllData.projectPic.picType};base64,`
+                projAllData.projectPic.picData = stringOfForamt + projAllData.projectPic.picData.replaceAll(stringOfForamt, '')
                 setProjAllData(projAllData)
             })()
         }, [])
+
         let currComponent;
         if (dataOfProjectHeader && projectPic) {
 
@@ -43,7 +46,8 @@ const ProjectsList = ({ projectsList }) => {
                                 {dataOfProjectHeader.description}
                             </h3>
                             <IonItem class='centeredItem'>
-                                <IonButton onClick={() => history.push(`${pages.projectRoute}/${id}`)}>
+                                {/* <IonButton onClick={() => history.push(`${pages.projectRoute}/${id}`)}> */}
+                                <IonButton href={`${pages.projectRoute}/${id}`}>
                                     Take A Look
                             </IonButton>
                             </IonItem>

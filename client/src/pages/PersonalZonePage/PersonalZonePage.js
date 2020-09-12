@@ -16,12 +16,13 @@ const PersonalZonePage = (props) => {
 
     const match = useRouteMatch()
     const history = createBrowserHistory({ forceRefresh: true })
-    const id = React.useMemo(() => localStorage.getItem('id'))
+    const id = React.useMemo(() => sessionStorage.getItem('id'))
 
     const handleLogOut = () => {
-        localStorage.clear()
+        sessionStorage.clear()
         history.push('/')
     }
+
     return (
         <IonPage>
             <IonContent color="primary">

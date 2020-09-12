@@ -20,17 +20,20 @@ const ProfilePage = () => {
     const history = useHistory()
     let curr_component;
     const [{ dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList }, setProfileData] = useState({})
+
     useEffect(() => {
         (async () => {
             try {
                 const profileData = await getProfileData(id);
+                const stringOfForamt = `data:image/${profileData.profilePic.picType};base64,`
+                profileData.profilePic.picData = stringOfForamt + profileData.profilePic.picData.replaceAll(stringOfForamt, '')
                 setProfileData(profileData)
             } catch(e) {
+                console.log(e)
                 history.push(pages.errorRoute)
             }
         })()
-    }, [])
-
+    }, [])  
 
     if (dataOfAbout && dataOfContact && dataOfProfileHome && profilePic && !!projectsList) {
         curr_component = (

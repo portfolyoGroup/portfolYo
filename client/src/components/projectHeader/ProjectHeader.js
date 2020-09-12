@@ -1,14 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText } from '@ionic/react'
 import { withRouter } from 'react-router'
 import '../sharedStyles.scss'
 import '../projectHeader/projectHeader.scss'
-import pic from '../../resources/snakeGamePic.png'
 const ProjectHeader = ({ dataOfProjectHeader, projectPic }) => {
     return (
         <IonContent>
             <IonCard>
-                <img src={pic} className="photo" />
+                <img alt="" src={projectPic.picData} className="photo" />
                 <IonCardHeader>
                     <IonCardSubtitle>{dataOfProjectHeader.sub_title}</IonCardSubtitle>
                     <IonCardTitle>{dataOfProjectHeader.title}</IonCardTitle>
