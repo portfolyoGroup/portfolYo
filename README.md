@@ -1,4 +1,4 @@
-# portfolYo
+# PortfolYo
 portfolYo is a web application that allow users share their projects with the world, and recruiters to run projects with a single button click, without taking care of installation and running.
 
 ## Prerequisites
