@@ -24,17 +24,21 @@ Go to the server's folder:
 `cd server`
 install the requirements:
 `pip install -e .` (notice the dot)
+
 set the environment variables:
  FLASK_APP=app.py
  MONGO_PASSWORD=<your mongodb password>
+ 
  run the server:
  `python app.py`
  
 ### Client setup:
 Go to the client directory:
 `cd client`
+
 install dependencies:
 `npm install`
+
 run the client:
 `npm start`
 
