@@ -151,7 +151,7 @@ const UpdateProjectInfo = () => {
         else {
             dataOfProjectDetails.projectType = projectTypeSelectRef.current.defaultValue
         }
-        encodedProject.encodedProjectName = dataOfProjectHeader.title
+        // encodedProject.encodedProjectName = dataOfProjectHeader.title
         encodedProject.encodedProjectData = encodedProject.encodedProjectData.replace('data:application/zip;base64,','')
         
         const profileId = localStorage.getItem('id');
