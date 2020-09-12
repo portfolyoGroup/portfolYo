@@ -60,14 +60,10 @@ body structure:
 """
 
 
-@project_blueprint.route('/project/stop', methods=['POST'])
+@project_blueprint.route('/project/terminate', methods=['GET'])
 def stop():
-    body = json.loads(request.data)
-
-    project_name = body.get("project")
-    user_id = body.get("uId")
-
-    projects_manager.kill_container(user_id, project_name)
+    project_id = request.args.get("projectId")
+    projects_manager.kill_container(project_id)
     return jsonify({"success": True}), 200
 
 

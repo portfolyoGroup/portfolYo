@@ -46,6 +46,9 @@ def update_project(project_data: dict, user_id: str):
     except BuildError or APIError as e:
         logging.error(e)
         raise ContainerError(" couldn't build image for project: " + project_name, e)
+    except NameError as e:
+        logging.error(e)
+        raise ContainerError("title must not contain spaces")
     except DbError as e:
         logging.error(e)
         docker_client.remove_image(image.id)
@@ -69,8 +72,8 @@ def run_project(project_id: str):
     return host_port
 
 
-def kill_container(user_id: str, project_name: str):
-    docker_client.kill_container(f"{user_id}_{project_name}".lower())
+def kill_container(project_id: str):
+    docker_client.kill_container(project_id.lower())
 
 
 def _get_available_port():
@@ -84,9 +87,9 @@ def _get_available_port():
 
 def _save_project(project_name: str, user_id: str):
     project_id = get_project_pKey(user_id, project_name)
-    header_title = project_name
+
     # TODO: Separation of project_name from header_title is required
-    project = Project(pKey=project_id, name= project_name, headerTitle=header_title)
+    project = Project(pKey=project_id, headerTitle=project_name)
     save_project(project)
 
 
@@ -175,9 +178,9 @@ def get_project_data(project_id: str):
     encoded_project_data[ENCODED_PROJECT] = project.encoded
 
     pic_data = dict()
-    pic_data[PIC_NAME]  = project.picName
+    pic_data[PIC_NAME] = project.picName
     pic_data[PIC_FORMAT] = project.picFormat
-    pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, project.type)
+    pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, pic_data.get(PIC_FORMAT))
 
     result = dict()
     result[HEADER_DATA] = data_of_header
