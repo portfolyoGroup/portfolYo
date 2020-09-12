@@ -6,7 +6,7 @@ RUN apt -y update
 
 RUN	apt install -y
 
-RUN	apt -y install gcc 
+RUN	apt -y install gcc
 
 RUN	apt install -y tmate locales-all && apt-get -y install openssh-client && ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
 
