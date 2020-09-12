@@ -2,7 +2,7 @@
 portfolYo is a web application that allow users share their projects with the world, and recruiters to run projects with a single button click, without taking care of installation and running.
 
 ## Prerequisites
-1. Python <=3.7
+1. Python <=V3.7
 2. pip
 3. nodeJS
 4. npm
