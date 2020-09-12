@@ -1,32 +1,57 @@
+import logging
+from concurrent.futures.thread import ThreadPoolExecutor
+
 import docker
 import os
 import re
 import time
 
+from docker.errors import NotFound
+from docker.models.containers import Container
 from docker.models.images import Image
+from service.errors.container_errors import ContainerError
 
 docker_client = docker.from_env()
 
-def create_image(project_name: str, project_type, user_id: str):
+def create_image(project_name: str, project_type, user_id: str, project_root):
+    if ' ' in project_name:
+        raise NameError("container name must not contain spaces")
     path_to_dockerfile = os.path.join(os.getcwd(), 'server', 'service', 'Dockerimages', project_type)
-    buildargs = {"PROJECT_NAME": project_name}
+    buildargs = {"PROJECT_NAME": project_root}
     tag = f"{user_id}_{project_name}"
 
     # os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg {buildargs}")
     return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
 
+
 def remove_image(image: Image):
     docker_client.images.remove(image)
+
 
 def run_container(container_tag: str, app_port: str, host_port: int):
     # os.system(f"docker run --name {container_tag} -p 5001:{app_port} -d {container_tag}")
     ports = {f"{app_port}/tcp": host_port}
-    docker_client.containers.run(image=container_tag, detach=True, auto_remove=True, ports=ports, name=container_tag)
+    container = docker_client.containers.run(image=container_tag, detach=True, auto_remove=True, ports=ports, name=container_tag)
+    # _timeout_container(container, 60*60*60)
+
 
 def kill_container(container_tag: str):
-    container = docker_client.containers.get(container_tag)
-    container.kill()
+    try:
+        container = docker_client.containers.get(container_tag)
+        container.kill()
+    except NotFound as e:
+        pass
 
+#
+# def _timeout_container(container: Container, seconds: int):
+#     def kill_container_after(container_2_kill: Container, time_to_live: int):
+#         time.sleep(time_to_live)
+#         try:
+#             container_2_kill.kill()
+#         except Exception as e:
+#             logging.error(e)
+#     with ThreadPoolExecutor(max_workers=1) as executor:
+#         executor.submit(kill_container_after, container, seconds)
 
 # docker_client.images.build(path="../Dockerimages/c/", buildargs={"PROJECT_NAME": "c_test"}, tag="c_test")
 

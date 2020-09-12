@@ -42,13 +42,13 @@ def get_project_data():
     response.update({'success': True})
     return jsonify(response), 200
 
-# def run():
-#     project_name = request.args.get("projectName")
-#     user_id = request.args.get("userId")
-#
-#     port = projects_manager.run_project(project_name, user_id)
-#     return jsonify({"success": True, "port": port}), 200
-#
+@project_blueprint.route('/project/run', methods=['GET'])
+def run():
+    project_id = request.args.get("projectId")
+
+    port = projects_manager.run_project(project_id)
+    return jsonify({"success": True, "port": port}), 200
+
 
 """
 stops a running project:
@@ -60,14 +60,10 @@ body structure:
 """
 
 
-@project_blueprint.route('/project/stop', methods=['POST'])
+@project_blueprint.route('/project/terminate', methods=['GET'])
 def stop():
-    body = json.loads(request.data)
-
-    project_name = body.get("project")
-    user_id = body.get("uId")
-
-    projects_manager.kill_container(user_id, project_name)
+    project_id = request.args.get("projectId")
+    projects_manager.kill_container(project_id)
     return jsonify({"success": True}), 200
 
 
