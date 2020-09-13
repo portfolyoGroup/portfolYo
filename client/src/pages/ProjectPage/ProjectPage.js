@@ -26,8 +26,6 @@ const ProjectPage = () => {
             if (id) {
                 try {
                     const projectData = await getProjectData(id);
-                    const stringOfForamt = `data:image/${projectData.projectPic.picType};base64,`
-                    projectData.projectPic.picData = stringOfForamt + projectData.projectPic.picData.replace(new RegExp(stringOfForamt,"g"),'')
                     setProjectData(projectData) 
                     runProject()
                 } catch (e) {

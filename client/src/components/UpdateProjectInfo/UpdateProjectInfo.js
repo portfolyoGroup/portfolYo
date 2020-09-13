@@ -7,29 +7,6 @@ import successPic from '../../resources/success.svg'
 import sorryPic from '../../resources/sorry.svg'
 import waitPic from '../../resources/wait.svg'
 import { createBrowserHistory } from 'history'
-const allData = {
-    "5": {
-        dataOfProjectHeader: {
-            title: "Snake ",
-            sub_title: "A snake game written in JavaFx",
-            description: "This game was a life chenger snaking the snake! This game was a life chenger snaking the snake! This game was a life chenger snaking the snake!"
-        },
-        dataOfProjectDetails: {
-            projectType: "python",//python/node //TODO change to node.js
-            port: 1
-        },
-        encodedProject: {
-            encodedProjectName: "name",
-            encodedProjectFormat: ".zip",
-            encodedProjectData: "KAKI OF PIGIOYOTO"
-        },
-        projectPic: {
-            picName: "some pic",
-            picType: "png",
-            picData: 'kaki of yonim'
-        }
-    }
-}
 
 const UpdateProjectInfo = () => {
     const history = createBrowserHistory({ forceRefresh: true })
@@ -55,8 +32,6 @@ const UpdateProjectInfo = () => {
     useEffect(() => {
         const getData = async () => {
             const { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject } = await getProjectData(projectId)
-            const stringOfForamt = `data:image/${projectPic.picType};base64,`
-            projectPic.picData = stringOfForamt + projectPic.picData.replace(new RegExp(stringOfForamt,"g"), '')
             setDataOfProjectDetails(dataOfProjectDetails);
             setDataOfProjectHeader(dataOfProjectHeader);
             setProjectPic(projectPic);
@@ -80,8 +55,6 @@ const UpdateProjectInfo = () => {
                     reader.onload = async (recievedFile) => {
                         const picData = recievedFile.target.result;
                         const projectPic = { picName, picType, picData }
-                        const stringOfForamt = `data:image/${picType};base64,`
-                        projectPic.picData = stringOfForamt + projectPic.picData.replace(new RegExp(stringOfForamt,"g"), '')
                         setProjectPic(projectPic)
                     }
                     reader.readAsDataURL(file);
@@ -136,7 +109,7 @@ const UpdateProjectInfo = () => {
                         <IonItem key={index}>
                             <IonLabel position="stacked">{key.replace(/_/g, ' ')}</IonLabel>
                             <IonInput disabled={disable} autoGrow={true} clearOnEdit={false} size="100%" value={value} clearInput onIonChange={(e) => {
-                                setField(dataToRead, key, e.detail.value) 
+                                setField(dataToRead, key, e.detail.value)
                             }} ></IonInput>
                         </IonItem>
                     )
@@ -161,13 +134,12 @@ const UpdateProjectInfo = () => {
 
         const profileId = sessionStorage.getItem('id');
         try {
-                if(dataOfProjectDetails.projectType == 'python' || dataOfProjectDetails.projectType == 'node'){
-                    console.log("we had this type to send tp proj: " + dataOfProjectDetails.projectType)
-                }
-                else{
-                    console.log("replaced with python default.")
-                    dataOfProjectDetails.projectType = 'python'
-                }
+
+            if (!projectTypeSelectRef?.current?.value
+                ||
+                (dataOfProjectDetails.projectType !== 'python' && dataOfProjectDetails.projectType !== 'node')) {
+                dataOfProjectDetails.projectType = 'python'
+            }
             const response = await setProjectData(profileId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject })
             setSubmitImage(successPic)
             setSubmitStateMsg("Project was sucssefully updated in your portfolYo!")
