@@ -179,7 +179,9 @@ def get_project_data(project_id: str):
     pic_data = dict()
     pic_data[PIC_NAME] = project.picName
     pic_data[PIC_FORMAT] = project.picFormat
-    pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, pic_data.get(PIC_FORMAT))
+    # pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, pic_data.get(PIC_FORMAT))
+    pic_data[ENCODED_PIC] = project.picEncodedData
+
 
     result = dict()
     result[HEADER_DATA] = data_of_header
