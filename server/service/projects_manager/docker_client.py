@@ -19,10 +19,10 @@ def create_image(project_name: str, project_type, user_id: str, project_root):
     path_to_dockerfile = os.path.join(os.getcwd(), 'server', 'service', 'Dockerimages', project_type)
     buildargs = {"PROJECT_NAME": project_root}
     tag = f"{user_id}_{project_name}"
-    build_command = f"docker build {path_to_dockerfile}/Dockerfile -t {tag.lower()} --build-arg PROJECT_NAME={project_root}"
+    build_command = f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg PROJECT_NAME={project_root}"
     logging.error("going to build image with: " + build_command)
 
-    os.system(f"docker build {path_to_dockerfile}/Dockerfile -t {tag.lower()} --build-arg PROJECT_NAME={project_root}")
+    os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg PROJECT_NAME={project_root}")
     logging.error("image built successfully ")
    # return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
 
