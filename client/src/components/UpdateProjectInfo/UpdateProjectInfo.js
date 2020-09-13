@@ -161,6 +161,9 @@ const UpdateProjectInfo = () => {
 
         const profileId = sessionStorage.getItem('id');
         try {
+            if (!dataOfProjectDetails.projectType){
+                dataOfProjectDetails.projectType = 'python'
+            }
             const response = await setProjectData(profileId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject })
             setSubmitImage(successPic)
             setSubmitStateMsg("Project was sucssefully updated in your portfolYo!")
