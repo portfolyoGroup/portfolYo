@@ -58,11 +58,7 @@ const UpdateProfileInfo = () => {
                     const picType = fileParts[fileParts.length - 1]
                     reader.onload = async (recievedFile) => {
                         const picData = recievedFile.target.result;
-
                         const profilePic = { picName, picType, picData }
-                        const stringOfForamt = `data:image/${picType};base64,`
-                        profilePic.picData = stringOfForamt + profilePic.picData.replace(new RegExp(stringOfForamt,"g"), '')
-
                         setProfilePic(profilePic)
                     }
                     reader.readAsDataURL(file);

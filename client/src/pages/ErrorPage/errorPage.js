@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './errorPage.scss'
 import pages from '../Pages'
+import pic from '../../resources/Portfolyo.png'
 
 const ErrorPage = () => {
 
@@ -14,7 +15,7 @@ const ErrorPage = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle className='big-title-portfolyo'>PortfolYo!</IonTitle>
+                    <IonTitle className='big-title-portfolyo'><img src={pic} ></img></IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent color="primary">

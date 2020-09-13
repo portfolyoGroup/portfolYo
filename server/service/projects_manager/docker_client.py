@@ -7,9 +7,9 @@ import re
 import time
 
 from docker.errors import NotFound
-from docker.models.containers import Container
+# from docker.models.containers import Container
 from docker.models.images import Image
-from service.errors.container_errors import ContainerError
+# from service.errors.container_errors import ContainerError
 
 docker_client = docker.from_env()
 
@@ -57,9 +57,9 @@ def kill_container(container_tag: str):
 #     with ThreadPoolExecutor(max_workers=1) as executor:
 #         executor.submit(kill_container_after, container, seconds)
 
-docker_client.images.build(path="../Dockerimages/c/", buildargs={"PROJECT_NAME": "helloc"}, tag="helloc")
-
-container = docker_client.containers.run("helloc", detach=True, tty=True)
+# docker_client.images.build(path="../Dockerimages/c/", buildargs={"PROJECT_NAME": "helloc"}, tag="helloc")
+#
+# container = docker_client.containers.run("helloc", detach=True, tty=True)
 # logs = container.logs()
 # urls = re.findall(b'(?P<url>https?://[^\s]+)', logs)
 # counter = 0
