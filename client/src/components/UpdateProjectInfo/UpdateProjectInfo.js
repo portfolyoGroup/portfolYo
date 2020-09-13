@@ -157,18 +157,10 @@ const UpdateProjectInfo = () => {
         else {
             dataOfProjectDetails.projectType = projectTypeSelectRef.current.defaultValue
         }
-<<<<<<< HEAD
         encodedProject.encodedProjectData = encodedProject.encodedProjectData.replace('data:application/zip;base64,', '')
 
         const profileId = sessionStorage.getItem('id');
         try {
-=======
-        // encodedProject.encodedProjectName = dataOfProjectHeader.title
-        encodedProject.encodedProjectData = encodedProject.encodedProjectData.replace('data:application/zip;base64,','')
-        
-        const profileId = localStorage.getItem('id');
-        try{
->>>>>>> 8bc2e1d2a58cd9a70a7092d812c16d4061297786
             const response = await setProjectData(profileId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject })
             setSubmitImage(successPic)
             setSubmitStateMsg("Project was sucssefully updated in your portfolYo!")
