@@ -16,7 +16,8 @@ SUPPORTED_LANGUAGES = ['c', 'python', 'node']
 
 
 def _get_default_encoded_project():
-    f = open(os.path.join(os.getcwd(), "..", "service", "projects_manager", "default-project.txt"), "r")
+    # f = open(os.path.join(os.getcwd(), "..", "service", "projects_manager", "default-project.txt"), "r")
+    f = open(os.path.join(os.getcwd(), "server", "service", "projects_manager", "default-project.txt"), "r")
     return f.read()
 
 
