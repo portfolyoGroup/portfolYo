@@ -49,11 +49,12 @@ Brose to localhost:3000
 ## TODO
 
  * fix windows chrome render  
- * look for all pic options really is working.
+ * look for all pic options really is working. V - Hopefully
  * favicon
  * add c programming language in types
- * copyrights 
+ * copyrights
  * logo portfolyo
+ * prepare users profiles to show at the 
 
 ## Commit messege:
 in the commit meseege, let's try to keep a consistant fromat.
