@@ -14,6 +14,7 @@ from service.errors.container_errors import ContainerError
 docker_client = docker.from_env()
 
 def create_image(project_name: str, project_type, user_id: str, project_root):
+    logging.log("going to build image with: ")
     if ' ' in project_name:
         raise NameError("container name must not contain spaces")
     path_to_dockerfile = os.path.join(os.getcwd(), 'server', 'service', 'Dockerimages', project_type)
@@ -21,6 +22,7 @@ def create_image(project_name: str, project_type, user_id: str, project_root):
     tag = f"{user_id}_{project_name}"
 
     os.system(f"docker build {path_to_dockerfile}/Dockerfile -t {tag.lower()} --build-arg PROJECT_NAME={project_root}")
+    logging.log("image built successfully ")
    # return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
 
 
