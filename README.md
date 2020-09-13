@@ -49,8 +49,6 @@ Brose to localhost:3000
 ## TODO
 
  * fix windows chrome render  
- * fix test color on dark mode.
- * find the real project type bug on update project info.
  * look for all pic options really is working.
  * favicon
  * add c programming language in types
