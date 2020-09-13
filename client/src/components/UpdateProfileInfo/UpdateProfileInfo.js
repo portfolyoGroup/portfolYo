@@ -58,11 +58,7 @@ const UpdateProfileInfo = () => {
                     const picType = fileParts[fileParts.length - 1]
                     reader.onload = async (recievedFile) => {
                         const picData = recievedFile.target.result;
-
                         const profilePic = { picName, picType, picData }
-                        const stringOfForamt = `data:image/${picType};base64,`
-                        profilePic.picData = stringOfForamt + profilePic.picData.replaceAll(stringOfForamt, '')
-
                         setProfilePic(profilePic)
                     }
                     reader.readAsDataURL(file);
@@ -82,7 +78,7 @@ const UpdateProfileInfo = () => {
                 {Object.entries(dataToRead).map(([key, value], index) => {
                     return (
                         <IonItem key={index}>
-                            <IonLabel position="floating">{key.replaceAll('_', ' ')}</IonLabel>
+                            <IonLabel position="floating">{key.replace(/_/g, ' ')}</IonLabel>
                             <IonInput size="100%" autoGrow={true} placeholder={value} clearInput onIonChange={(e) => {
                                 setField(dataToRead, key, e.detail.value)
                             }} >

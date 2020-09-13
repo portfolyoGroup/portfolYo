@@ -37,7 +37,7 @@ const PersonalZonePage = (props) => {
                         </Switch>
                     </IonRouterOutlet>
                     <IonTabBar slot="top">
-                        <IonTabButton className='title-portfolyo' >
+                        <IonTabButton tab="" className='title-portfolyo' href={`/`}>
                             <IonTitle size="large">PortfolYo!</IonTitle>
                         </IonTabButton>
                         <IonTabButton tab="main" href={`${match.url}/main`}>

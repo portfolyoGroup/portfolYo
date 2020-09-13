@@ -16,7 +16,7 @@ SUPPORTED_LANGUAGES = ['c', 'python', 'node']
 
 
 def _get_default_encoded_project():
-    f = open(os.path.join(os.getcwd(), "server", "service", "projects_manager", "default-project.txt"), "r")
+    f = open(os.path.join(os.getcwd(), "..", "service", "projects_manager", "default-project.txt"), "r")
     return f.read()
 
 
@@ -32,7 +32,7 @@ def update_project(project_data: dict, user_id: str):
     if project_type not in SUPPORTED_LANGUAGES:
         if project_type is None:
             project_type = 'None type'
-        logging.log(project_type + " not supported")
+        logging.error(project_type + " not supported")
         raise NotImplementedError(project_type + " not supported")
     if not is_user_exist(user_id):
         logging.error("user doesnt exist")
@@ -88,7 +88,6 @@ def _get_available_port():
 def _save_project(project_name: str, user_id: str):
     project_id = get_project_pKey(user_id, project_name)
 
-    # TODO: Separation of project_name from header_title is required
     project = Project(pKey=project_id, headerTitle=project_name)
     save_project(project)
 
@@ -180,7 +179,9 @@ def get_project_data(project_id: str):
     pic_data = dict()
     pic_data[PIC_NAME] = project.picName
     pic_data[PIC_FORMAT] = project.picFormat
-    pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, pic_data.get(PIC_FORMAT))
+    # pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, pic_data.get(PIC_FORMAT))
+    pic_data[ENCODED_PIC] = project.picEncodedData
+
 
     result = dict()
     result[HEADER_DATA] = data_of_header

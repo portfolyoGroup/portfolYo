@@ -57,7 +57,8 @@ def convert_user_to_dict(user: User, uid: str):
     projects_list_arr = []
     profile_pic_dict["picName"] = user["picName"]
     profile_pic_dict["picType"] = user["picType"]
-    profile_pic_dict["picData"] = projects_manager.concat_pic_prefix_to_encoded_data(user.picData, user.picType) # user["picData"]
+    # profile_pic_dict["picData"] = projects_manager.concat_pic_prefix_to_encoded_data(user.picData, user.picType) # user["picData"]
+    profile_pic_dict["picData"] = user.picData
     data_of_about_dict["description"] = user["description"]
     data_of_about_dict["programming_languages"] = user["programming_languages"]
     data_of_about_dict["skills"] = user["skills"]

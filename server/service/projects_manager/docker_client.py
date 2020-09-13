@@ -16,11 +16,14 @@ docker_client = docker.from_env()
 def create_image(project_name: str, project_type, user_id: str, project_root):
     if ' ' in project_name:
         raise NameError("container name must not contain spaces")
-    path_to_dockerfile = os.path.join(os.getcwd(), 'server', 'service', 'Dockerimages', project_type)
+    path_to_dockerfile = os.path.join(os.getcwd(), '..', 'service', 'Dockerimages', project_type)
     buildargs = {"PROJECT_NAME": project_root}
     tag = f"{user_id}_{project_name}"
+    build_command = f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg PROJECT_NAME={project_root}"
+    logging.error("going to build image with: " + build_command)
 
-    # os.system(f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg {buildargs}")
+    # os.system(build_command)
+    logging.error("image built successfully ")
     return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
 
 
@@ -29,9 +32,9 @@ def remove_image(image: Image):
 
 
 def run_container(container_tag: str, app_port: str, host_port: int):
-    # os.system(f"docker run --name {container_tag} -p 5001:{app_port} -d {container_tag}")
+    # os.system(f"docker run --name {container_tag} -p {host_port}:{app_port} -d {container_tag}")
     ports = {f"{app_port}/tcp": host_port}
-    container = docker_client.containers.run(image=container_tag, detach=True, auto_remove=True, ports=ports, name=container_tag)
+    return docker_client.containers.run(image=container_tag, detach=True, auto_remove=True, ports=ports, name=container_tag)
     # _timeout_container(container, 60*60*60)
 
 
@@ -42,7 +45,7 @@ def kill_container(container_tag: str):
     except NotFound as e:
         pass
 
-#
+
 # def _timeout_container(container: Container, seconds: int):
 #     def kill_container_after(container_2_kill: Container, time_to_live: int):
 #         time.sleep(time_to_live)
@@ -53,9 +56,9 @@ def kill_container(container_tag: str):
 #     with ThreadPoolExecutor(max_workers=1) as executor:
 #         executor.submit(kill_container_after, container, seconds)
 
-# docker_client.images.build(path="../Dockerimages/c/", buildargs={"PROJECT_NAME": "c_test"}, tag="c_test")
-
-# container = docker_client.containers.run("c_test", detach=True, auto_remove=True, tty=True)
+# docker_client.images.build(path="../Dockerimages/c/", buildargs={"PROJECT_NAME": "helloc"}, tag="helloc")
+#
+# container = docker_client.containers.run("helloc", detach=True, tty=True)
 # logs = container.logs()
 # urls = re.findall(b'(?P<url>https?://[^\s]+)', logs)
 # counter = 0

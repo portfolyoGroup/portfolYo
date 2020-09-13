@@ -50,8 +50,6 @@ const UpdateProjects = () => {
         useEffect(() => {
             (async () => {
                 const projAllData = await getProjectData(id)
-                const stringOfForamt = `data:image/${projAllData.projectPic.picType};base64,`
-                projAllData.projectPic.picData = stringOfForamt + projAllData.projectPic.picData.replaceAll(stringOfForamt, '')
                 setProjAllData(projAllData)
             })()
         }, [])

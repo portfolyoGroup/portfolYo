@@ -47,13 +47,15 @@ Brose to localhost:3000
 
  
 ## TODO
-enable download zip
 
-
- * CV download
+ * fix windows chrome render  
+ * fix test color on dark mode.
+ * find the real project type bug on update project info.
+ * look for all pic options really is working.
  * favicon
  * add c programming language in types
- * deploy on real live servrer 
+ * copyrights 
+ * logo portfolyo
 
 ## Commit messege:
 in the commit meseege, let's try to keep a consistant fromat.
@@ -80,8 +82,3 @@ we'll know where to look.
 ## to reset:
 if you want to delete all your local changes and go back to what's on github use this command:
  git reset --hard origin/master
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 8bc2e1d2a58cd9a70a7092d812c16d4061297786
