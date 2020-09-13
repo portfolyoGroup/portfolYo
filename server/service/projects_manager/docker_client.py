@@ -22,7 +22,7 @@ def create_image(project_name: str, project_type, user_id: str, project_root):
     build_command = f"docker build {path_to_dockerfile} -t {tag.lower()} --build-arg PROJECT_NAME={project_root}"
     logging.error("going to build image with: " + build_command)
 
-    os.system(build_command)
+    # os.system(build_command)
     logging.error("image built successfully ")
     return docker_client.images.build(path=path_to_dockerfile, buildargs=buildargs, tag=tag.lower())
 
@@ -32,9 +32,9 @@ def remove_image(image: Image):
 
 
 def run_container(container_tag: str, app_port: str, host_port: int):
-    os.system(f"docker run --name {container_tag} -p {host_port}:{app_port} -d {container_tag}")
+    # os.system(f"docker run --name {container_tag} -p {host_port}:{app_port} -d {container_tag}")
     ports = {f"{app_port}/tcp": host_port}
-    # container = docker_client.containers.run(image=container_tag, detach=True, auto_remove=True, ports=ports, name=container_tag)
+    return docker_client.containers.run(image=container_tag, detach=True, auto_remove=True, ports=ports, name=container_tag)
     # _timeout_container(container, 60*60*60)
 
 
