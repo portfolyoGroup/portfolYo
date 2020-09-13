@@ -118,6 +118,12 @@ const UpdateProjectInfo = () => {
         )
     }
     const handleFormSubmit = async () => {
+        if (!projectTypeSelectRef?.current?.value
+            ||
+            (dataOfProjectDetails.projectType !== 'python' && dataOfProjectDetails.projectType !== 'node')) {
+            alert("please specify project type")
+            return
+        }
         setDisableSubmitTnxButton(true)
         setDisableSubmitGoToProjectBottun(true)
         setShowSubmitModal(true)
@@ -134,12 +140,7 @@ const UpdateProjectInfo = () => {
 
         const profileId = sessionStorage.getItem('id');
 
-        if (!projectTypeSelectRef?.current?.value
-            ||
-            (dataOfProjectDetails.projectType !== 'python' && dataOfProjectDetails.projectType !== 'node')) {
-            alert("please specify project type")
-            return
-        }
+
         try {
             const response = await setProjectData(profileId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject })
             setSubmitImage(successPic)
