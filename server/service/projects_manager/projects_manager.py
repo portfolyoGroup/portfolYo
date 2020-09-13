@@ -32,7 +32,7 @@ def update_project(project_data: dict, user_id: str):
     if project_type not in SUPPORTED_LANGUAGES:
         if project_type is None:
             project_type = 'None type'
-        logging.log(project_type + " not supported")
+        logging.error(project_type + " not supported")
         raise NotImplementedError(project_type + " not supported")
     if not is_user_exist(user_id):
         logging.error("user doesnt exist")
