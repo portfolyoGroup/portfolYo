@@ -21,20 +21,13 @@ const RegisterPage = () => {
                 navigateToHomePage(id)
             }
             catch(e) {
-                console.log(e.status)
-                switch(e.status) {
-                    case "500":
-                        alert(e.message[0] || "try again - email exists")
-                        break;
-                    default:
-                        alert("somthing went wrong")
-                }
+                alert(e.message[0])
             }
         }
     }
 
     const navigateToHomePage = (id) => {
-        sessionStorage.setItem('id', `${id}`)
+        localStorage.setItem('id', `${id}`)
         history.push(`/home/${id}`)
     }
 

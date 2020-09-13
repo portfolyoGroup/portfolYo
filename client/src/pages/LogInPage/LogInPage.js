@@ -13,27 +13,20 @@ const LogIn = () => {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const handleLogin = async () => {
-            try {
-                const id = await serverLogin(email, password)
-                navigateToHomePage(id)
-            }
-            catch (e) {
-                console.log(e)
-                switch (e.status) {
-                    case "500":
-                        alert(e.message[0] || "try again")
-                        break;
-                    default:
-                        alert("somthing went wrong")
-                }
-            }
+        try {
+            const id = await serverLogin(email, password)
+            navigateToHomePage(id)
+        }
+        catch (e) {
+            alert(e.message[0] || "try again")
+        }
     }
 
     const navigateToHomePage = (id) => {
         sessionStorage.setItem('id', `${id}`)
         history.push(`/home/${id}`)
     }
-    
+
     return (
         <IonPage>
             <IonHeader>
