@@ -133,13 +133,14 @@ const UpdateProjectInfo = () => {
         encodedProject.encodedProjectData = encodedProject.encodedProjectData.replace('data:application/zip;base64,', '')
 
         const profileId = sessionStorage.getItem('id');
-        try {
 
-            if (!projectTypeSelectRef?.current?.value
-                ||
-                (dataOfProjectDetails.projectType !== 'python' && dataOfProjectDetails.projectType !== 'node')) {
-                dataOfProjectDetails.projectType = 'python'
-            }
+        if (!projectTypeSelectRef?.current?.value
+            ||
+            (dataOfProjectDetails.projectType !== 'python' && dataOfProjectDetails.projectType !== 'node')) {
+            alert("please specify project type")
+            return
+        }
+        try {
             const response = await setProjectData(profileId, { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject })
             setSubmitImage(successPic)
             setSubmitStateMsg("Project was sucssefully updated in your portfolYo!")

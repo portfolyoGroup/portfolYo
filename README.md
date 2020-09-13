@@ -54,6 +54,8 @@ Brose to localhost:3000
  * look for all pic options really is working.
  * favicon
  * add c programming language in types
+ * copyrights 
+ * logo portfolyo
 
 ## Commit messege:
 in the commit meseege, let's try to keep a consistant fromat.
