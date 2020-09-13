@@ -88,7 +88,6 @@ def _get_available_port():
 def _save_project(project_name: str, user_id: str):
     project_id = get_project_pKey(user_id, project_name)
 
-    # TODO: Separation of project_name from header_title is required
     project = Project(pKey=project_id, headerTitle=project_name)
     save_project(project)
 
