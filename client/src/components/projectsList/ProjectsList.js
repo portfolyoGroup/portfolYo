@@ -23,7 +23,7 @@ const ProjectsList = ({ projectsList }) => {
             (async () => {
                 const projAllData = await getProjectData(id)
                 const stringOfForamt = `data:image/${projAllData.projectPic.picType};base64,`
-                projAllData.projectPic.picData = stringOfForamt + projAllData.projectPic.picData.replaceAll(stringOfForamt, '')
+                projAllData.projectPic.picData = stringOfForamt + projAllData.projectPic.picData.replace(new RegExp(stringOfForamt,"g"), '')
                 setProjAllData(projAllData)
             })()
         }, [])

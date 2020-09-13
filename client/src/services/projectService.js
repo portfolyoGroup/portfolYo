@@ -29,7 +29,7 @@ export const getProjectData = async (projectId) => {
     if (isRealServer) {
         //call the server by id.
         const data = await fetchFromServer(`project?id=${projectId}`, 'GET')
-        data.dataOfProjectHeader.title = data.dataOfProjectHeader.title.replaceAll('_', ' ')
+        data.dataOfProjectHeader.title = data.dataOfProjectHeader.title.replace(/_/g, ' ')
         return data
     }
     else {
@@ -41,7 +41,7 @@ export const setProjectData = async (profileId, data) => {
 
     if (isRealServer) {
         //call the server by id.
-        data.dataOfProjectHeader.title = data.dataOfProjectHeader.title.replaceAll(' ', '_')
+        data.dataOfProjectHeader.title = data.dataOfProjectHeader.title.replace(/ /g, '_')
         return await fetchFromServer(`project?profileId=${profileId}`, 'POST', data)
 
     }

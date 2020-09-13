@@ -26,7 +26,7 @@ const ProfilePage = () => {
             try {
                 const profileData = await getProfileData(id);
                 const stringOfForamt = `data:image/${profileData.profilePic.picType};base64,`
-                profileData.profilePic.picData = stringOfForamt + profileData.profilePic.picData.replaceAll(stringOfForamt, '')
+                profileData.profilePic.picData = stringOfForamt + profileData.profilePic.picData.replace(new RegExp(stringOfForamt,"g"), '')
                 setProfileData(profileData)
             } catch(e) {
                 console.log(e)

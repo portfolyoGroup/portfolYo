@@ -56,7 +56,7 @@ const UpdateProjectInfo = () => {
         const getData = async () => {
             const { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject } = await getProjectData(projectId)
             const stringOfForamt = `data:image/${projectPic.picType};base64,`
-            projectPic.picData = stringOfForamt + projectPic.picData.replaceAll(stringOfForamt, '')
+            projectPic.picData = stringOfForamt + projectPic.picData.replace(new RegExp(stringOfForamt,"g"), '')
             setDataOfProjectDetails(dataOfProjectDetails);
             setDataOfProjectHeader(dataOfProjectHeader);
             setProjectPic(projectPic);
@@ -81,7 +81,7 @@ const UpdateProjectInfo = () => {
                         const picData = recievedFile.target.result;
                         const projectPic = { picName, picType, picData }
                         const stringOfForamt = `data:image/${picType};base64,`
-                        projectPic.picData = stringOfForamt + projectPic.picData.replaceAll(stringOfForamt, '')
+                        projectPic.picData = stringOfForamt + projectPic.picData.replace(new RegExp(stringOfForamt,"g"), '')
                         setProjectPic(projectPic)
                     }
                     reader.readAsDataURL(file);
@@ -134,7 +134,7 @@ const UpdateProjectInfo = () => {
                     }
                     return (
                         <IonItem key={index}>
-                            <IonLabel position="stacked">{key.replaceAll('_', ' ')}</IonLabel>
+                            <IonLabel position="stacked">{key.replace(/_/g, ' ')}</IonLabel>
                             <IonInput disabled={disable} autoGrow={true} clearOnEdit={false} size="100%" value={value} clearInput onIonChange={(e) => {
                                 setField(dataToRead, key, e.detail.value) 
                             }} ></IonInput>

@@ -27,11 +27,10 @@ const ProjectPage = () => {
                 try {
                     const projectData = await getProjectData(id);
                     const stringOfForamt = `data:image/${projectData.projectPic.picType};base64,`
-                    projectData.projectPic.picData = stringOfForamt + projectData.projectPic.picData.replaceAll(stringOfForamt,'')
+                    projectData.projectPic.picData = stringOfForamt + projectData.projectPic.picData.replace(new RegExp(stringOfForamt,"g"),'')
                     setProjectData(projectData) 
                     runProject()
                 } catch (e) {
-                    alert(3)
                     history.push(pages.errorRoute)
                 }
             }

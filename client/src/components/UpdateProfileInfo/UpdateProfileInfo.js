@@ -61,7 +61,7 @@ const UpdateProfileInfo = () => {
 
                         const profilePic = { picName, picType, picData }
                         const stringOfForamt = `data:image/${picType};base64,`
-                        profilePic.picData = stringOfForamt + profilePic.picData.replaceAll(stringOfForamt, '')
+                        profilePic.picData = stringOfForamt + profilePic.picData.replace(new RegExp(stringOfForamt,"g"), '')
 
                         setProfilePic(profilePic)
                     }
@@ -82,7 +82,7 @@ const UpdateProfileInfo = () => {
                 {Object.entries(dataToRead).map(([key, value], index) => {
                     return (
                         <IonItem key={index}>
-                            <IonLabel position="floating">{key.replaceAll('_', ' ')}</IonLabel>
+                            <IonLabel position="floating">{key.replace(/_/g, ' ')}</IonLabel>
                             <IonInput size="100%" autoGrow={true} placeholder={value} clearInput onIonChange={(e) => {
                                 setField(dataToRead, key, e.detail.value)
                             }} >
