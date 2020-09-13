@@ -20,7 +20,7 @@ const allData = {
             picType: "png",
             picData: 'kaki of yonim'
         },
-        
+
     }
 }
 
@@ -28,7 +28,9 @@ const isRealServer = true;
 export const getProjectData = async (projectId) => {
     if (isRealServer) {
         //call the server by id.
-        return await fetchFromServer(`project?id=${projectId}`, 'GET')
+        const data = await fetchFromServer(`project?id=${projectId}`, 'GET')
+        data.dataOfProjectHeader.title = data.dataOfProjectHeader.title.replace(/_/g, ' ')
+        return data
     }
     else {
         return await allData["5"]
@@ -39,7 +41,8 @@ export const setProjectData = async (profileId, data) => {
 
     if (isRealServer) {
         //call the server by id.
-            return await fetchFromServer(`project?profileId=${profileId}`, 'POST', data)
+        data.dataOfProjectHeader.title = data.dataOfProjectHeader.title.replace(/ /g, '_')
+        return await fetchFromServer(`project?profileId=${profileId}`, 'POST', data)
 
     }
     else {
@@ -47,4 +50,25 @@ export const setProjectData = async (profileId, data) => {
         // nothing to do its here
     }
 }
+export const serverRunProject = async (projectId) => {
+    let res
+    try{
+        res = await fetchFromServer(`project/run?projectId=${projectId}`, 'GET')
+    }
+    catch (e){
+        serverTerminateProject(projectId);
+        res = await serverRunProject(projectId)
+    }
+    finally{
+        return res
+    }
+}
+
+export const serverTerminateProject = async () => {
+    const projId = sessionStorage.getItem('runningProjectId')
+    const res = await fetchFromServer(`project/terminate?projectId=${projId}`, 'GET')
+    sessionStorage.setItem('isRunning', 'false')
+    return res;
+}
+
 

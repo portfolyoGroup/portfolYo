@@ -18,7 +18,7 @@ import sorryPic from '../../resources/sorry.svg'
 import waitPic from '../../resources/wait.svg'
 
 const UpdateProjects = () => {
-    const profileId = React.useMemo(() => localStorage.getItem('id'))
+    const profileId = React.useMemo(() => sessionStorage.getItem('id'))
     const history = createBrowserHistory({ forceRefresh: true });
     const match = useRouteMatch();
     const [projectsCards, setProjectsCards] = useState([])
@@ -50,6 +50,8 @@ const UpdateProjects = () => {
         useEffect(() => {
             (async () => {
                 const projAllData = await getProjectData(id)
+                const stringOfForamt = `data:image/${projAllData.projectPic.picType};base64,`
+                projAllData.projectPic.picData = stringOfForamt + projAllData.projectPic.picData.replace(new RegExp(stringOfForamt,"g"), '')
                 setProjAllData(projAllData)
             })()
         }, [])
@@ -129,9 +131,9 @@ const UpdateProjects = () => {
                         <ion-text color="primary">
                             <h1>My Projects</h1>
                         </ion-text>
-                        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+                        <IonFab onClick={() => setShowModal(true)} vertical="bottom" horizontal="end" slot="fixed">
                             <IonFabButton>
-                                <IonIcon icon={add} onClick={() => setShowModal(true)} />
+                                <IonIcon icon={add} />
                             </IonFabButton>
                         </IonFab>
                     </div>

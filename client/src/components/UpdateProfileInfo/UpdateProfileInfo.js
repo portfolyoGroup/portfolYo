@@ -28,7 +28,7 @@ const UpdateProfileInfo = () => {
 
     useEffect(() => {
         const getData = async () => {
-            const id = localStorage.getItem('id')
+            const id = sessionStorage.getItem('id')
             setId(id)
             try {
                 const { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList } = await getProfileData(id)
@@ -58,7 +58,11 @@ const UpdateProfileInfo = () => {
                     const picType = fileParts[fileParts.length - 1]
                     reader.onload = async (recievedFile) => {
                         const picData = recievedFile.target.result;
+
                         const profilePic = { picName, picType, picData }
+                        const stringOfForamt = `data:image/${picType};base64,`
+                        profilePic.picData = stringOfForamt + profilePic.picData.replace(new RegExp(stringOfForamt,"g"), '')
+
                         setProfilePic(profilePic)
                     }
                     reader.readAsDataURL(file);
@@ -78,7 +82,7 @@ const UpdateProfileInfo = () => {
                 {Object.entries(dataToRead).map(([key, value], index) => {
                     return (
                         <IonItem key={index}>
-                            <IonLabel position="floating">{key.replaceAll('_', ' ')}</IonLabel>
+                            <IonLabel position="floating">{key.replace(/_/g, ' ')}</IonLabel>
                             <IonInput size="100%" autoGrow={true} placeholder={value} clearInput onIonChange={(e) => {
                                 setField(dataToRead, key, e.detail.value)
                             }} >
@@ -94,14 +98,14 @@ const UpdateProfileInfo = () => {
         setSubmitImage(waitPic)
         setShowModal(true)
         setSubmitStateMsg("Updating your profile")
-        const id = localStorage.getItem('id')
+        const id = sessionStorage.getItem('id')
         try {
             const response = await setProfileData(id, { dataOfAbout, dataOfContact, dataOfProfileHome, profilePic, projectsList })
             setSubmitImage(successPic)
             setSubmitStateMsg("Sucsses")
             setdisableSubmitGoToProfileBottun(false)
         }
-        catch (e){
+        catch (e) {
             setSubmitStateMsg("Sorry, we failed to update." + e)
             setSubmitImage(sorryPic)
         }
@@ -116,9 +120,9 @@ const UpdateProfileInfo = () => {
                 <img className="uploadphoto" src={submitImage} />
                 <IonTitle>{submitStateMsg}</IonTitle>
                 <IonRow>
-                <IonLoading isOpen={loadingOnSubmit} message={"portfolYoing..."} />
-                <IonButton disabled={disableSubmitGoToProfileBottun} onClick={() => history.push(`${pages.profileRoute}/${id}`)} > Go To Profile</IonButton>
-                <IonButton disabled={disableSubmitTnxButton} onClick={() => setShowModal(false)}> ok, tnx</IonButton>
+                    <IonLoading isOpen={loadingOnSubmit} message={"portfolYoing..."} />
+                    <IonButton disabled={disableSubmitGoToProfileBottun} onClick={() => history.push(`${pages.profileRoute}/${id}`)} > Go To Profile</IonButton>
+                    <IonButton disabled={disableSubmitTnxButton} onClick={() => setShowModal(false)}> ok, tnx</IonButton>
                 </IonRow>
             </IonModal>
             <IonCardHeader>

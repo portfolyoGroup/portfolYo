@@ -13,7 +13,7 @@ const Contact = ({dataOfContact}) => {
                         <IonItem class='ion-padding' key={index}>
                             <IonLabel>
                                 <IonText>
-                                    <h1>{key.replaceAll('_', ' ')}</h1>
+                                    <h1>{key.replace(/_/g, ' ')}</h1>
                                     <p>{value}</p>
                                 </IonText>
                             </IonLabel>
@@ -34,7 +34,7 @@ const Contact = ({dataOfContact}) => {
 
                 <IonCardContent>
                     <MyList></MyList>
-                    <IonButton onClick={() => {alert("Thanks for downloading my CV")}}>Download CV</IonButton>
+                    <IonButton onClick={() => {alert("This user didn't provide CV")}}>Download CV</IonButton>
                 </IonCardContent>
             </IonCard>
         </IonContent>
