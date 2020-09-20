@@ -15,4 +15,4 @@ COPY ./${PROJECT_NAME}.c .
 RUN gcc -o app ${PROJECT_NAME}.c
 
 #CMD tmate new-session -s my_session -d sh -c './app'
-CMD tmate -S /tmp/tmate.sock -k tmk-XrCnVXNXQEky3Oh9vzjpLmjDGe -n test  new-session -s helloc  -d sh -c './app'
+CMD tmate -S /tmp/tmate.sock -F -k tmk-XrCnVXNXQEky3Oh9vzjpLmjDGe -n test  new-session -s helloc  -d sh -c './app'

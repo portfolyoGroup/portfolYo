@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import './LogInPage.scss'
 import pages from '../Pages'
 import { serverLogin } from '../../services/profileService';
+import "../../components/sharedStyles.scss"
 
 const LogIn = () => {
 
@@ -35,7 +36,7 @@ const LogIn = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent color="primary">
-                <IonCard>
+                <IonCard >
                     <IonGrid>
                         <IonRow color="primary" >
                             <IonCol className='colStyle'>
