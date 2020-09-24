@@ -12,7 +12,7 @@ import socket
 
 from service.projects_manager.project_data_keys import *
 
-SUPPORTED_LANGUAGES = ['c', 'python', 'node']
+SUPPORTED_LANGUAGES = ['c', 'python', 'node', 'java-maven']
 
 
 def _get_default_encoded_project():
@@ -53,6 +53,9 @@ def update_project(project_data: dict, user_id: str):
     except DbError as e:
         logging.error(e)
         docker_client.remove_image(image.id)
+        raise e
+    except Exception as e:
+        logging.error(e)
         raise e
     finally:
         zip_handler.remove_zip(project_root + ".zip")
@@ -153,6 +156,7 @@ def handle_upload(project_data: dict, user_id: str):
     :return:
     """
     if project_data.get(DATA_OF_ENCODED_PROJECT):
+        project_data[TYPE_AND_PORT][PROJECT_TYPE] = 'java-maven'
         update_project(project_data, user_id)
     else:
         project_name = project_data.get(HEADER_DATA).get(TITLE)

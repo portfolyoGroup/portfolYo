@@ -5,6 +5,7 @@ import service.projects_manager.projects_manager as projects_manager
 import json
 
 from service.mongo_db.db_client import is_user_exist, add_user_project
+from service.projects_manager.project_data_keys import TYPE_AND_PORT, PROJECT_TYPE
 
 project_blueprint = Blueprint('project_blueprint', __name__)
 
