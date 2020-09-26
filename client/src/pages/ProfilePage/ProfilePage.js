@@ -13,7 +13,7 @@ import './ProfilePage.scss'
 import { getProfileData } from '../../services/profileService'
 import { useHistory } from 'react-router-dom';
 import pages from '../Pages'
-import agada from '../../resources/PortfolYo.png'
+import agada from '../../resources/Portfolyo.png'
 
 const ProfilePage = () => {
 
