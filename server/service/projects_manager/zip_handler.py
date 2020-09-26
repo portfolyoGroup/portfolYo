@@ -32,7 +32,6 @@ def unzip_file(path2file: str, project_type):
             pass
 
 
-# TODO: Test & Consider changing implementation for recursive permissions
 def change_permissions_recursive(path, *modes):
     for root, dirs, files in os.walk(path, topdown=False):
         for dir in [os.path.join(root,d) for d in dirs]:
@@ -50,13 +49,9 @@ def remove_zip(zip_file_name):
 
 def remove_unzipped_folder(project_type: str, project_name: str):
     path = _generate_project_tmp_path(project_type) + project_name + os.path.sep
-    shutil.rmtree(path)   # TODO: fix; fail to remove files
+    shutil.rmtree(path)
 
 
 def _remove_readonly(func, path, _):
     os.chmod(path, stat.S_IWRITE)
     func(path)
-#
-# file_encoded = base64_encoder("C:\\tmp\\flask-example.zip")
-# base64_to_zip(file_encoded, "flaskWebTest.zip")
-# unzip_file("C:\\tmp\\flaskWebTest.zip")
