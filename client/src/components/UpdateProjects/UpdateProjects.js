@@ -24,9 +24,6 @@ const UpdateProjects = () => {
         splited.pop();
         path = splited.reduce((acc, curr) => acc + '/' + curr, "");
         path = path.slice(1);
-
-        console.log("path")
-        console.log(path)
         return path;
     }
 
