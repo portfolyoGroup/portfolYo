@@ -110,8 +110,6 @@ def _update_project_db(project_data: dict, user_id: str):
     project.picName = project_data.get(PIC_DATA).get(PIC_NAME)
     project.picFormat = project_data.get(PIC_DATA).get(PIC_FORMAT)
     project.picEncodedData = project_data.get(PIC_DATA).get(ENCODED_PIC)
-    # project_pic_db_entity = ProjectPic(name=pic_name, format=pic_format, encoded=encoded_pic)
-    # project_header_db_entity = ProjectHeader(title=title, subtitle=subtitle)
     project.save()
 
 
@@ -183,7 +181,6 @@ def get_project_data(project_id: str):
     pic_data = dict()
     pic_data[PIC_NAME] = project.picName
     pic_data[PIC_FORMAT] = project.picFormat
-    # pic_data[ENCODED_PIC] = concat_pic_prefix_to_encoded_data(project.picEncodedData, pic_data.get(PIC_FORMAT))
     pic_data[ENCODED_PIC] = project.picEncodedData
 
 
