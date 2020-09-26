@@ -14,10 +14,7 @@ const PersonalZoneMainCard = () => {
                 </IonCardHeader>
 
                 <IonCardContent>
-                    We are ProfolYo! This, is: portfolYo, where the next thing happens here and now.
-                    Where state of the art technolegy meets top noch minds, and creates the inovation for next generations.
-                    This is the place to express your own unieqe set of unbelievable skills, and to share your dreams, that here will come true.
-                    We have a saying here at portfolYo:"Have a ya eh day, and keep being heavyly in the yep."                    
+                    This is your PortfolYo! personal zone. you can edit your personal details and edit your projects.
                 </IonCardContent>
             </IonCard>
         </IonContent>
