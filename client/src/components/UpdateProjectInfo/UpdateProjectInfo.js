@@ -175,7 +175,7 @@ const UpdateProjectInfo = () => {
                 <img className="uploadphoto" src={submitImage} />
                 <IonTitle>{submitStateMsg}</IonTitle>
                 <IonRow>
-                    <IonLoading isOpen={loadingOnSubmit} message={"portfolYoing..."} />
+                    <IonLoading isOpen={loadingOnSubmit} message={loadMessage} />
                     <IonButton disabled={disableSubmitGoToProjectBottun} onClick={() => history.push(`${pages.projectRoute}/${projectId}`)} > Go To Project </IonButton>
                     <IonButton disabled={disableSubmitTnxButton} onClick={() => setShowSubmitModal(false)}> ok, tnx</IonButton>
                 </IonRow>
@@ -250,7 +250,7 @@ const UpdateProjectInfo = () => {
             <IonContent>
                 <IonLoading
                     isOpen={true}
-                    message={loadMessage}
+                    message={"portfolYoing ..."}
                 />
             </IonContent>);
     }
