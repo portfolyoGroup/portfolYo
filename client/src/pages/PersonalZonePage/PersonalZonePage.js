@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTabButton, IonLabel, IonTitle, IonTabs, IonTabBar, IonRouterOutlet, IonToolbar, IonCol, IonInput, IonItem, IonGrid, IonIcon, IonButton, IonCard, IonFab, IonFabButton } from '@ionic/react';
+import { IonContent, , IonPage, IonTabButton, IonLabel, IonTitle, IonTabs, IonTabBar, IonRouterOutlet, IonIcon, IonButton, IonFab, IonFabButton } from '@ionic/react';
 // import allComponents from '../components'
 import { useRouteMatch } from "react-router-dom";
 import '../../pages/LogInPage/LogInPage.scss'
@@ -12,7 +12,7 @@ import { createBrowserHistory } from 'history'
 import UpdateProjectInfo from '../../components/UpdateProjectInfo/UpdateProjectInfo';
 import { logOut } from 'ionicons/icons'
 
-const PersonalZonePage = (props) => {
+const PersonalZonePage = () => {
 
     const match = useRouteMatch()
     const history = createBrowserHistory({ forceRefresh: true })

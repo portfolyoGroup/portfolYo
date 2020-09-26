@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
-// import allComponents from '../components'
-import { useHistory, Router } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { serverRegister } from '../../services/profileService'
 import '../LogInPage/LogInPage.scss'
-import { Link } from "react-router-dom";
-import { Route, Redirect, useParams } from 'react-router-dom'
-// import { createBrowserHistory } from 'history' //maybe?
 
 const RegisterPage = () => {
 

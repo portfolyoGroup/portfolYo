@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonTabs, IonTabBar, IonTabButton, IonLabel, IonPage, IonRouterOutlet, IonToolbar, IonHeader, IonContent,
-    IonTitle, IonNav, IonLoading
+    IonTabs, IonTabBar, IonTabButton, IonLabel, IonRouterOutlet, IonContent,
+    IonTitle, IonLoading
 } from '@ionic/react';
 import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 // import allComponents from '../components'
@@ -9,7 +9,7 @@ import RunTheProj from '../../components/runTheProj/RunTheProj'
 // import CodeInspector from '../../components/codeInspector/CodeInspector'
 import ProjectHeader from '../../components/projectHeader/ProjectHeader';
 import './ProjectPage.scss'
-import { serverRunProject, getProjectData, serverTerminateProject } from '../../services/projectService'
+import { serverRunProject, getProjectData } from '../../services/projectService'
 import { createBrowserHistory } from 'history'
 import pages from "../../pages/Pages";
 

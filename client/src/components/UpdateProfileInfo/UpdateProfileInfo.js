@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { IonModal, IonContent, IonLoading, IonButton, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard, IonRow } from '@ionic/react';
-import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 import { setProfileData, getProfileData } from '../../services/profileService'
 import pages from '../../pages/Pages'
 import { createBrowserHistory } from 'history'

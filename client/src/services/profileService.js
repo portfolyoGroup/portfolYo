@@ -1,6 +1,5 @@
 import { fetchFromServer } from './service'
 // import dummyPicData from './dummyProfileData'
-import { object } from 'prop-types';
 
 
 const allData = {

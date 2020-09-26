@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { IonSelectOption, IonSelect, IonModal, IonCol, IonContent, IonLoading, IonButton, IonIcon, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard, IonRow, IonText } from '@ionic/react';
+import { IonSelectOption, IonSelect, IonModal, IonContent, IonLoading, IonButton, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonCardContent, IonCardHeader, IonCard, IonRow, IonText } from '@ionic/react';
 import { useParams } from 'react-router-dom'
 import { setProjectData, getProjectData } from '../../services/projectService'
 import pages from '../../pages/Pages'

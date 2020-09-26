@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
+import React from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard } from '@ionic/react';
 // import allComponents from '../components'
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
 import './errorPage.scss'
-import pages from '../Pages'
 import pic from '../../resources/Portfolyo.png'
 
 const ErrorPage = () => {

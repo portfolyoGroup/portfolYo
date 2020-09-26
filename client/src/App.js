@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Redirect, useParams } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import { IonApp, IonRouterOutlet } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import ProfilePage from './pages/ProfilePage/ProfilePage'

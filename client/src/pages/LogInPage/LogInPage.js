@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
 // import allComponents from '../components'
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
 import './LogInPage.scss'
 import pages from '../Pages'
 import { serverLogin } from '../../services/profileService';

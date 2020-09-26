@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText } from '@ionic/react'
+import { IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react'
 import { withRouter } from 'react-router'
 import '../sharedStyles.scss'
 import '../projectHeader/projectHeader.scss'

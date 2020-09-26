@@ -1,18 +1,12 @@
-import { IonToolbar, IonLoading, IonTitle, IonRouterOutlet, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonLabel, IonItemDivider, IonItem, IonText, IonItemSliding, IonButton } from '@ionic/react'
+import {IonLoading, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonItem, IonButton } from '@ionic/react'
 import { withRouter } from 'react-router'
-import { createBrowserHistory } from 'history'
-import pic from '../../resources/snakeGamePic.png'
 import '../about/about.scss'
 import '../sharedStyles.scss'
 import '../projectsList/projectList.scss'
 import { getProjectData } from '../../services/projectService'
-import { Route, Switch, useRouteMatch, useParams, Redirect } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 import pages from '../../pages/Pages'
-import ProjectPage from '../../pages/ProjectPage/ProjectPage'
 const ProjectsList = ({ projectsList }) => {
-    const history = createBrowserHistory({ forceRefresh: true });
-    const match = useRouteMatch();
     const [projectsCards, setProjectsCards] = useState([])
     useEffect(() => {
         setProjectsCards(projectsList.map((currId, index) => <OneProj key={currId + index} id={currId} />))
@@ -44,7 +38,6 @@ const ProjectsList = ({ projectsList }) => {
                                 {dataOfProjectHeader.description}
                             </h3>
                             <IonItem class='centeredItem'>
-                                {/* <IonButton onClick={() => history.push(`${pages.projectRoute}/${id}`)}> */}
                                 <IonButton href={`${pages.projectRoute}/${id}`}>
                                     Take A Look
                             </IonButton>
