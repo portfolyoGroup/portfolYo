@@ -34,7 +34,6 @@ const UpdateProjects = () => {
         const fetchData = async () => {
             const projectsList = await getProfileData(profileId)
             setProjectsList(projectsList.projectsList)
-            console.log(projectsList.projectsList)
             setProjectsCards(projectsList.projectsList.map((currId, index) => <OneProj key={currId + index} id={currId} />))
         }
         fetchData()
@@ -101,7 +100,7 @@ const UpdateProjects = () => {
     }
 
     return (
-        <IonContent>
+        (projectsList && projectsList.length > 0) ? <IonContent>
             <IonModal animated={true} isOpen={showModal}>
 
                 {/* <IonTitle slot="center">Create a New Project</IonTitle>
@@ -136,7 +135,13 @@ const UpdateProjects = () => {
                     </IonList>
                 </IonCardContent>
             </IonCard>
-        </IonContent>
+        </IonContent> :
+            <IonContent>
+                <IonLoading
+                    isOpen={true}
+                    message={'ProtfolYoing...'}
+                />
+            </IonContent>
     )
 }
 export default UpdateProjects
