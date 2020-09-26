@@ -24,7 +24,6 @@ body structure:
 @project_blueprint.route('/project', methods=['POST'])
 def upload():
     body = json.loads(request.data)
-    logging.error("request body: " + str(body))
     user_id = request.args.get("profileId")
 
     dal.upload_project(body, user_id)
