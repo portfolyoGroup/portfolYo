@@ -23,14 +23,14 @@ def get_user_by_id(user_id: str):
     try:
         user_result = User.objects(uid=user_id).get()
         return user_result
-    except DoesNotExist as e:
+    except DoesNotExist:
         raise DbError("user with id address " + user_id + " does not exist")
 
 
 def get_user_by_email(email: str):
     try:
         return User.objects(email=email).get()
-    except DoesNotExist as e:
+    except DoesNotExist:
         raise DbError("user with email address " + email + " does not exist")
 
 
@@ -64,14 +64,7 @@ def update_user_profile(profile_data: dict):
         user.picType = profile_data.get('profilePic').get('picType')
         user.picData = profile_data.get('profilePic').get('picData')
 
-        # user = User(uid=profile_data.uid, name=profile_data.data_of_profile_home.name, title=profile_data.data_of_profile_home.title,
-        #             main_description=profile_data.data_of_profile_home.main_description, date_of_birth=profile_data.data_of_contact.date_of_birth,
-        #             address=profile_data.data_of_contact.address, phone=profile_data.data_of_contact.phone, experience=profile_data.data_of_about.experience,
-        #             skills=profile_data.data_of_about.skills, progrmming_languages=profile_data.data_of_about.programming_languages,
-        #             description=profile_data.data_of_about.description, projects=profile_data.projectsList, picName=profile_data.profilePic.picName,
-        #             picType=profile_data.profilePic.picType, picData=profile_data.profilePic.picData)
         user.save()
-        return
 
 
 def delete_user(email: str):
@@ -133,11 +126,6 @@ def add_user_project(uid: str, project_name: str):
     except Exception as e:
         logging.error(e)
         raise DbError("user not found")
-
-
-# result = save_user(User(email="noam1@gmail.com", password='123'))
-# result = get_user("noam@gmail.com")
-# print(result)
 
 
 

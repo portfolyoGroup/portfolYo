@@ -4,8 +4,7 @@ from flask import Blueprint, request, jsonify
 import service.projects_manager.projects_manager as projects_manager
 import json
 
-from service.mongo_db.db_client import is_user_exist, add_user_project
-from service.projects_manager.project_data_keys import TYPE_AND_PORT, PROJECT_TYPE
+from service.dal import dal
 
 project_blueprint = Blueprint('project_blueprint', __name__)
 
@@ -28,7 +27,7 @@ def upload():
     logging.error("request body: " + str(body))
     user_id = request.args.get("profileId")
 
-    projects_manager.handle_upload(project_data=body, user_id=user_id)
+    dal.upload_project(body, user_id)
     return jsonify({"success": True}), 200
 
 
@@ -42,15 +41,17 @@ query param2: userName
 @project_blueprint.route('/project', methods=['GET'])
 def get_project_data():
     project_id = request.args.get("id")
-    response = projects_manager.get_project_data(project_id)
+    response = dal.get_project_data(project_id)
     response.update({'success': True})
+
     return jsonify(response), 200
+
 
 @project_blueprint.route('/project/run', methods=['GET'])
 def run():
     project_id = request.args.get("projectId")
 
-    port = projects_manager.run_project(project_id)
+    port = dal.run_project(project_id)
     return jsonify({"success": True, "port": port}), 200
 
 
@@ -67,7 +68,8 @@ body structure:
 @project_blueprint.route('/project/terminate', methods=['GET'])
 def stop():
     project_id = request.args.get("projectId")
-    projects_manager.kill_container(project_id)
+    dal.stop_project(project_id)
+
     return jsonify({"success": True}), 200
 
 
@@ -78,5 +80,5 @@ def delete():
     project_name = body.get("project")
     user_name = body.get("user")
 
-    projects_manager.delete_project(user_name, project_name)
+    dal.delete_project(project_name, user_name)
     return jsonify({"success": True}), 200

@@ -156,7 +156,6 @@ def handle_upload(project_data: dict, user_id: str):
     :return:
     """
     if project_data.get(DATA_OF_ENCODED_PROJECT):
-        project_data[TYPE_AND_PORT][PROJECT_TYPE] = 'java-maven'
         update_project(project_data, user_id)
     else:
         project_name = project_data.get(HEADER_DATA).get(TITLE)
