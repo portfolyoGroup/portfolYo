@@ -29,6 +29,8 @@ const UpdateProjectInfo = () => {
     const [disableSubmitTnxButton, setDisableSubmitTnxButton] = useState(true)
     const [submitImage, setSubmitImage] = useState(waitPic)
 
+    const [loadMessage, setLoadMessage] = useState('portfolYoing ...')
+
     useEffect(() => {
         const getData = async () => {
             const { dataOfProjectDetails, dataOfProjectHeader, projectPic, encodedProject } = await getProjectData(projectId)
@@ -129,7 +131,13 @@ const UpdateProjectInfo = () => {
         setShowSubmitModal(true)
         setLoadingOnSubmit(true)
         setSubmitImage(waitPic)
-        setSubmitStateMsg("PortfolYoing your project this mighht take a few minutes, we are installing your project ... ")
+        setSubmitStateMsg("PortfolYoing your project this mighht take a few minutes ...")
+        setTimeout(() => {
+            setLoadMessage("Installing your project's dependencies ... ")
+        }, 4000);
+        setTimeout(() => {
+            setLoadMessage("Setting up a virtual environment ... ")
+        }, 4000);
         if (projectTypeSelectRef.current.value) {
             dataOfProjectDetails.projectType = projectTypeSelectRef.current.value
         }
@@ -167,7 +175,7 @@ const UpdateProjectInfo = () => {
                 <img className="uploadphoto" src={submitImage} />
                 <IonTitle>{submitStateMsg}</IonTitle>
                 <IonRow>
-                    <IonLoading isOpen={loadingOnSubmit} message={"portfolYoing..."} />
+                    <IonLoading isOpen={loadingOnSubmit} message={loadMessage} />
                     <IonButton disabled={disableSubmitGoToProjectBottun} onClick={() => history.push(`${pages.projectRoute}/${projectId}`)} > Go To Project </IonButton>
                     <IonButton disabled={disableSubmitTnxButton} onClick={() => setShowSubmitModal(false)}> ok, tnx</IonButton>
                 </IonRow>
@@ -242,7 +250,7 @@ const UpdateProjectInfo = () => {
             <IonContent>
                 <IonLoading
                     isOpen={true}
-                    message={'PortfolYoing...'}
+                    message={"portfolYoing ..."}
                 />
             </IonContent>);
     }
