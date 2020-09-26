@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCol, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
+import { IonTabButton, IonContent, IonHeader, IonPage, IonTitle, IonTabBar, IonCol, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
 // import allComponents from '../components'
 import { useHistory } from "react-router-dom";
 import './LogInPage.scss'
 import pages from '../Pages'
 import { serverLogin } from '../../services/profileService';
 import "../../components/sharedStyles.scss"
+import agada from '../../resources/Portfolyo.png'
 
 const LogIn = () => {
 
@@ -30,9 +31,13 @@ const LogIn = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar>
-                    <IonTitle className='big-title-portfolyo'>PortfolYo!</IonTitle>
-                </IonToolbar>
+                <IonTabBar>
+                    <IonTabButton tab="" className='title-portfolyo' href={`/`}>
+                        <IonTitle size="large">
+                            <img src={agada} />
+                        </IonTitle>
+                    </IonTabButton>
+                </IonTabBar>
             </IonHeader>
             <IonContent color="primary">
                 <IonCard >
