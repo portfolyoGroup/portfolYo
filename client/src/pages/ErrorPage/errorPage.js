@@ -13,7 +13,7 @@ const ErrorPage = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle className='big-title-portfolyo'><img src={pic} ></img></IonTitle>
+                    <IonTitle className='big-title-portfolyo'></IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent color="primary">

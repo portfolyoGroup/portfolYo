@@ -12,6 +12,7 @@ import './ProjectPage.scss'
 import { serverRunProject, getProjectData } from '../../services/projectService'
 import { createBrowserHistory } from 'history'
 import pages from "../../pages/Pages";
+import agada from '../../resources/Portfolyo.png'
 
 const ProjectPage = () => {
     const [projectData, setProjectData] = useState()
@@ -55,7 +56,9 @@ const ProjectPage = () => {
                     </IonRouterOutlet>
                     <IonTabBar slot="top">
                         <IonTabButton className='title-portfolyo' >
-                            <IonTitle onClick={() => history.push('/')} size="large">PortfolYo!</IonTitle>
+                            <IonTitle onClick={() => history.push('/')} size="large">
+                                <img src={agada}/>
+                            </IonTitle>
                         </IonTabButton>
                         <IonTabButton tab="home" href={`${match.url}/home`}>
                             <IonLabel>Home</IonLabel>

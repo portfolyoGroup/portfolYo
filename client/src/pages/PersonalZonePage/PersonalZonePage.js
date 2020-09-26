@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, , IonPage, IonTabButton, IonLabel, IonTitle, IonTabs, IonTabBar, IonRouterOutlet, IonIcon, IonButton, IonFab, IonFabButton } from '@ionic/react';
+import { IonContent, IonPage, IonTabButton, IonLabel, IonTitle, IonTabs, IonTabBar, IonRouterOutlet, IonIcon, IonButton, IonFab, IonFabButton } from '@ionic/react';
 // import allComponents from '../components'
 import { useRouteMatch } from "react-router-dom";
 import '../../pages/LogInPage/LogInPage.scss'
@@ -11,6 +11,7 @@ import pages from '../Pages.js'
 import { createBrowserHistory } from 'history'
 import UpdateProjectInfo from '../../components/UpdateProjectInfo/UpdateProjectInfo';
 import { logOut } from 'ionicons/icons'
+import agada from '../../resources/Portfolyo.png'
 
 const PersonalZonePage = () => {
 
@@ -38,7 +39,9 @@ const PersonalZonePage = () => {
                     </IonRouterOutlet>
                     <IonTabBar slot="top">
                         <IonTabButton tab="" className='title-portfolyo' href={`/`}>
-                            <IonTitle size="large">PortfolYo!</IonTitle>
+                            <IonTitle size="large">
+                                <img src={agada}/>
+                            </IonTitle>
                         </IonTabButton>
                         <IonTabButton tab="main" href={`${match.url}/main`}>
                             <IonLabel>Home</IonLabel>

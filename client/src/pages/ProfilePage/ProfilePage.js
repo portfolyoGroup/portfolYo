@@ -13,6 +13,8 @@ import './ProfilePage.scss'
 import { getProfileData } from '../../services/profileService'
 import { useHistory } from 'react-router-dom';
 import pages from '../Pages'
+import agada from '../../resources/PortfolYo.png'
+
 const ProfilePage = () => {
 
     let { id } = useParams();
@@ -48,7 +50,9 @@ const ProfilePage = () => {
                     </IonRouterOutlet>
                     <IonTabBar slot="top">
                         <IonTabButton className='title-portfolyo' >
-                            <IonTitle onClick={() => history.push('/')} size="large">PortfolYo!</IonTitle>
+                            <IonTitle onClick={() => history.push('/')} size="large">
+                                <img src={agada}/>
+                            </IonTitle>
                         </IonTabButton>
                         <IonTabButton tab="home" href={`${match.url}/home`}>
                             <IonLabel>Home</IonLabel>

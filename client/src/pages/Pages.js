@@ -7,4 +7,4 @@ export default {
     registerRoute: `/register`,
     errorRoute: `/error`
 }
-export const serverPath = '51.105.98.65'
+export const serverPath = '10.0.0.11'

@@ -196,7 +196,7 @@ const UpdateProjectInfo = () => {
             </IonModal>
             <IonCardHeader>
                 <IonToolbar>
-                    <IonTitle>Update your project</IonTitle>
+                    <IonTitle style={{ fontSize: '32px' }}  >Update your project</IonTitle>
                     <img src={projectPic.picData} alt="no pic in server" />
                 </IonToolbar>
             </IonCardHeader>
@@ -211,13 +211,15 @@ const UpdateProjectInfo = () => {
             </IonCardContent>
             <IonItem class='ion-padding'>
                 <IonLabel position='stacked'>Port</IonLabel>
-                <IonInput onIonChange={e => setField(dataOfProjectDetails, 'port', e.detail.value)} type='number' />
+                <IonInput value={5000} onIonChange={e => setField(dataOfProjectDetails, 'port', e.detail.value)} type='number' />
             </IonItem>
             <IonItem style={{ width: '100%' }}>
                 <IonLabel position="stacked">Project type</IonLabel>
                 <IonSelect value={value} defaultChecked={true} defaultValue={dataOfProjectDetails.projectType} placeholder="Select One" ref={projectTypeSelectRef} onIonChange={(e) => setField(dataOfProjectDetails, "projectType", e.detail.value)}>
-                    <IonSelectOption value="python">python</IonSelectOption>
-                    <IonSelectOption value="node">node.js</IonSelectOption>
+                    <IonSelectOption value="python">Python</IonSelectOption>
+                    <IonSelectOption value="node">Node.js</IonSelectOption>
+                    <IonSelectOption value="c">C</IonSelectOption>
+                    <IonSelectOption value="java-maven">Java</IonSelectOption>
                 </IonSelect>
             </IonItem>
             <br></br>

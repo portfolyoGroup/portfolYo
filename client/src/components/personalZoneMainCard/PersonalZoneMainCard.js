@@ -2,14 +2,13 @@ import React from 'react'
 import { IonContent, IonCard, IonCardContent, IonCardHeader} from '@ionic/react'
 import { withRouter } from 'react-router'
 import '../sharedStyles.scss'
-
 const PersonalZoneMainCard = () => {
     return (
         <IonContent>
             <IonCard>
                 <IonCardHeader>
                     <ion-text color="primary">
-                        <h1>ProfolYo!</h1>
+                        <h1>PortfolYo!</h1>
                     </ion-text>
                 </IonCardHeader>
 
