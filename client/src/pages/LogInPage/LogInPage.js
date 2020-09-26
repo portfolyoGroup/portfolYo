@@ -19,7 +19,7 @@ const LogIn = () => {
             navigateToHomePage(id)
         }
         catch (e) {
-            alert(e.message[0] || "try again")
+            alert(e.message || "try again")
         }
     }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonTabBar,IonTabButton, IonCol, IonInput, IonItem, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonTabBar, IonTabButton, IonCol, IonInput, IonItem, IonGrid, IonRow, IonButton, IonCard } from '@ionic/react';
 import { useHistory } from "react-router-dom";
 import { serverRegister } from '../../services/profileService'
 import '../LogInPage/LogInPage.scss'
@@ -17,8 +17,8 @@ const RegisterPage = () => {
                 const id = await serverRegister(email, password)
                 navigateToHomePage(id)
             }
-            catch(e) {
-                alert(e.message[0])
+            catch (e) {
+                alert(e.message)
             }
         }
     }
@@ -35,12 +35,12 @@ const RegisterPage = () => {
     return (
         <IonPage>
             <IonHeader>
-            <IonTabBar>
-                <IonTabButton tab="" className='title-portfolyo' href={`/`}>
-                            <IonTitle size="large">
-                                <img src={agada}/>
-                            </IonTitle>
-                        </IonTabButton>
+                <IonTabBar>
+                    <IonTabButton tab="" className='title-portfolyo' href={`/`}>
+                        <IonTitle size="large">
+                            <img src={agada} />
+                        </IonTitle>
+                    </IonTabButton>
                 </IonTabBar>
             </IonHeader>
             <IonContent color="primary">

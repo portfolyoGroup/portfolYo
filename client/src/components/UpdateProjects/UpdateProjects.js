@@ -16,7 +16,7 @@ const UpdateProjects = () => {
     const history = createBrowserHistory({ forceRefresh: true });
     const match = useRouteMatch();
     const [projectsCards, setProjectsCards] = useState([])
-    const [projectsList, setProjectsList] = useState([])
+    const [projectsList, setProjectsList] = useState(null)
     const [showModal, setShowModal] = useState(false)
     const [modalInputValue, setModalInputValue] = useState("")
     const removeLastSlash = (path) => {
@@ -100,7 +100,7 @@ const UpdateProjects = () => {
     }
 
     return (
-        (projectsList && projectsList.length > 0) ? <IonContent>
+        projectsList ? <IonContent>
             <IonModal animated={true} isOpen={showModal}>
 
                 {/* <IonTitle slot="center">Create a New Project</IonTitle>
