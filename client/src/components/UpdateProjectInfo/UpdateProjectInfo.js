@@ -129,7 +129,7 @@ const UpdateProjectInfo = () => {
         setShowSubmitModal(true)
         setLoadingOnSubmit(true)
         setSubmitImage(waitPic)
-        setSubmitStateMsg("PortfolYoing your project")
+        setSubmitStateMsg("PortfolYoing your project this mighht take a few minutes, we are installing your project ... ")
         if (projectTypeSelectRef.current.value) {
             dataOfProjectDetails.projectType = projectTypeSelectRef.current.value
         }

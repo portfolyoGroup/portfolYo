@@ -16,7 +16,7 @@ const UpdateProjects = () => {
     const history = createBrowserHistory({ forceRefresh: true });
     const match = useRouteMatch();
     const [projectsCards, setProjectsCards] = useState([])
-    const [projectsList, setProjectsList] = useState([])
+    const [projectsList, setProjectsList] = useState(null)
     const [showModal, setShowModal] = useState(false)
     const [modalInputValue, setModalInputValue] = useState("")
     const removeLastSlash = (path) => {
@@ -24,9 +24,6 @@ const UpdateProjects = () => {
         splited.pop();
         path = splited.reduce((acc, curr) => acc + '/' + curr, "");
         path = path.slice(1);
-
-        console.log("path")
-        console.log(path)
         return path;
     }
 
@@ -34,7 +31,6 @@ const UpdateProjects = () => {
         const fetchData = async () => {
             const projectsList = await getProfileData(profileId)
             setProjectsList(projectsList.projectsList)
-            console.log(projectsList.projectsList)
             setProjectsCards(projectsList.projectsList.map((currId, index) => <OneProj key={currId + index} id={currId} />))
         }
         fetchData()
@@ -101,7 +97,7 @@ const UpdateProjects = () => {
     }
 
     return (
-        <IonContent>
+        projectsList ? <IonContent>
             <IonModal animated={true} isOpen={showModal}>
 
                 {/* <IonTitle slot="center">Create a New Project</IonTitle>
@@ -136,7 +132,13 @@ const UpdateProjects = () => {
                     </IonList>
                 </IonCardContent>
             </IonCard>
-        </IonContent>
+        </IonContent> :
+            <IonContent>
+                <IonLoading
+                    isOpen={true}
+                    message={'ProtfolYoing...'}
+                />
+            </IonContent>
     )
 }
 export default UpdateProjects

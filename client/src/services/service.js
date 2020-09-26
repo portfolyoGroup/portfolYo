@@ -19,7 +19,6 @@ export const fetchFromServer = async (route, method, body = null) => {
     }
     else {
         const err = await res.json()
-        console.log(err)
-        throw new Error(res.status)
+        throw new Error(err.error.message)
     }
 }
