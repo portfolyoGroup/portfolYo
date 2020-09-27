@@ -6,7 +6,7 @@ import zipfile
 
 
 def _generate_project_tmp_path(project_type: str):
-    return os.path.join(os.getcwd(), "server", "service", "Dockerimages", project_type, "tmp") + os.path.sep
+    return os.path.join(os.getcwd(), "..", "service", "Dockerimages", project_type, "tmp") + os.path.sep
 
 
 def base64_encoder(path2file): # this method is for testing
