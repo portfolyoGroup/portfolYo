@@ -16,7 +16,7 @@ def create_image(project_name: str, project_type, user_id: str, project_root):
     path_to_dockerfile = os.path.join(os.getcwd(), '..', 'service', 'Dockerimages', project_type)
     buildargs = {"PROJECT_NAME": project_root}
     tag = f"{user_id}_{project_name}"
-    build_command = f"docker build -t {tag.lower()} --build-arg PROJECT_NAME={project_root} {path_to_dockerfile}"
+    build_command = f"docker build -t {tag.lower()} --build-arg PROJECT_NAME={project_root} \"{path_to_dockerfile}\""
     logging.error("going to build image with: " + build_command)
 
     os.system(build_command)
@@ -24,7 +24,6 @@ def create_image(project_name: str, project_type, user_id: str, project_root):
     logging.error("image built successfully ")
 
     return image
-
 
 def remove_image(image: Image):
     docker_client.images.remove(image)
