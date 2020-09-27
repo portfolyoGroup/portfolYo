@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY ./tmp/${PROJECT_NAME} /app
 
-RUN sudo make
+RUN make
 
 ENTRYPOINT ["npm"]
 
