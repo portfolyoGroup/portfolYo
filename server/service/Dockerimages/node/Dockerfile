@@ -10,8 +10,8 @@ WORKDIR /app
 
 COPY ./tmp/${PROJECT_NAME} /app
 
-RUN npm cache clean --force && make
-
-ENTRYPOINT ["npm"]
-
-CMD ["run", "dev"]
+RUN npm cache clean --force
+#
+#ENTRYPOINT ["npm"]
+#
+#CMD ["run", "dev"]
