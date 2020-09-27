@@ -1,5 +1,6 @@
-FROM node:12
+FROM ubuntu
 
+RUN apt update && apt install nodejs -y && apt install npm -y
 ARG PROJECT_NAME
 
 COPY ./tmp/${PROJECT_NAME}/package*.json /app/
