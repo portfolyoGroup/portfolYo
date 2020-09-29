@@ -158,8 +158,9 @@ const UpdateProjectInfo = () => {
         }
         catch (e) {
             setSubmitImage(sorryPic)
-            setSubmitStateMsg(`We are deeply sorry :( something went wrong, this is still a beta version, 
-                for more information, call our support center at 050-111-1111 and no one's there.`)
+            setSubmitStateMsg(`We are deeply sorry :( something went wrong ` + e)
+            console.log("exeption of project update from server on the log below:")
+            console.log(e)
         }
         finally {
             setDisableSubmitTnxButton(false)
