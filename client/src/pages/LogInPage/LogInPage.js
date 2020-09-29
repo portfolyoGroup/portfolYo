@@ -64,7 +64,7 @@ const LogIn = () => {
                                         <IonButton onClick={handleLogin} size="large" type="submit">Login</IonButton>
                                     </IonItem>
                                     <IonItem class='centeredItem'>
-                                        <IonLabel onClick={() => history.push(pages.registerRoute)} style={{ cursor: 'pointer' }}>not a member ? sign in</IonLabel>
+                                        <IonLabel onClick={() => history.push(pages.registerRoute)} style={{ cursor: 'pointer' }}>not a member ? sign up</IonLabel>
                                     </IonItem>
                                 </div>
                             </IonCol>
